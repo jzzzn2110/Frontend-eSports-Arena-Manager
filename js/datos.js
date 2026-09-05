@@ -54,9 +54,6 @@ const EQUIPOS = [
     ],
   },
 ];
-
-// ---------- TORNEOS ----------
-// estado: "abierto" | "en-curso" | "finalizado"
 const TORNEOS = [
   {
     id: "t1",
@@ -100,14 +97,11 @@ const TORNEOS = [
   },
 ];
 
-// ---------- PARTIDAS ----------
-// estado: "programada" | "en-curso" | "finalizada" | "cancelada"
 const PARTIDAS = [
   { id: "p1", torneoId: "t2", ronda: 1, participanteA: "e2", participanteB: null, horario: "2026-08-16T18:00", estado: "programada" },
   { id: "p2", torneoId: "t4", ronda: 1, participanteA: "j3", participanteB: "j7", horario: "2026-07-06T18:00", estado: "finalizada" },
 ];
 
-// ---------- RESULTADOS Y RANKING ----------
 const RANKINGS = {
   t4: [
     { participanteId: "j3", puntos: 9, diferencia: 5 },
@@ -116,7 +110,6 @@ const RANKINGS = {
   t2: [{ participanteId: "e2", puntos: 3, diferencia: 2 }],
 };
 
-// ---------- PREMIOS ----------
 const PREMIOS = {
   t4: [
     { posicion: 1, premio: "Trofeo Arena Smash + $150.000" },
@@ -124,7 +117,6 @@ const PREMIOS = {
   ],
 };
 
-// ---------- UTILIDADES COMPARTIDAS ----------
 function obtenerJuegoPorId(id) {
   return JUEGOS.find((j) => j.id === id) || null;
 }
@@ -162,20 +154,11 @@ function formatearFechaHora(fechaISO) {
   });
 }
 
-/**
- * Un torneo es "individual" cuando su juego exige 1 integrante por equipo
- * (ej. carreras, lucha 1v1). En ese caso los participantesInscritos son
- * ids de JUGADORES. En caso contrario son ids de EQUIPOS.
- */
 function esTorneoIndividual(torneo) {
   const juego = obtenerJuegoPorId(torneo.juegoId);
   return !!juego && juego.integrantesPorEquipo === 1;
 }
 
-/**
- * Nombre visible de un participante inscrito (apodo del jugador o
- * nombre del equipo, según corresponda al tipo de torneo).
- */
 function obtenerNombreParticipante(torneo, participanteId) {
   if (!participanteId) return "Por definir";
   if (esTorneoIndividual(torneo)) {
@@ -186,45 +169,34 @@ function obtenerNombreParticipante(torneo, participanteId) {
   return equipo ? equipo.nombre : participanteId;
 }
 
-/* ---------- Funciones de reglas de negocio ----------
-   Se nombran igual a como las exige la pauta de pruebas unitarias
-   de EP2 (sección 9), para reutilizarlas cuando se migre a React. */
-
-/** Cupos disponibles: nunca retorna un valor negativo. */
 function cuposDisponibles(torneo) {
   const ocupados = torneo.participantesInscritos.length;
   return Math.max(0, torneo.cupoMaximo - ocupados);
 }
 
-/** Verdadero cuando la fecha actual supera el cierre de inscripción. */
 function inscripcionFueraDePlazo(torneo, fechaActual = new Date()) {
   return fechaActual > new Date(torneo.fechaCierreInscripcion);
 }
 
-/** Verdadero si el jugador tiene alguna sanción con vigente === true. */
 function tieneSancionActiva(jugador) {
   if (!jugador || !Array.isArray(jugador.sanciones)) return false;
   return jugador.sanciones.some((s) => s.vigente);
 }
 
-/** Verdadero si algún integrante del equipo tiene una sanción vigente. */
 function equipoTieneSancionActiva(equipo) {
   if (!equipo) return false;
   return equipo.integrantes.some((i) => tieneSancionActiva(obtenerJugadorPorId(i.jugadorId)));
 }
 
-/** Verdadero si el equipo cumple la cantidad de integrantes que exige el juego. */
 function equipoCompleto(equipo, juego) {
   if (!equipo || !juego) return false;
   return equipo.integrantes.length >= juego.integrantesPorEquipo;
 }
 
-/** Verdadero si el participante ya está inscrito en ese torneo. */
 function participanteYaInscrito(torneo, participanteId) {
   return torneo.participantesInscritos.includes(participanteId);
 }
 
-/** Ordena un ranking por puntos desc. y desempata por diferencia de puntaje desc. */
 function ordenarRanking(lista) {
   return [...lista].sort((a, b) => {
     if (b.puntos !== a.puntos) return b.puntos - a.puntos;
@@ -232,7 +204,6 @@ function ordenarRanking(lista) {
   });
 }
 
-/** Torneos en los que ha participado un jugador, ya sea directamente o vía un equipo. */
 function obtenerHistorialTorneos(jugadorId) {
   const equiposDelJugador = EQUIPOS.filter((e) =>
     e.integrantes.some((i) => i.jugadorId === jugadorId)
