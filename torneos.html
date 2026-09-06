@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Torneos</title>
+  <meta name="description" content="Explora todos los torneos de eSports Arena Manager y filtra por juego, estado y fecha." />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="contenedor">
+      <a href="index.html" class="marca">
+        <span class="marca__icono" aria-hidden="true">EA</span>
+        eSports Arena Manager
+      </a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html" aria-current="page">Torneos</a></li>
+          <li><a href="#inscripcion">Inscripción</a></li>
+          <li><a href="#equipo">Mi equipo</a></li>
+          <li><a href="#perfil">Perfil</a></li>
+        </ul>
+      </nav>
+      <div class="selector-perfil">
+        <label for="perfil-simulado">Perfil de prueba</label>
+        <select id="perfil-simulado" name="perfil-simulado" autocomplete="off">
+          <option value="visitante">Visitante</option>
+          <option value="jugador">Jugador</option>
+          <option value="organizador">Organizador</option>
+          <option value="administrador">Administrador</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido-principal">
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="titulo-seccion">
+          <h1 id="titulo-listado">Todos los torneos</h1>
+        </div>
+
+        <form class="panel-filtros" id="formulario-filtros" role="search" aria-labelledby="titulo-filtros" novalidate>
+          <h2 id="titulo-filtros" class="oculto">Filtrar torneos</h2>
+          <div class="filtros-grilla">
+            <div class="campo">
+              <label for="filtro-busqueda">Buscar por nombre</label>
+              <input
+                type="search"
+                id="filtro-busqueda"
+                name="busqueda"
+                placeholder="Ej: Copa Arena"
+                autocomplete="off"
+              />
+            </div>
+
+            <div class="campo">
+              <label for="filtro-juego">Juego</label>
+              <select id="filtro-juego" name="juego" autocomplete="off">
+                <option value="">Todos los juegos</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="filtro-estado">Estado</label>
+              <select id="filtro-estado" name="estado" autocomplete="off">
+                <option value="">Todos los estados</option>
+                <option value="abierto">Abierto</option>
+                <option value="en-curso">En curso</option>
+                <option value="finalizado">Finalizado</option>
+              </select>
+            </div>
+
+            <div class="campo">
+              <label for="filtro-fecha-desde">Inicio desde</label>
+              <input type="date" id="filtro-fecha-desde" name="fechaDesde" autocomplete="off" />
+            </div>
+
+            <div class="campo">
+              <label for="filtro-fecha-hasta">Inicio hasta</label>
+              <input type="date" id="filtro-fecha-hasta" name="fechaHasta" autocomplete="off" />
+            </div>
+
+            <div class="campo" style="display:flex; align-items:flex-end;">
+              <button type="button" id="boton-limpiar-filtros" class="boton boton-secundario">Limpiar filtros</button>
+            </div>
+          </div>
+          <span class="mensaje-error" id="error-rango-fechas" role="alert"></span>
+        </form>
+
+        <p id="contador-resultados" class="tarjeta__meta" style="margin-bottom: var(--espacio-sm);"></p>
+
+        <div id="lista-torneos" class="grilla grilla-tarjetas" aria-live="polite">
+          <!-- Tarjetas generadas dinámicamente desde js/torneos.js -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor">
+      <div>
+        <p><strong>eSports Arena Manager</strong></p>
+        <p>Proyecto académico — Desarrollo FullStack II, DSY1104.</p>
+      </div>
+      <nav aria-label="Enlaces del pie de página">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="perfil.html">Perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/torneos.js"></script>
+</body>
+</html>
