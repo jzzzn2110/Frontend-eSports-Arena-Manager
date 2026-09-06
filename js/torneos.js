@@ -1,3 +1,10 @@
+(function () {
+  'use strict';
+
+  const {
+    TORNEOS, JUEGOS, obtenerJuegoPorId, nombreEstado, formatearFecha,
+  } = window.ARENA.datos;
+
 document.addEventListener("DOMContentLoaded", () => {
   poblarSelectorJuegos();
   precargarFiltroDesdeUrl();
@@ -119,3 +126,5 @@ function crearTarjetaTorneoListado(torneo) {
   `;
   return articulo;
 }
+
+})();

@@ -1,3 +1,8 @@
+window.ARENA = window.ARENA || {};
+
+(function (ARENA) {
+  'use strict';
+
 const JUEGOS = [
   { id: "g5", nombre: "Minecraft", modalidad: "4v4 PvP por equipos", integrantesPorEquipo: 4 },
   { id: "g1", nombre: "League of Legends", modalidad: "5v5 MOBA", integrantesPorEquipo: 5 },
@@ -215,3 +220,23 @@ function obtenerHistorialTorneos(jugadorId) {
       t.participantesInscritos.some((pid) => equiposDelJugador.includes(pid))
   );
 }
+
+function escaparHTML(texto) {
+  return String(texto)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+ARENA.datos = {
+  JUEGOS, JUGADORES, EQUIPOS, TORNEOS, PARTIDAS, RANKINGS, PREMIOS,
+  escaparHTML, nombreEstado, formatearFecha, formatearFechaHora,
+  obtenerJuegoPorId, obtenerTorneoPorId, obtenerEquipoPorId, obtenerJugadorPorId,
+  esTorneoIndividual, obtenerNombreParticipante,
+  cuposDisponibles, inscripcionFueraDePlazo, tieneSancionActiva,
+  equipoTieneSancionActiva, equipoCompleto, participanteYaInscrito,
+  ordenarRanking, obtenerHistorialTorneos,
+};
+})(window.ARENA);

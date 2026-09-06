@@ -1,3 +1,10 @@
+(function () {
+  'use strict';
+
+  const {
+    TORNEOS, obtenerJuegoPorId, nombreEstado, formatearFecha,
+  } = window.ARENA.datos;
+
 document.addEventListener("DOMContentLoaded", () => {
   pintarTorneosDestacados();
   pintarProximosCierres();
@@ -72,3 +79,5 @@ function pintarProximosCierres() {
     cuerpo.appendChild(fila);
   });
 }
+
+})();

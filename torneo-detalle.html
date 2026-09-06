@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>E-Sports Arena Manager - Detalle del Torneo</title>
+    <meta name="description" content="Detalle del torneo de E-Sports Arena Manager">
+    <link rel="stylesheet" href="torneo-detalle.css">    
+</head>
+<body>
+    <header class="encabezado">
+        <div class="contenedor">
+        <a href="index.html" class="marca">
+        <span class="marca__icono" aria-hidden="true">EA</span>
+        e-Sports Arena Manager
+        </a>>
+  
+        <nav class="nav-principal" aria-label="Navegación principal">
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="torneos.html" aria-current="page">Torneos</a></li>
+                <li><a href="#inscripcion">Inscripción</a></li>
+                <li><a href="#equipo">Mi equipo</a></li>
+                <li><a href="#perfil">Perfil</a></li>
+            </ul>
+        </nav>
+        <div class="selector-perfil">
+            <label for="perfil-simulado">Perfil de prueba</label>
+            <select id="perfil-simulado" name="perfil-simulado" autocomplete="off">
+                <option value="visitante">Visitante</option>
+                <option value="jugador">Jugador</option>
+                <option value="organizador">Organizador</option>
+                <option value="administrador">Administrador</option>
+            </select>
+        </div>
+    </div>
+    </header>
+        <main id="contenido-principal">
+            <div id="torneo-no-encontrado" class="contenedor oculto" style="padding: var(--espacio-xl) 0;">
+                <div class="aviso aviso--error" role="alert">
+                    <p>No se encontró el torneo solicitado. Vuelve al <a href="torneos.html">listado de torneos</a>.</p>
+                </div>
+            </div>
+   <div id="torneo-contenido" class="oculto">
+      <section class="seccion" style="padding-bottom: var(--espacio-sm);">
+        <div class="contenedor">
+          <div class="titulo-seccion">
+            <div>
+              <h1 id="torneo-nombre">Nombre del torneo</h1>
+              <p class="tarjeta__meta" id="torneo-juego-modalidad"></p>
+            </div>
+            <span class="insignia" id="torneo-insignia"></span>
+          </div>
+
+          <ul class="lista-resumen" style="max-width: 480px;">
+            <li><span>Cierre de inscripción</span> <span id="torneo-cierre"></span></li>
+            <li><span>Fecha de inicio</span> <span id="torneo-inicio"></span></li>
+            <li><span>Cupos ocupados</span> <span id="torneo-cupos"></span></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="seccion" aria-labelledby="titulo-participantes">
+        <div class="contenedor">
+          <div class="titulo-seccion">
+            <h2 id="titulo-participantes">Participantes inscritos</h2>
+          </div>
+          <div id="lista-participantes" class="lista-chips"></div>
+        </div>
+      </section>
+
+      <section class="seccion" aria-labelledby="titulo-llaves" style="background: var(--color-superficie);">
+        <div class="contenedor">
+          <div class="titulo-seccion">
+            <h2 id="titulo-llaves">Llaves y calendario de partidas</h2>
+          </div>
+          <div id="pestanas-ronda" class="pestanas-ronda" role="tablist" aria-label="Rondas del torneo"></div>
+          <div id="lista-partidas" class="lista-partidas"></div>
+        </div>
+      </section>
+
+      <section class="seccion" aria-labelledby="titulo-ranking">
+        <div class="contenedor">
+          <div class="titulo-seccion">
+            <h2 id="titulo-ranking">Tabla de posiciones</h2>
+          </div>
+          <table id="tabla-ranking">
+            <caption class="oculto">Tabla de posiciones del torneo, ordenada por puntos</caption>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Participante</th>
+                <th scope="col">Puntos</th>
+                <th scope="col">Diferencia</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpo-tabla-ranking"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="seccion" aria-labelledby="titulo-premios" id="seccion-premios" style="background: var(--color-superficie);">
+        <div class="contenedor">
+          <div class="titulo-seccion">
+            <h2 id="titulo-premios">Premios</h2>
+          </div>
+          <ul class="lista-resumen" id="lista-premios" style="max-width: 480px;"></ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor">
+      <div>
+        <p><strong>eSports Arena Manager</strong></p>
+        <p>Proyecto académico — Desarrollo FullStack II, DSY1104.</p>
+      </div>
+      <nav aria-label="Enlaces del pie de página">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="perfil.html">Perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/torneo-detalle.js"></script>
+</body>
+</html>
