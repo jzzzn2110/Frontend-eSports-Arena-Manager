@@ -7,7 +7,7 @@ ramo Desarrollo FullStack II (DSY1104).
 ## Integrantes
 
 - Lucas Borquez
-- Nicolas Lara
+- Nicolás Lara
 - Jhon Olivares
 
 ## Estado actual del proyecto
