@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Mi Equipo</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="contenedor">
+      <a href="index.html" class="marca">
+        <span class="marca__icono" aria-hidden="true">EA</span>
+        eSports Arena Manager
+      </a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html">Inscripción</a></li>
+          <li><a href="equipo.html" aria-current="page">Mi equipo</a></li>
+          <li><a href="perfil.html">Perfil</a></li>
+        </ul>
+      </nav>
+      <div class="selector-perfil">
+        <label for="perfil-simulado">Perfil de prueba</label>
+        <select id="perfil-simulado" name="perfil-simulado" autocomplete="off">
+          <option value="visitante">Visitante</option>
+          <option value="jugador" selected>Jugador</option>
+          <option value="organizador">Organizador</option>
+          <option value="administrador">Administrador</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido-principal">
+    <section class="seccion">
+      <div class="contenedor" style="max-width: 800px;">
+        <div class="titulo-seccion">
+          <h1>Gestión de Equipo</h1>
+          <p class="tarjeta__meta">Crea y administra la alineación de tu equipo competitivo.</p>
+        </div>
+
+        <div id="aviso-error-general" class="aviso aviso--error oculto" role="alert">
+          <p id="mensaje-error-general"></p>
+        </div>
+
+        <div id="aviso-exito-equipo" class="aviso aviso--exito oculto" role="alert" style="margin-bottom: var(--espacio-md);">
+          <p id="mensaje-exito-equipo"></p>
+        </div>
+
+        <form id="formulario-equipo" class="formulario" novalidate>
+
+          <fieldset>
+            <legend style="font-weight: bold; margin-bottom: var(--espacio-xs);">Integrantes del Equipo</legend>
+
+            <div class="campo">
+              <label for="agregar-jugador-select">Agregar Jugador</label>
+              <div style="display: flex; gap: var(--espacio-xs);">
+                <select id="agregar-jugador-select" autocomplete="off" style="flex: 1;">
+                  <option value="">Selecciona un jugador...</option>
+                </select>
+                <button type="button" id="btn-agregar-jugador" class="boton">Agregar</button>
+              </div>
+              <span id="error-integrantes" class="mensaje-error" role="alert"></span>
+            </div>
+
+            <div class="tarjeta" style="background: var(--color-superficie); margin-top: var(--espacio-sm);">
+              <h3 style="margin-top: 0; font-size: 1.1rem;">Equipo Actual (<span id="contador-integrantes">0</span>)</h3>
+              <ul id="lista-integrantes" style="padding-left: 0; list-style: none; margin-top: var(--espacio-xs);">
+              </ul>
+            </div>
+          </fieldset>
+
+          <fieldset style="margin-top: var(--espacio-md);">
+            <legend style="font-weight: bold; margin-bottom: var(--espacio-xs);">Información del Equipo</legend>
+
+            <div class="campo">
+              <label for="nombre-equipo">Nombre del Equipo</label>
+              <input type="text" id="nombre-equipo" name="nombre-equipo" autocomplete="off" required />
+              <span id="error-nombre-equipo" class="mensaje-error" role="alert"></span>
+            </div>
+
+            <div class="campo">
+              <label for="juego-principal">Juego Principal</label>
+              <select id="juego-principal" name="juego-principal" autocomplete="off" required>
+                <option value="">Selecciona un juego...</option>
+              </select>
+              <span id="error-juego-principal" class="mensaje-error" role="alert"></span>
+            </div>
+
+            <div class="campo">
+              <label for="capitan-equipo">Capitán del Equipo</label>
+              <select id="capitan-equipo" name="capitan-equipo" autocomplete="off" required>
+                <option value="">Selecciona al capitán...</option>
+              </select>
+              <span id="error-capitan-equipo" class="mensaje-error" role="alert"></span>
+            </div>
+          </fieldset>
+
+          <div style="margin-top: var(--espacio-md); text-align: right;">
+            <button type="submit" class="boton boton-primario">Guardar Equipo</button>
+          </div>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor">
+      <div>
+        <p><strong>eSports Arena Manager</strong></p>
+        <p>Proyecto académico — Desarrollo FullStack II.</p>
+      </div>
+      <nav aria-label="Enlaces del pie de página">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="equipo.html">Mi equipo</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/equipo.js"></script>
+</body>
+</html>
