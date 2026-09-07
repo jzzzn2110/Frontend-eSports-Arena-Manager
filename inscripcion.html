@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Inscripción</title>
+  <meta name="description" content="Formulario de inscripción a torneos de eSports Arena Manager." />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="contenedor">
+      <a href="index.html" class="marca">
+        <span class="marca__icono" aria-hidden="true">EA</span>
+        eSports Arena Manager
+      </a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html" aria-current="page">Inscripción</a></li>
+          <li><a href="#equipo">Mi equipo</a></li>
+          <li><a href="#perfil">Perfil</a></li>
+        </ul>
+      </nav>
+      <div class="selector-perfil">
+        <label for="perfil-simulado">Perfil de prueba</label>
+        <select id="perfil-simulado" name="perfil-simulado" autocomplete="off">
+          <option value="visitante">Visitante</option>
+          <option value="jugador">Jugador</option>
+          <option value="organizador">Organizador</option>
+          <option value="administrador">Administrador</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido-principal">
+    <section class="seccion">
+      <div class="contenedor" style="max-width: 700px;">
+        <div class="titulo-seccion">
+          <h1>Formulario de inscripción</h1>
+        </div>
+
+        <!-- Aviso de error general -->
+        <div id="aviso-error-general" class="aviso aviso--error oculto" role="alert">
+          <p id="mensaje-error-general">No se encontró el torneo solicitado. Vuelve al <a href="torneos.html">listado de torneos</a>.</p>
+        </div>
+        
+        <!-- Formulario principal -->
+        <form id="formulario-inscripcion" class="formulario oculto" novalidate>
+          
+          <!-- Información del torneo -->
+          <fieldset>
+            <legend class="oculto">Información del torneo</legend>
+            <div id="info-torneo" class="tarjeta" style="margin-bottom: var(--espacio-md);">
+              <h2 id="torneo-nombre" style="margin-top: 0;">Nombre del torneo</h2>
+              <p id="torneo-juego-modalidad" class="tarjeta__meta">Juego y modalidad</p>
+              <ul class="lista-resumen" style="margin-top: var(--espacio-sm);">
+                <li><span>Estado</span> <span id="torneo-estado" class="insignia"></span></li>
+                <li><span>Cierre inscripción</span> <span id="torneo-cierre"></span></li>
+                <li><span>Cupos disponibles</span> <span id="torneo-cupos"></span></li>
+              </ul>
+            </div>
+          </fieldset>
+
+          <!-- Selección del Torneo (Fallback si entra directo sin botón) -->
+          <fieldset id="fieldset-selector-torneo" class="oculto">
+             <div class="campo">
+                <label for="selector-torneo">Selecciona un torneo abierto</label>
+                <select id="selector-torneo" name="selector-torneo" autocomplete="off">
+                  <option value="">Elige un torneo...</option>
+                </select>
+                <span id="error-selector-torneo" class="mensaje-error" role="alert"></span>
+             </div>
+          </fieldset>
+
+          <!-- Tipo de Participante -->
+          <fieldset>
+            <legend style="font-weight: bold; margin-bottom: var(--espacio-xs);">Tipo de Participante</legend>
+            <div class="campo">
+              <div style="display: flex; gap: var(--espacio-md);">
+                <div>
+                  <input type="radio" id="tipo-equipo" name="tipo-participante" value="equipo" checked required />
+                  <label for="tipo-equipo">Por equipo</label>
+                </div>
+                <div>
+                  <input type="radio" id="tipo-individual" name="tipo-participante" value="individual" required />
+                  <label for="tipo-individual">Individual</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Selector de Equipo -->
+          <div id="contenedor-equipo" class="campo">
+            <label for="equipo-selector">Selecciona tu equipo</label>
+            <select id="equipo-selector" name="equipo" autocomplete="off" aria-describedby="ayuda-equipo">
+              <option value="">Selecciona un equipo registrado</option>
+            </select>
+            <small id="ayuda-equipo" style="display: block; margin-top: 4px; opacity: 0.8;">Elige el equipo con el que participarás.</small>
+            <span id="error-equipo" class="mensaje-error" role="alert"></span>
+          </div>
+
+          <!-- Selector Individual -->
+          <div id="contenedor-individual" class="campo oculto">
+            <label for="participante-individual">Selecciona jugador</label>
+            <select id="participante-individual" name="participante-individual" autocomplete="off">
+              <option value="">Selecciona tu perfil de jugador</option>
+            </select>
+            <span id="error-individual" class="mensaje-error" role="alert"></span>
+          </div>
+
+          <!-- Confirmación y Envío -->
+          <div class="tarjeta" style="background: var(--color-superficie); margin-top: var(--espacio-md);">
+            <div class="campo" style="margin-bottom: var(--espacio-sm);">
+              <input type="checkbox" id="confirmacion-datos" name="confirmacion-datos" required>
+              <label for="confirmacion-datos">Confirmo que cumplo los requisitos y deseo inscribirme.</label>
+              <span id="error-confirmacion" class="mensaje-error" role="alert"></span>
+            </div>
+            <button type="submit" id="boton-inscribir" class="boton boton-primario">Completar Inscripción</button>
+          </div>
+        </form>
+
+        <!-- Mensaje de Éxito -->
+        <div id="exito-inscripcion" class="aviso aviso--exito oculto" role="alert" style="margin-top: var(--espacio-md);">
+          <p>¡Inscripción completada con éxito! Puedes ver los detalles en el <a href="torneos.html">listado de torneos</a>.</p>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor">
+      <div>
+        <p><strong>eSports Arena Manager</strong></p>
+        <p>Proyecto académico — Desarrollo FullStack II.</p>
+      </div>
+      <nav aria-label="Enlaces del pie de página">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/inscripcion.js"></script>
+</body>
+</html>
