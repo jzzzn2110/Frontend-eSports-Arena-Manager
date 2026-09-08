@@ -11,11 +11,11 @@ const JUEGOS = [
   { id: "g4", nombre: "Rocket League", modalidad: "1v1 Duelo", integrantesPorEquipo: 1 },
 ];
 const JUGADORES = [
-  { id: "j1", nombre: "benjamin perez", apodo: "Benpe", email: "benjamin.perez@example.com", victorias: 14, derrotas: 6, sanciones: [] },
+  { id: "j1", nombre: "Pablo Salas", apodo: "SadPablo666", email: "pablo.salas@example.com", victorias: 6, derrotas: 7, sanciones: [] },
   { id: "j2", nombre: "Matías Soto", apodo: "SotoSniper", email: "matias.soto@example.com", victorias: 9, derrotas: 11, sanciones: [] },
   { id: "j3", nombre: "Valentina Paz", apodo: "ValPaz", email: "valentina.paz@example.com", victorias: 20, derrotas: 4, sanciones: [{ motivo: "Conducta antideportiva", duracionDias: 7, vigente: true }] },
   { id: "j4", nombre: "Diego Fuentes", apodo: "DFuentesGG", email: "diego.fuentes@example.com", victorias: 5, derrotas: 5, sanciones: [] },
-  { id: "j5", nombre: "javier Muñoz", apodo: "JaviTurbo", email: "javier.munoz@example.com", victorias: 11, derrotas: 3, sanciones: [{ motivo: "Ausencia injustificada", duracionDias: 3, vigente: false }] },
+  { id: "j5", nombre: "Javier Muñoz", apodo: "JaviTurbo", email: "javier.munoz@example.com", victorias: 11, derrotas: 3, sanciones: [{ motivo: "Ausencia injustificada", duracionDias: 3, vigente: false }] },
   { id: "j6", nombre: "Tomás Herrera", apodo: "tomaherreria", email: "tomas.herrera@example.com", victorias: 7, derrotas: 9, sanciones: [] },
   { id: "j7", nombre: "Fernanda Vidal", apodo: "FerVidal", email: "fernanda.vidal@example.com", victorias: 16, derrotas: 8, sanciones: [] },
   { id: "j8", nombre: "Ignacio Bravo", apodo: "nachotee", email: "ignacio.bravo@example.com", victorias: 3, derrotas: 2, sanciones: [] },

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>eSports Arena Manager — Mi Perfil</title>
+  <meta name="description" content="Gestión del perfil de usuario, estadísticas y participación en torneos." />
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+
+  <header class="encabezado">
+    <div class="contenedor">
+      <a href="index.html" class="marca">
+        <span class="marca__icono" aria-hidden="true">EA</span>
+        eSports Arena Manager
+      </a>
+      <nav class="nav-principal" aria-label="Navegación principal">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="inscripcion.html">Inscripción</a></li>
+          <li><a href="equipo.html">Mi equipo</a></li>
+          <li><a href="perfil.html" aria-current="page">Perfil</a></li>
+        </ul>
+      </nav>
+      <div class="selector-perfil">
+        <label for="perfil-simulado">Perfil de prueba</label>
+        <select id="perfil-simulado" name="perfil-simulado" autocomplete="off">
+          <option value="visitante">Visitante</option>
+          <option value="jugador" selected>Jugador</option>
+          <option value="organizador">Organizador</option>
+          <option value="administrador">Administrador</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="contenido-principal">
+    <section class="seccion">
+      <div class="contenedor">
+        
+        <div class="titulo-seccion">
+          <h1>Mi Perfil</h1>
+          <span id="insignia-rol" class="insignia insignia--abierto">Jugador</span>
+        </div>
+
+        <!-- Aviso contextual del modo demo -->
+        <div class="aviso aviso--demo" role="region" aria-label="Información de simulación">
+          <p>💡 <strong>Modo Simulación:</strong> Puedes cambiar el rol en el selector del encabezado para probar la vista como Visitante, Jugador, Organizador o Administrador.</p>
+        </div>
+
+        <div class="ficha-perfil" style="margin-top: var(--espacio-md);">
+          
+          <!-- Resumen del Perfil y Estadísticas -->
+          <div class="tarjeta">
+            <div style="display: flex; align-items: center; gap: var(--espacio-sm); margin-bottom: var(--espacio-sm);">
+              <div class="marca__icono" style="width: 56px; height: 56px; font-size: 1.5rem;" id="avatar-iniciales">
+                JU
+              </div>
+              <div>
+                <h2 id="perfil-nombre-visible" style="margin: 0; font-size: 1.3rem;">Cargando...</h2>
+                <p id="perfil-apodo-visible" class="tarjeta__meta" style="margin: 0;">@jugador</p>
+              </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid rgba(241, 236, 255, 0.08); margin: var(--espacio-xs) 0;" />
+
+            <h3>Estadísticas del Jugador</h3>
+            <div class="estadisticas">
+              <div class="estadistica">
+                <div id="stat-torneos" class="estadistica__valor">0</div>
+                <div class="estadistica__etiqueta">Torneos</div>
+              </div>
+              <div class="estadistica">
+                <div id="stat-victorias" class="estadistica__valor">0</div>
+                <div class="estadistica__etiqueta">Victorias</div>
+              </div>
+              <div class="estadistica">
+                <div id="stat-puntos" class="estadistica__valor">0</div>
+                <div class="estadistica__etiqueta">Puntos</div>
+              </div>
+            </div>
+
+            <ul class="lista-resumen" style="margin-top: var(--espacio-md);">
+              <li><span>Correo:</span> <strong id="resumen-correo">—</strong></li>
+              <li><span>Equipo:</span> <strong id="resumen-equipo">Sin equipo</strong></li>
+              <li><span>Miembro desde:</span> <strong id="resumen-fecha">—</strong></li>
+            </ul>
+          </div>
+
+          <!-- Formulario de Edición de Datos -->
+          <div class="tarjeta">
+            <h3>Editar Información</h3>
+            
+            <div id="aviso-exito-perfil" class="aviso aviso--exito oculto" role="alert">
+              <p>Perfil actualizado correctamente (simulación en memoria).</p>
+            </div>
+
+            <form id="formulario-perfil" class="formulario" style="padding: 0; background: transparent; max-width: 100%;" novalidate>
+              <div class="campo" style="margin-bottom: var(--espacio-xs);">
+                <label for="perfil-nombre">Nombre completo</label>
+                <input type="text" id="perfil-nombre" name="nombre" required />
+                <span id="error-perfil-nombre" class="mensaje-error" role="alert"></span>
+              </div>
+
+              <div class="campo" style="margin-bottom: var(--espacio-xs);">
+                <label for="perfil-apodo">Apodo / GamerTag</label>
+                <input type="text" id="perfil-apodo" name="apodo" required />
+                <span id="error-perfil-apodo" class="mensaje-error" role="alert"></span>
+              </div>
+
+              <div class="campo" style="margin-bottom: var(--espacio-xs);">
+                <label for="perfil-correo">Correo electrónico</label>
+                <input type="email" id="perfil-correo" name="correo" required />
+                <span id="error-perfil-correo" class="mensaje-error" role="alert"></span>
+              </div>
+
+              <div class="campo" style="margin-bottom: var(--espacio-sm);">
+                <label for="perfil-juego-favorito">Juego principal</label>
+                <select id="perfil-juego-favorito" name="juegoFavorito">
+                  <option value="">Selecciona un juego...</option>
+                </select>
+              </div>
+
+              <button type="submit" class="boton boton-primario">Guardar Cambios</button>
+            </form>
+          </div>
+
+        </div>
+
+        <!-- Historial de Participaciones -->
+        <div style="margin-top: var(--espacio-lg);">
+          <h2>Mis Torneos Activos e Historial</h2>
+          <div style="overflow-x: auto;">
+            <table>
+              <caption>Historial de inscripciones asociadas a este perfil</caption>
+              <thead>
+                <tr>
+                  <th>Torneo</th>
+                  <th>Juego</th>
+                  <th>Estado</th>
+                  <th>Modalidad</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="cuerpo-tabla-mis-torneos">
+                <!-- Se llena dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-pagina">
+    <div class="contenedor">
+      <div>
+        <p><strong>eSports Arena Manager</strong></p>
+        <p>Proyecto académico — Desarrollo FullStack II.</p>
+      </div>
+      <nav aria-label="Enlaces del pie de página">
+        <ul>
+          <li><a href="index.html">Inicio</a></li>
+          <li><a href="torneos.html">Torneos</a></li>
+          <li><a href="perfil.html">Perfil</a></li>
+        </ul>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="js/datos.js"></script>
+  <script src="js/perfil.js"></script>
+</body>
+</html>
