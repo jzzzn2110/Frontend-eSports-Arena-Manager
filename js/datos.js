@@ -100,6 +100,16 @@ const TORNEOS = [
     cupoMaximo: 8,
     participantesInscritos: ["j3", "j7"],
   },
+  {
+    id: "t5",
+    nombre: "copa Minecraft PvP",
+    juegoId: "g5",
+    estado: "abierto",
+    fechaCierreInscripcion: "2026-09-25",
+    fechaInicio: "2026-09-30",
+    cupoMaximo: 8,
+    participantesInscritos: [],
+  },
 ];
 
 const PARTIDAS = [
