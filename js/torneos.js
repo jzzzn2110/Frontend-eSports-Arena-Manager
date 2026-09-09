@@ -112,7 +112,10 @@ function crearTarjetaTorneoListado(torneo) {
       <h3>${torneo.nombre}</h3>
       <span class="insignia ${claseInsignia}">${nombreEstado(torneo.estado)}</span>
     </div>
-    <p class="tarjeta__meta">${juego ? juego.nombre : "Juego no disponible"} · ${juego ? juego.modalidad : ""}</p>
+        <p class="tarjeta__meta tarjeta__juego">
+      ${juego && juego.icono ? `<img src="${juego.icono}" alt="${juego.nombre}" class="icono-juego">` : ""}
+      ${juego ? juego.nombre : "Juego no disponible"} · ${juego ? juego.modalidad : ""}
+    </p>
     <p class="tarjeta__meta">Cupos: ${cupoOcupado} / ${torneo.cupoMaximo}</p>
     <p class="tarjeta__meta">Cierre de inscripción: ${formatearFecha(torneo.fechaCierreInscripcion)}</p>
     <div class="tarjeta__pie">

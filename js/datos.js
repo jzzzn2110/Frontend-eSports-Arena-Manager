@@ -4,11 +4,11 @@ window.ARENA = window.ARENA || {};
   'use strict';
 
 const JUEGOS = [
-  { id: "g5", nombre: "Minecraft", modalidad: "4v4 PvP por equipos", integrantesPorEquipo: 4 },
-  { id: "g1", nombre: "League of Legends", modalidad: "5v5 MOBA", integrantesPorEquipo: 5 },
-  { id: "g2", nombre: "Valorant", modalidad: "5v5 Shooter táctico", integrantesPorEquipo: 5 },
-  { id: "g3", nombre: "Ajedrez", modalidad: "1v1 Individual", integrantesPorEquipo: 1 },
-  { id: "g4", nombre: "Rocket League", modalidad: "1v1 Duelo", integrantesPorEquipo: 1 },
+  { id: "g5", nombre: "Minecraft", modalidad: "4v4 PvP por equipos", integrantesPorEquipo: 4, icono: "img/logo_mine.png" },
+  { id: "g1", nombre: "League of Legends", modalidad: "5v5 MOBA", integrantesPorEquipo: 5, icono: "img/logo_lol.png" },
+  { id: "g2", nombre: "Valorant", modalidad: "5v5 Shooter táctico", integrantesPorEquipo: 5, icono: "img/logo_valorant.png" },
+  { id: "g3", nombre: "Ajedrez", modalidad: "1v1 Individual", integrantesPorEquipo: 1, icono: "img/logo_chees.png" },
+  { id: "g4", nombre: "Rocket League", modalidad: "1v1 Duelo", integrantesPorEquipo: 1, icono: "img/logo_rocket.png" },
 ];
 const JUGADORES = [
   { id: "j1", nombre: "Pablo Salas", apodo: "SadPablo666", email: "pablo.salas@example.com", victorias: 6, derrotas: 7, sanciones: [] },

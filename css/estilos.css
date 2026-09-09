@@ -229,6 +229,19 @@ h1, h2, h3, h4 {
   color: rgba(241, 236, 255, 0.7);
 }
 
+.tarjeta__juego {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.icono-juego {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .tarjeta__pie {
   margin-top: auto;
   display: flex;
@@ -647,5 +660,4 @@ th {
   background: rgba(145, 70, 255, 0.12);
   border-color: var(--color-primario);
   color: var(--color-texto);
-  font-size: 0.85rem;
-}
+  font-size: 0.85rem;}
