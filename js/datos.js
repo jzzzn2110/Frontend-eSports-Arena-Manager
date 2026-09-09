@@ -8,12 +8,12 @@ const JUEGOS = [
   { id: "g1", nombre: "League of Legends", modalidad: "5v5 MOBA", integrantesPorEquipo: 5, icono: "img/logo_lol.png" },
   { id: "g2", nombre: "Valorant", modalidad: "5v5 Shooter táctico", integrantesPorEquipo: 5, icono: "img/logo_valorant.png" },
   { id: "g3", nombre: "Ajedrez", modalidad: "1v1 Individual", integrantesPorEquipo: 1, icono: "img/logo_chees.png" },
-  { id: "g4", nombre: "Rocket League", modalidad: "1v1 Duelo", integrantesPorEquipo: 1, icono: "img/logo_rocket.png" },
+  { id: "g4", nombre: "Rocket League", modalidad: "2v2 Duelo", integrantesPorEquipo: 2, icono: "img/logo_rocket.png" },
 ];
 const JUGADORES = [
   { id: "j1", nombre: "Pablo Salas", apodo: "SadPablo666", email: "pablo.salas@example.com", victorias: 6, derrotas: 7, sanciones: [] },
-  { id: "j2", nombre: "Matías Soto", apodo: "SotoSniper", email: "matias.soto@example.com", victorias: 9, derrotas: 11, sanciones: [] },
-  { id: "j3", nombre: "Valentina Paz", apodo: "ValPaz", email: "valentina.paz@example.com", victorias: 20, derrotas: 4, sanciones: [{ motivo: "Conducta antideportiva", duracionDias: 7, vigente: true }] },
+  { id: "j2", nombre: "jhon olivares", apodo: "jhn_shooter", email: "jhon.olivares@example.com", victorias: 9, derrotas: 4, sanciones: [] },
+  { id: "j3", nombre: "sergio morales", apodo: "ssmorale", email: "sergio.morales@example.com", victorias: 20, derrotas: 4, sanciones: [{ motivo: "Conducta antideportiva", duracionDias: 7, vigente: true }] },
   { id: "j4", nombre: "Diego Fuentes", apodo: "DFuentesGG", email: "diego.fuentes@example.com", victorias: 5, derrotas: 5, sanciones: [] },
   { id: "j5", nombre: "Javier Muñoz", apodo: "JaviTurbo", email: "javier.munoz@example.com", victorias: 11, derrotas: 3, sanciones: [{ motivo: "Ausencia injustificada", duracionDias: 3, vigente: false }] },
   { id: "j6", nombre: "Tomás Herrera", apodo: "tomaherreria", email: "tomas.herrera@example.com", victorias: 7, derrotas: 9, sanciones: [] },
@@ -23,7 +23,7 @@ const JUGADORES = [
 const EQUIPOS = [
   {
     id: "e1",
-    nombre: "Púrpura Nocturno",
+    nombre: "los gallos",
     juegoId: "g1",
     capitanId: "j1",
     activo: true,
@@ -37,7 +37,7 @@ const EQUIPOS = [
   },
   {
     id: "e2",
-    nombre: "Escuadrón Táctico",
+    nombre: "los simples",
     juegoId: "g2",
     capitanId: "j5",
     activo: true,
@@ -49,7 +49,7 @@ const EQUIPOS = [
   },
   {
     id: "e3",
-    nombre: "Guardia Inactiva",
+    nombre: "los inactivos",
     juegoId: "g1",
     capitanId: "j6",
     activo: false,
