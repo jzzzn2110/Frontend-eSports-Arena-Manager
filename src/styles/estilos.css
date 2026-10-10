@@ -1,3 +1,4 @@
+/* Colores y medidas del proyecto. */
 :root {
   --color-fondo: #0E0B16;
   --color-superficie: #1C1430;
@@ -20,6 +21,7 @@
   --ancho-maximo: 1200px;
 }
 
+/* Estilos generales. */
 * {
   box-sizing: border-box;
 }
@@ -41,6 +43,13 @@ img {
   display: block;
 }
 
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
 a {
   color: var(--color-acento);
   text-decoration: none;
@@ -51,12 +60,16 @@ a:focus {
   text-decoration: underline;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   font-family: var(--fuente-titulos);
   line-height: 1.2;
   margin-top: 0;
 }
 
+/* Distribución del contenido. */
 .contenedor {
   width: 100%;
   max-width: var(--ancho-maximo);
@@ -68,13 +81,21 @@ h1, h2, h3, h4 {
   padding: var(--espacio-lg) 0;
 }
 
+.contenedor.seccion {
+  padding-left: var(--espacio-md);
+  padding-right: var(--espacio-md);
+}
+
 .grilla {
   display: grid;
   gap: var(--espacio-md);
 }
 
 .grilla-tarjetas {
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(260px, 100%), 1fr)
+  );
 }
 
 .flex {
@@ -96,6 +117,7 @@ h1, h2, h3, h4 {
   display: none !important;
 }
 
+/* Encabezado y navegación. */
 .encabezado {
   background: var(--color-superficie);
   border-bottom: 1px solid rgba(241, 236, 255, 0.08);
@@ -112,6 +134,22 @@ h1, h2, h3, h4 {
   padding-bottom: var(--espacio-sm);
   flex-wrap: wrap;
   gap: var(--espacio-sm);
+}
+
+.encabezado .encabezado__contenedor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--espacio-md);
+}
+
+.encabezado__principal {
+  min-width: 0;
+}
+
+.encabezado__subtitulo {
+  margin: 0.25rem 0 0;
+  font-size: 0.78rem;
+  color: rgba(241, 236, 255, 0.65);
 }
 
 .marca {
@@ -131,6 +169,7 @@ h1, h2, h3, h4 {
 .marca__icono {
   width: 32px;
   height: 32px;
+  flex-shrink: 0;
   border-radius: var(--radio-borde);
   background: var(--color-primario);
   display: inline-flex;
@@ -138,6 +177,10 @@ h1, h2, h3, h4 {
   justify-content: center;
   color: var(--color-texto-sobre-primario);
   font-weight: 700;
+}
+
+.nav-principal {
+  min-width: 0;
 }
 
 .nav-principal ul {
@@ -150,6 +193,7 @@ h1, h2, h3, h4 {
 }
 
 .nav-principal a {
+  display: inline-block;
   color: var(--color-texto);
   font-weight: 600;
   padding: 0.35rem 0.1rem;
@@ -164,6 +208,7 @@ h1, h2, h3, h4 {
   text-decoration: none;
 }
 
+/* Cuadro sencillo de Perfil de prueba y sus opciones. */
 .selector-perfil {
   display: flex;
   align-items: center;
@@ -171,16 +216,42 @@ h1, h2, h3, h4 {
   font-size: 0.85rem;
 }
 
+.selector-perfil--panel {
+  gap: var(--espacio-sm);
+  padding: 0.65rem 0.8rem;
+  background: var(--color-fondo);
+  border: 1px solid rgba(241, 236, 255, 0.2);
+  border-radius: var(--radio-borde);
+  min-width: 0;
+}
+
+.selector-perfil__etiqueta {
+  display: block;
+  font-weight: 600;
+}
+
 .selector-perfil select {
+  max-width: 100%;
   background: var(--color-fondo);
   color: var(--color-texto);
   border: 1px solid rgba(241, 236, 255, 0.2);
   border-radius: var(--radio-borde);
-  padding: 0.3rem 0.5rem;
+  padding: 0.4rem 0.5rem;
+  font-size: 0.85rem;
 }
 
+.selector-perfil select:focus {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 2px;
+}
+
+/* Presentación de Inicio. */
 .heroe {
-  background: linear-gradient(135deg, var(--color-superficie), var(--color-fondo));
+  background: linear-gradient(
+    135deg,
+    var(--color-superficie),
+    var(--color-fondo)
+  );
   padding: var(--espacio-xl) 0;
   text-align: center;
 }
@@ -209,6 +280,7 @@ h1, h2, h3, h4 {
   font-size: 1.5rem;
 }
 
+/* Tarjetas de torneos. */
 .tarjeta {
   background: var(--color-superficie);
   border-radius: var(--radio-borde);
@@ -217,6 +289,8 @@ h1, h2, h3, h4 {
   display: flex;
   flex-direction: column;
   gap: var(--espacio-xs);
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .tarjeta h3 {
@@ -247,9 +321,12 @@ h1, h2, h3, h4 {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--espacio-xs);
+  flex-wrap: wrap;
   padding-top: var(--espacio-xs);
 }
 
+/* Insignias de estados y perfiles. */
 .insignia {
   display: inline-flex;
   align-items: center;
@@ -282,6 +359,7 @@ h1, h2, h3, h4 {
   color: var(--color-texto);
 }
 
+/* Botones. */
 .boton {
   display: inline-block;
   border: none;
@@ -320,16 +398,18 @@ h1, h2, h3, h4 {
   font-size: 0.85rem;
 }
 
-/* ---------- Formularios ---------- */
+/* Formularios y validaciones. */
 .formulario {
   background: var(--color-superficie);
   border-radius: var(--radio-borde);
   padding: var(--espacio-md);
+  width: 100%;
   max-width: 640px;
 }
 
 .campo {
   margin-bottom: var(--espacio-sm);
+  min-width: 0;
 }
 
 .campo label {
@@ -387,6 +467,7 @@ h1, h2, h3, h4 {
   display: flex;
   gap: 0.5rem;
   align-items: flex-start;
+  overflow-wrap: anywhere;
 }
 
 .aviso--error {
@@ -407,6 +488,14 @@ h1, h2, h3, h4 {
   color: var(--color-texto);
 }
 
+.aviso--demo {
+  background: rgba(145, 70, 255, 0.12);
+  border-color: var(--color-primario);
+  color: var(--color-texto);
+  font-size: 0.85rem;
+}
+
+/* Tablas de participantes y rankings. */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -421,7 +510,8 @@ caption {
   margin-bottom: var(--espacio-xs);
 }
 
-th, td {
+th,
+td {
   padding: 0.6rem 0.8rem;
   text-align: left;
   border-bottom: 1px solid rgba(241, 236, 255, 0.08);
@@ -434,6 +524,13 @@ th {
   letter-spacing: 0.03em;
 }
 
+/* Envuelve las tablas anchas cuando se usen en celular. */
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Video y mensajes sin resultados. */
 .video-envoltorio {
   position: relative;
   width: 100%;
@@ -458,6 +555,7 @@ th {
   color: rgba(241, 236, 255, 0.7);
 }
 
+/* Pie de página. */
 .pie-pagina {
   background: var(--color-superficie);
   border-top: 1px solid rgba(241, 236, 255, 0.08);
@@ -478,25 +576,12 @@ th {
   list-style: none;
   display: flex;
   gap: var(--espacio-sm);
+  flex-wrap: wrap;
   padding: 0;
   margin: 0;
 }
 
-@media (max-width: 640px) {
-  .encabezado .contenedor {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-principal ul {
-    gap: var(--espacio-sm);
-  }
-
-  .pie-pagina .contenedor {
-    flex-direction: column;
-  }
-}
-
+/* Filtros de torneos. */
 .panel-filtros {
   background: var(--color-superficie);
   border-radius: var(--radio-borde);
@@ -506,7 +591,10 @@ th {
 
 .filtros-grilla {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(180px, 100%), 1fr)
+  );
   gap: var(--espacio-sm);
   align-items: end;
 }
@@ -515,6 +603,7 @@ th {
   margin-bottom: 0;
 }
 
+/* Rondas y partidas. */
 .pestanas-ronda {
   display: flex;
   gap: var(--espacio-xs);
@@ -559,6 +648,7 @@ th {
 
 .partida__rivales {
   font-weight: 600;
+  overflow-wrap: anywhere;
 }
 
 .partida__meta {
@@ -566,6 +656,7 @@ th {
   color: rgba(241, 236, 255, 0.65);
 }
 
+/* Integrantes del equipo. */
 .chip {
   display: inline-flex;
   align-items: center;
@@ -574,6 +665,8 @@ th {
   border-radius: 999px;
   padding: 0.3rem 0.7rem;
   font-size: 0.85rem;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .chip button {
@@ -606,6 +699,7 @@ th {
   flex: 1 1 180px;
 }
 
+/* Resúmenes y perfil del jugador. */
 .lista-resumen {
   list-style: none;
   margin: 0 0 var(--espacio-sm);
@@ -622,6 +716,7 @@ th {
   font-size: 0.9rem;
   border-bottom: 1px dashed rgba(241, 236, 255, 0.12);
   padding-bottom: 0.4rem;
+  overflow-wrap: anywhere;
 }
 
 .lista-resumen li span:first-child {
@@ -630,13 +725,17 @@ th {
 
 .ficha-perfil {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(min(220px, 100%), 1fr)
+  );
   gap: var(--espacio-md);
 }
 
 .estadisticas {
   display: flex;
   gap: var(--espacio-md);
+  flex-wrap: wrap;
 }
 
 .estadistica {
@@ -656,8 +755,76 @@ th {
   letter-spacing: 0.03em;
 }
 
-.aviso--demo {
-  background: rgba(145, 70, 255, 0.12);
-  border-color: var(--color-primario);
-  color: var(--color-texto);
-  font-size: 0.85rem;}
+/* Encabezado en tablet y pantallas medianas. */
+@media (max-width: 1024px) {
+  .encabezado .encabezado__contenedor {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .encabezado .nav-principal {
+    order: 3;
+  }
+
+  .selector-perfil--panel {
+    justify-self: start;
+  }
+}
+
+/* Ajustes para celular. */
+@media (max-width: 640px) {
+  .contenedor {
+    padding-left: var(--espacio-sm);
+    padding-right: var(--espacio-sm);
+  }
+
+  .contenedor.seccion {
+    padding-left: var(--espacio-sm);
+    padding-right: var(--espacio-sm);
+  }
+
+  .encabezado .contenedor {
+    align-items: flex-start;
+  }
+
+  .encabezado .encabezado__contenedor {
+    gap: var(--espacio-sm);
+  }
+
+  .marca {
+    font-size: 1.1rem;
+  }
+
+  .nav-principal ul {
+    gap: var(--espacio-xs) var(--espacio-sm);
+  }
+
+  .selector-perfil--panel {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .heroe {
+    padding: var(--espacio-lg) 0;
+  }
+
+  .tarjeta,
+  .formulario,
+  .panel-filtros {
+    padding: var(--espacio-sm);
+  }
+
+  .flex-entre {
+    flex-wrap: wrap;
+    gap: var(--espacio-xs);
+  }
+
+  .lista-resumen li {
+    flex-wrap: wrap;
+    gap: var(--espacio-xs);
+  }
+
+  .pie-pagina .contenedor {
+    flex-direction: column;
+  }
+}
