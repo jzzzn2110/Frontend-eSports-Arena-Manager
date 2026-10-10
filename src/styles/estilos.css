@@ -246,7 +246,7 @@ h4 {
 }
 
 /* Presentación de Inicio. */
-.heroe {
+.presentacion {
   background: linear-gradient(
     135deg,
     var(--color-superficie),
@@ -256,12 +256,12 @@ h4 {
   text-align: center;
 }
 
-.heroe h1 {
+.presentacion h1 {
   font-size: clamp(2rem, 5vw, 3rem);
   margin-bottom: var(--espacio-sm);
 }
 
-.heroe p {
+.presentacion p {
   max-width: 640px;
   margin: 0 auto var(--espacio-md);
   color: rgba(241, 236, 255, 0.85);
@@ -804,7 +804,7 @@ th {
     justify-content: space-between;
   }
 
-  .heroe {
+  .presentacion {
     padding: var(--espacio-lg) 0;
   }
 
@@ -826,5 +826,218 @@ th {
 
   .pie-pagina .contenedor {
     flex-direction: column;
+  }
+}
+
+/* Encabezado de la tarjeta: juego, nombre y estado. */
+.tarjeta-torneo__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--espacio-sm);
+}
+
+.tarjeta-torneo__identidad {
+  display: flex;
+  align-items: center;
+  gap: var(--espacio-xs);
+  min-width: 0;
+}
+
+.tarjeta-torneo__icono {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  background: var(--color-fondo);
+  border-radius: var(--radio-borde);
+}
+
+.tarjeta-torneo__icono .icono-juego {
+  width: 32px;
+  height: 32px;
+}
+
+.tarjeta-torneo__texto {
+  min-width: 0;
+}
+
+.tarjeta-torneo__texto p {
+  margin: 0.3rem 0 0;
+}
+
+/* Fecha de cierre y cupos ocupados. */
+.tarjeta-torneo__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espacio-sm);
+  margin: var(--espacio-xs) 0;
+}
+
+.tarjeta-torneo__dato {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tarjeta-torneo__dato span {
+  font-size: 0.8rem;
+  color: rgba(241, 236, 255, 0.7);
+}
+
+/* Barra de ocupación del torneo. */
+.tarjeta-torneo__ocupacion-barra {
+  height: 8px;
+  background: var(--color-fondo);
+  border-radius: var(--radio-borde);
+  overflow: hidden;
+}
+
+.tarjeta-torneo__ocupacion-barra span {
+  display: block;
+  height: 100%;
+  background: var(--color-acento);
+}
+
+.tarjeta-torneo__ocupacion p {
+  margin: 0.4rem 0 0;
+}
+
+/* En celulares pequeños, muestra los datos en una columna. */
+@media (max-width: 360px) {
+  .tarjeta-torneo__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* Presentación de Inicio: contenido y agenda. */
+.presentacion--inicio {
+  text-align: left;
+}
+
+.presentacion__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--espacio-lg);
+}
+
+.presentacion__contenido {
+  min-width: 0;
+}
+
+.presentacion__contenido p {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.presentacion__acciones {
+  display: flex;
+  gap: var(--espacio-sm);
+  flex-wrap: wrap;
+}
+
+/* Resumen de torneos, juegos y participantes. */
+.resumen-inicio {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--espacio-sm);
+  margin-top: var(--espacio-lg);
+}
+
+.resumen-inicio__dato {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.resumen-inicio__dato strong {
+  font-size: 1.8rem;
+  color: var(--color-acento);
+}
+
+.resumen-inicio__dato span {
+  font-size: 0.82rem;
+  color: rgba(241, 236, 255, 0.7);
+}
+
+/* Agenda con los primeros tres cierres de inscripción. */
+.agenda-inicio {
+  min-width: 0;
+  background: var(--color-superficie);
+  border: 1px solid rgba(241, 236, 255, 0.15);
+  border-radius: var(--radio-borde);
+  padding: var(--espacio-md);
+}
+
+.agenda-inicio h2 {
+  font-size: 1.3rem;
+  margin-bottom: var(--espacio-sm);
+}
+
+.agenda-inicio__lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espacio-sm);
+}
+
+.agenda-inicio__item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-bottom: var(--espacio-sm);
+  border-bottom: 1px solid rgba(241, 236, 255, 0.1);
+}
+
+.agenda-inicio__item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.agenda-inicio__item a {
+  overflow-wrap: anywhere;
+}
+
+.agenda-inicio__item strong {
+  font-size: 0.85rem;
+}
+
+/* Mantiene las tarjetas de cada fila a la misma altura. */
+.tarjeta-torneo {
+  height: 100%;
+}
+
+/* Fondo de la sección de cierres. */
+.seccion-franja {
+  background: var(--color-superficie);
+}
+
+/* La tabla se desplaza dentro de su contenedor en celular. */
+.seccion-franja table {
+  min-width: 640px;
+}
+
+/* En tablet, coloca la agenda debajo de la presentación. */
+@media (max-width: 1024px) {
+  .presentacion__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* En celular, muestra el resumen en dos columnas. */
+@media (max-width: 640px) {
+  .presentacion__grid {
+    gap: var(--espacio-md);
+  }
+
+  .resumen-inicio {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .agenda-inicio {
+    padding: var(--espacio-sm);
   }
 }
