@@ -83,3 +83,58 @@ sin framework y sin backend (datos simulados).
 
 ## Importante
 en esta etapa no se utiliza una base de datos real. Los datos se manejan mediante arreglos simulados en memoria definidos en js/datos.js y pierden al recargar la pagína.
+
+
+
+## Avance EP2 - Jhon Olivares
+
+Se trabajo en la rama 'develo'
+
+1-Reestructuracion del proyecto original para utilizar React y Vite
+2-Adaptacion de los datos y funciones a modulos,creacion del servicio
+3-Creacion de la cabecera y el pue de pagina como componentes,selector de perfil con persistencia y etilos para celular
+4-Implementacion de Inicio y tarjetas de torneos, resumen de datos,agenda de cierresz tabla de inscripciones y videos
+5-Se ajusto los estilos para escritorios y celular
+
+Se conservaron los datos, las imagenes y la identidad visual del proyecto original
+
+## Validacion del avance
+
+-Compilacion correctta mediante 'npm run build'
+-Tres pruebas de logica aprobadas mediante 'npm test'
+-Revision visual de inicio en escritorio y a 360 px de ancho
+
+
+## Clonar y trabajar en develo
+
+Clona el repositorio y entra a la carpeta:
+
+    git clone --branch develo https://github.com/jzzzn2110/Frontend-eSports-Arena-Manager.git
+    cd Frontend-eSports-Arena-Manager
+
+Verifica la rama:
+
+    git branch --show-current
+
+Debe mostrar `develo`. Si muestra otra:
+
+    git switch develo
+
+Instala y ejecuta:
+
+    npm ci
+    npm run dev
+
+Antes de guardar, verifica:
+
+    npm run build
+    npm test
+
+Guarda y sube los cambios a la misma rama:
+
+    git add .
+    git commit -m "Descripcion del cambio"
+    git push origin develo
+
+No ejecutes `git init`: el clon ya incluye el historial.
+
