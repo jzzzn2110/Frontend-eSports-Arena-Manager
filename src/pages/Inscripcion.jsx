@@ -23,7 +23,7 @@ function Inscripcion({ datos, torneoIdUrl }) {
   const [jugadorId, setJugadorId] = useState('');
   const [confirmacion, setConfirmacion] = useState(false);
   
-  // Estados para manejo de éxito, errores y mensajes personalizados
+  // Estados para manejo de exito, errores y mensajes personalizados
   const [enviadoExito, setEnviadoExito] = useState(false);
   const [errorGeneral, setErrorGeneral] = useState('');
   const [erroresCampos, setErroresCampos] = useState({
@@ -32,7 +32,7 @@ function Inscripcion({ datos, torneoIdUrl }) {
     confirmacion: ''
   });
 
-  // useeffect pa sincronizar el torneo actual al cambiar la selección o la URL
+  // useEffect pa sincronizar el torneo actual al cambiar la selección o la URL
   useEffect(() => {
     if (torneoIdSeleccionado) {
       const t = TORNEOS.find(tr => String(tr.id) === String(torneoIdSeleccionado));
@@ -44,7 +44,7 @@ function Inscripcion({ datos, torneoIdUrl }) {
 
   const torneosAbiertos = TORNEOS.filter(t => String(t.estado).toLowerCase() === 'abierto');
 
-  // Lógica de validación del formulario controlado
+  // Logica de validacion del formulario controlado
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrorGeneral('');
