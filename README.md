@@ -85,55 +85,64 @@ sin framework y sin backend (datos simulados).
 en esta etapa no se utiliza una base de datos real. Los datos se manejan mediante arreglos simulados en memoria definidos en js/datos.js y pierden al recargar la pagína.
 
 
+---
 
-## EP2 
+## Evaluación Parcial 2 — eSports Arena Manager
 
-Esta sección corresponde a la versión actual del proyecto. La información anterior se conserva como historial de EP1.
+Esta sección describe la versión actual del proyecto. La información anterior se conserva como historial de EP1.
 
+### Actualización del proyecto
 
-### Objetivo
+Se migró el proyecto original de EP1 a React, manteniendo sus juegos, datos, imágenes e identidad visual.
 
-Migrar eSports Arena Manager a React, manteniendo como base el proyecto de EP1, sus juegos, datos e identidad visual. Se incorporaron componentes reutilizables, formularios con validaciones, navegación y persistencia de datos en el navegador.
+Se incorporaron componentes reutilizables, navegación, formularios con validaciones, persistencia en el navegador y pruebas automatizadas.
 
-### Tecnologías utilizadas
+### Tecnologías
 
-- React y React DOM.
-- Vite para desarrollo y compilación.
-- React Router para navegar entre las páginas.
-- Bootstrap y CSS propio para adaptar el diseño a escritorio y celular.
-- Jasmine y Karma para las pruebas.
-- Istanbul para medir cobertura.
+- React 18 y React DOM.
+- Vite.
+- React Router.
+- Bootstrap y CSS propio.
+- Jasmine y Karma.
+- Webpack, Babel e Istanbul para preparar las pruebas y medir cobertura.
 
-Las pantallas están desarrolladas en archivos `.jsx`. Las rutas como `/torneos.html` se mantienen para conservar los enlaces originales y son gestionadas por React Router.
+Se conserva `index.html` como entrada de la aplicación, siguiendo el ejemplo del profesor. Este archivo carga `src/main.jsx`, que inicia React. Las pantallas se desarrollan mediante componentes `.jsx`.
+
+Las direcciones como `/torneos.html` son rutas gestionadas por React Router.
 
 ### Funciones implementadas
 
-- **Inicio:** resumen, torneos destacados, próximos cierres y video.
-- **Torneos:** búsqueda y filtros por juego, estado y fechas.
-- **Detalle:** participantes, partidas por ronda, ranking y premios.
-- **Inscripción:** registro individual o por equipo y cancelación dentro del plazo.
-- **Equipos:** creación, edición, selección de integrantes y capitán.
-- **Perfil:** edición de datos personales, estadísticas e historial.
-- **Administración:** gestión de torneos para organizadores y administradores.
+| Pantalla | Funciones |
+|---|---|
+| Inicio | Resumen, torneos destacados, próximos cierres y video |
+| Torneos | Búsqueda y filtros por juego, estado y fechas |
+| Detalle | Participantes, partidas por ronda, ranking y premios |
+| Inscripción | Inscripción individual o por equipo y cancelación dentro del plazo |
+| Equipos | Creación, edición, integrantes, capitán y eliminación con confirmación |
+| Perfil | Edición de datos personales, estadísticas e historial |
+| Administración | Gestión de torneos para organizadores y administradores |
 
-Se validan cupos, fechas, inscripciones duplicadas, sanciones, integrantes y permisos del perfil seleccionado. Los equipos y torneos con historial tienen restricciones de modificación o eliminación.
+Se incluyen League of Legends, Valorant, Ajedrez, Rocket League y Minecraft.
 
-### Datos de demostración
+### Validaciones y datos
 
-El proyecto incluye League of Legends, Valorant, Ajedrez, Rocket League y Minecraft.
+Se validan cupos, plazos, inscripciones duplicadas, sanciones, integrantes, capitanía, correo, apodo y coherencia de fechas.
 
-Los datos compartidos se gestionan mediante `ArenaProvider` y `crearArenaStore`. Se guardan en `localStorage`, por lo que los cambios se conservan al recargar en el mismo navegador y dirección.
+Los equipos con inscripciones o historial y los torneos con participantes o partidas tienen restricciones para proteger sus registros.
 
-El selector permite probar distintos roles y jugadores. Es una simulación académica del frontend.
+`ArenaProvider` comparte los datos entre componentes. `crearArenaStore` gestiona las operaciones, validaciones y persistencia mediante `localStorage`.
 
-Los torneos abiertos generan fechas futuras al crear la demostración. Estas fechas se conservan al recargar. Restablecer la demostración reemplaza los datos locales.
+Los datos se conservan al recargar en el mismo navegador y dirección. El selector de perfiles permite simular roles y jugadores; no corresponde a una autenticación real.
 
-### Cambios recientes
+Las fechas de los torneos abiertos se generan al inicializar la demostración y luego se conservan. Restablecer la demostración reemplaza los datos locales.
+
+### Correcciones recientes
 
 - Actualización de dependencias: las alertas de npm bajaron de 16 a 4.
 - Recuperación del torneo Rocket League en modalidad 2v2.
-- Corrección de sus equipos, participantes, partidas y ranking.
+- Corrección de equipos, partidas y ranking de Rocket League.
 - Actualización de los datos guardados anteriormente, conservando las demás inscripciones y perfiles.
+- Incorporación de siete pruebas adicionales para completar diez casos automatizados.
 
 Las cuatro alertas restantes corresponden a dependencias de desarrollo utilizadas por Karma.
 
@@ -148,7 +157,7 @@ src/data/            Datos originales y semilla
 src/services/        Validaciones y persistencia
 src/utils/           Funciones de lógica
 src/styles/          Estilos del proyecto
-tests/               Pruebas automatizadas
+tests/               Pruebas de lógica, servicio y componentes
 ```
 
 ### Requisitos
@@ -156,7 +165,7 @@ tests/               Pruebas automatizadas
 - Node.js 20.19 o superior y npm.
 - Git.
 - Navegador web.
-- Chrome para ejecutar las pruebas, o Edge configurado mediante `CHROME_BIN`.
+- Chrome para las pruebas, o Edge configurado mediante `CHROME_BIN`.
 
 ### Clonar y ejecutar
 
@@ -168,9 +177,11 @@ npm ci
 npm run dev
 ```
 
-La rama debe mostrar `develo`. Abre la dirección que indique Vite en la terminal.
+La rama debe mostrar `develo`. Abre la dirección que indique Vite.
 
-Para EP2 se utiliza Vite; las instrucciones de abrir directamente el HTML corresponden a EP1. No ejecutes `git init` después de clonar: el clon ya contiene el historial.
+No ejecutes `git init` después de clonar: el clon ya incluye el historial. Una descarga ZIP no incluye Git.
+
+Las instrucciones de abrir directamente el HTML corresponden a EP1. Para ejecutar EP2 se utiliza Vite.
 
 ### Compilación y pruebas
 
@@ -179,12 +190,14 @@ npm run build
 npm test
 ```
 
-Si utilizas Edge y Karma no encuentra Chrome:
+Si Karma no encuentra Chrome y tienes Edge instalado en esta ruta:
 
 ```powershell
 $env:CHROME_BIN = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 npm test
 ```
+
+Esta configuración se aplica únicamente a la terminal actual.
 
 Para generar el reporte de cobertura:
 
@@ -192,33 +205,76 @@ Para generar el reporte de cobertura:
 npm run test:coverage
 ```
 
-El reporte se encuentra en `coverage/html/index.html`.
+Abre `coverage/html/index.html` para consultar el detalle.
 
-### Estado de las pruebas
+### Casos de prueba
 
-Actualmente existen tres pruebas de lógica aprobadas:
+Las pruebas utilizan Jasmine y Karma, siguiendo el enfoque del ejemplo del profesor: `describe`, `it`, `expect`, espías, `createRoot`, `act` y limpieza entre casos.
 
-1. Los cupos disponibles no pueden ser negativos.
-2. El ranking se ordena por puntos y diferencia sin modificar el arreglo original.
-3. Se distinguen las sanciones vigentes de las terminadas.
+| N.º | Caso comprobado |
+|---|---|
+| 1 | Los cupos disponibles no pueden ser negativos |
+| 2 | El ranking se ordena sin modificar el arreglo original |
+| 3 | Se distinguen sanciones vigentes y terminadas |
+| 4 | Una inscripción se guarda y puede recuperarse |
+| 5 | Se rechaza una inscripción duplicada |
+| 6 | Los datos se conservan si falla el almacenamiento |
+| 7 | Solo el capitán puede inscribir su equipo, salvo permisos administrativos |
+| 8 | El buscador filtra los torneos mostrados |
+| 9 | El formulario exige confirmación, inscribe y permite cancelar |
+| 10 | El rol jugador no puede acceder al formulario de administración |
 
-La compilación fue comprobada correctamente. Todavía falta ampliar las pruebas de componentes, interacción con el DOM y mocks.
+El almacenamiento se simula con espías de Jasmine para evitar modificar los datos reales del navegador y comprobar errores de guardado.
+
+### Resultados verificados
+
+Última ejecución registrada: **17 de octubre de 2026**.
+
+**Resultado: 10 pruebas aprobadas.**
+
+| Métrica | Cobertura |
+|---|---:|
+| Sentencias | 52,20 % |
+| Ramas | 42,80 % |
+| Funciones | 54,60 % |
+| Líneas | 52,04 % |
+
+Estos porcentajes corresponden a los módulos instrumentados durante las pruebas. No representan una comprobación completa de todas las pantallas, estilos o funciones del proyecto.
 
 ### Trabajo con ramas
 
 - `develo`: integración del desarrollo.
-- `fix/ep2-flujos-y-pruebas`: correcciones de flujos, datos y dependencias.
+- `fix/ep2-flujos-y-pruebas`: correcciones integradas mediante Pull Request.
 - `qa`: validación de la versión integrada.
 - `main`: versión final validada.
 
-Antes de guardar cambios, verifica la rama con `git branch --show-current` y los archivos con `git status`. Sube el commit a la misma rama de trabajo y utiliza un Pull Request para integrarlo.
+Antes de trabajar y guardar cambios:
 
-Las correcciones recientes se integraron desde `fix/ep2-flujos-y-pruebas` hacia `develo`.
+```powershell
+git branch --show-current
+git status
+```
 
-### Pendientes de EP2
+Para guardar cambios en el README desde `develo`:
 
-- Completar las pruebas de componentes y DOM con Jasmine y Karma.
-- Incorporar mocks y analizar la cobertura.
-- Actualizar el documento ERS con las funciones y reglas implementadas.
-- Preparar el documento de testing con casos, resultados y cobertura.
+```powershell
+git add README.md
+git commit -m "Actualizando README de EP2 y resultados de pruebas"
+git push origin develo
+```
+
+Si el push es rechazado porque existen cambios remotos, después de confirmar el trabajo local:
+
+```powershell
+git pull --rebase origin develo
+```
+
+Resuelve cualquier conflicto antes de volver a subir. No utilices push forzado.
+
+### Pendientes para la entrega
+
+- Actualizar el ERS con las funciones, actores y reglas actuales.
+- Preparar el documento de testing con casos, resultados, cobertura y limitaciones.
 - Completar la revisión de los flujos en escritorio y celular.
+- Validar la versión en `qa` antes de integrarla a `main`.
+- Preparar el ZIP final y la presentación individual.
