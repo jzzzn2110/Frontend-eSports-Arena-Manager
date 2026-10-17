@@ -1041,3 +1041,45 @@ th {
     padding: var(--espacio-sm);
   }
 }
+/* Componentes Bootstrap integrados con la identidad visual de Arena. */
+body { --bs-body-bg: var(--color-fondo); --bs-body-color: var(--color-texto); }
+.card, .list-group-item { background: var(--color-superficie); color: var(--color-texto); border-color: #4a3a65; }
+.form-control, .form-select { background-color: #171020; color: #f1ecff; border-color: #685281; }
+.form-control:focus, .form-select:focus { background-color: #171020; color: white; border-color: #ad79ff; box-shadow: 0 0 0 .2rem #9146ff40; }
+.btn-primary { --bs-btn-bg: #7330ce; --bs-btn-border-color: #a778ee; --bs-btn-hover-bg: #6326b6; --bs-btn-active-bg: #6326b6; --bs-btn-disabled-bg: #543376; }
+.card .text-muted { color: #c1b3d5 !important; }
+.pagina-formulario { max-width: 850px; }
+.aviso-demo { padding-top: .75rem; padding-bottom: .75rem; color: #cfbee4; font-size: .85rem; }
+.selector-perfil--panel { min-width: 0; }
+.selector-perfil--panel select { width: 100%; max-width: 100%; }
+.container, .row > *, .card, .tarjeta { min-width: 0; }
+.card h1, .card h2, .card h5, td, .list-group-item { overflow-wrap: anywhere; }
+.table-responsive { max-width: 100%; }
+.resumen-inscripcion { border-left: 3px solid var(--color-acento); padding-left: 1rem; }
+.salto-contenido:focus { display: block; padding: 1rem; background: #171020; }
+@media (max-width: 575px) {
+  .card.p-4 { padding: 1rem !important; }
+  #torneo-contenido .justify-content-between { flex-wrap: wrap; gap: .75rem; }
+  .encabezado__contenedor { padding: 1rem; }
+}
+
+/* La navegación usa su propia fila para no comprimir la marca en escritorio. */
+.encabezado .encabezado__contenedor { grid-template-columns: minmax(240px, 1fr) minmax(300px, 420px); grid-template-areas: "marca perfiles" "nav nav"; }
+.encabezado__principal { grid-area: marca; }
+.encabezado .nav-principal { grid-area: nav; grid-column: 1 / -1; }
+.selector-perfil--panel { grid-area: perfiles; display: grid; grid-template-columns: 1fr 1fr; gap: .35rem 1rem; align-items: center; }
+.selector-perfil--panel label { white-space: normal; margin: 0; }
+.selector-perfil--panel label[for="perfil-simulado"] { grid-column: 1; grid-row: 1; }
+.selector-perfil--panel #perfil-simulado { grid-column: 1; grid-row: 2; min-width: 0; }
+.selector-perfil--panel label[for="jugador-simulado"] { grid-column: 2; grid-row: 1; }
+.selector-perfil--panel #jugador-simulado { grid-column: 2; grid-row: 2; min-width: 0; }
+@media (max-width: 640px) {
+ .encabezado { position: static; }
+ .encabezado .encabezado__contenedor { grid-template-columns: 1fr; grid-template-areas: "marca" "perfiles" "nav"; gap: 1rem; }
+ .selector-perfil--panel { width: 100%; }
+ .marca { font-size: 1.1rem; }
+}
+
+.table-responsive table { min-width: 560px; }
+.table-responsive .btn { white-space: nowrap; }
+.table-responsive:focus { outline: 2px solid var(--color-acento); outline-offset: 3px; }
