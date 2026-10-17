@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 function TorneoDetalle({ datos, torneoId }) {
 
   const {
-    TORNEOS, PARTIDAS, RANKINGS, PREMIOS, JUEGOS,
+    PARTIDAS, RANKINGS, PREMIOS,
     obtenerTorneoPorId, obtenerJuegoPorId, obtenerNombreParticipante,
     nombreEstado, formatearFecha, formatearFechaHora, cuposDisponibles, ordenarRanking
   } = datos;
@@ -20,16 +20,14 @@ function TorneoDetalle({ datos, torneoId }) {
         PARTIDAS.filter((p) => p.torneoId === torneo.id).map((p) => p.ronda)
       )].sort((a, b) => a - b);
 
-      if (rondas.length > 0) {
-        setRondaSeleccionada(rondas[0]);
-      }
+      setRondaSeleccionada(rondas[0] || 1);
     }
-  }, [torneoId]);
+  }, [torneoId, PARTIDAS, obtenerTorneoPorId]);
 
   if (!torneoActual) {
     return (
-      <div className="container my-5" id="torneo-no-encontrado">
-        <div className="alert alert-danger" role="alert">
+      <div className="contenedor seccion" id="torneo-no-encontrado">
+        <div className="aviso aviso--error" role="alert">
           El torneo solicitado no existe o no se encuentra disponible.
         </div>
       </div>
@@ -50,9 +48,9 @@ function TorneoDetalle({ datos, torneoId }) {
   );
 
   const claseInsigniaTorneo = (estado) => {
-    if (estado === 'abierto') return 'bg-success';
-    if (estado === 'en-curso') return 'bg-warning text-dark';
-    return 'bg-secondary';
+    if (estado === 'abierto') return 'insignia--abierto';
+    if (estado === 'en-curso') return 'insignia--en-curso';
+    return 'insignia--finalizado';
   };
 
   const nombrePartidaEstado = (estado) => {
@@ -66,16 +64,16 @@ function TorneoDetalle({ datos, torneoId }) {
   };
 
   return (
-    <div className="container my-4" id="torneo-contenido">
+    <div className="contenedor seccion" id="torneo-contenido">
       {/* Datos Generales */}
-      <div className="card mb-4 p-3 shadow-sm">
-        <div className="d-flex justify-content-between align-items-center mb-2">
-          <h2 id="torneo-nombre" className="mb-0">{torneoActual.nombre}</h2>
-          <span id="torneo-insignia" className={`badge ${claseInsigniaTorneo(torneoActual.estado)} fs-6`}>
+      <div className="tarjeta mb-4">
+        <div className="titulo-seccion">
+          <h1 id="torneo-nombre" className="mb-0">{torneoActual.nombre}</h1>
+          <span id="torneo-insignia" className={`insignia ${claseInsigniaTorneo(torneoActual.estado)}`}>
             {nombreEstado(torneoActual.estado)}
           </span>
         </div>
-        <p id="torneo-juego-modalidad" className="text-muted mb-3">
+        <p id="torneo-juego-modalidad" className="tarjeta__meta mb-3">
           {juego ? `${juego.nombre} · ${juego.modalidad}` : 'Juego no disponible'}
         </p>
         <div className="row g-2 text-center border-top pt-3">
@@ -97,14 +95,14 @@ function TorneoDetalle({ datos, torneoId }) {
       </div>
 
       {/* Participantes */}
-      <div className="card mb-4 p-3 shadow-sm">
+      <div className="tarjeta mb-4">
         <h4>Participantes</h4>
         <div id="lista-participantes" className="d-flex flex-wrap gap-2 mt-2">
           {torneoActual.participantesInscritos.length === 0 ? (
-            <p className="estado-vacio text-muted mb-0">Todavía no hay participantes inscritos.</p>
+            <p className="estado-vacio tarjeta__meta mb-0">Todavía no hay participantes inscritos.</p>
           ) : (
             torneoActual.participantesInscritos.map((id) => (
-              <span key={id} className="badge bg-secondary fs-6">
+              <span key={id} className="chip">
                 {obtenerNombreParticipante(torneoActual, id)}
               </span>
             ))
@@ -113,14 +111,15 @@ function TorneoDetalle({ datos, torneoId }) {
       </div>
 
       {/* Calendario de Partidas / Llaves */}
-      <div className="card mb-4 p-3 shadow-sm">
+      <div className="tarjeta mb-4">
         <h4>Partidas</h4>
-        <div id="pestanas-ronda" className="btn-group mb-3" role="tablist">
+        <div id="pestanas-ronda" className="pestanas-ronda" aria-label="Seleccionar ronda">
           {rondasDisponibles.map((ronda) => (
             <button
               key={ronda}
               type="button"
-              className={`btn btn-outline-primary ${ronda === rondaSeleccionada ? 'active' : ''}`}
+              className="pestana-ronda"
+              aria-pressed={ronda === rondaSeleccionada}
               onClick={() => setRondaSeleccionada(ronda)}
             >
               Ronda {ronda}
@@ -128,20 +127,20 @@ function TorneoDetalle({ datos, torneoId }) {
           ))}
         </div>
 
-        <div id="lista-partidas" className="list-group">
+        <div id="lista-partidas" className="lista-partidas">
           {partidasRonda.length === 0 ? (
-            <p className="estado-vacio text-muted mb-0">Sin partidas programadas para esta ronda todavía.</p>
+            <p className="estado-vacio tarjeta__meta mb-0">Sin partidas programadas para esta ronda todavía.</p>
           ) : (
             partidasRonda.map((partida) => {
               const nombreA = obtenerNombreParticipante(torneoActual, partida.participanteA);
               const nombreB = obtenerNombreParticipante(torneoActual, partida.participanteB);
               return (
-                <div key={partida.id} className="list-group-item d-flex justify-content-between align-items-center">
+                <div key={partida.id} className="partida">
                   <div>
                     <strong className="partida__rivales">{nombreA} vs {nombreB}</strong>
-                    <div className="small text-muted partida__meta">{formatearFechaHora(partida.horario)}</div>
+                    <div className="small tarjeta__meta partida__meta">{formatearFechaHora(partida.horario)}</div>
                   </div>
-                  <span className="badge bg-info text-dark">
+                  <span className="chip">
                     {nombrePartidaEstado(partida.estado)}
                   </span>
                 </div>
@@ -152,10 +151,10 @@ function TorneoDetalle({ datos, torneoId }) {
       </div>
 
       {/* Tabla de Ranking */}
-      <div className="card mb-4 p-3 shadow-sm">
+      <div className="tarjeta mb-4">
         <h4>Tabla de Posiciones</h4>
-        <div className="table-responsive">
-          <table className="table table-striped align-middle mb-0">
+        <div className="tabla-responsive">
+          <table className="mb-0">
             <thead>
               <tr>
                 <th>#</th>
@@ -167,7 +166,7 @@ function TorneoDetalle({ datos, torneoId }) {
             <tbody id="cuerpo-tabla-ranking">
               {rankingOrdenado.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="text-center text-muted">
+                  <td colSpan="4" className="text-center tarjeta__meta">
                     Aún no hay resultados validados para este torneo.
                   </td>
                 </tr>
@@ -188,11 +187,11 @@ function TorneoDetalle({ datos, torneoId }) {
 
       {/* Sección de Premios */}
       {torneoActual.estado === 'finalizado' && premios.length > 0 && (
-        <div className="card p-3 shadow-sm" id="seccion-premios">
+        <div className="tarjeta" id="seccion-premios">
           <h4>Premios</h4>
-          <ul id="lista-premios" className="list-group list-group-flush">
+          <ul id="lista-premios" className="lista-resumen">
             {premios.map((p) => (
-              <li key={p.posicion} className="list-group-item d-flex justify-content-between">
+              <li key={p.posicion} className="flex-entre flex-envolver">
                 <span><strong>Posición {p.posicion}:</strong></span>
                 <span>{p.premio}</span>
               </li>

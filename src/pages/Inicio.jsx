@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
+//jjj
 import TarjetaTorneo from '../components/TarjetaTorneo.jsx';
 import { arenaService } from '../services/arenaService.js';
 import { formatearFecha } from '../utils/logica.js';

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import TarjetaTorneo from '../components/TarjetaTorneo.jsx';
 
 function Torneos({ juegos, torneos }) {
   
@@ -7,18 +8,16 @@ function Torneos({ juegos, torneos }) {
   const [estadoSeleccionado, setEstadoSeleccionado] = useState('');
   const [fechaDesde, setFechaDesde] = useState('');
   const [fechaHasta, setFechaHasta] = useState('');
-  const [errorRango, setErrorRango] = useState('');
+  // Calcula el aviso sin cambiar el estado durante el render.
+  const errorRango = fechaDesde && fechaHasta && fechaDesde > fechaHasta
+    ? "La fecha 'Inicio desde' no puede ser posterior a 'Inicio hasta'."
+    : '';
 
   const aplicarFiltros = () => {
-    // Validar rango de fechas inválido
-    if (fechaDesde && fechaHasta && fechaDesde > fechaHasta) {
-      setErrorRango("La fecha 'Inicio desde' no puede ser posterior a 'Inicio hasta'.");
-      return [];
-    }
-    setErrorRango('');
+    if (errorRango) return [];
 
     return torneos.filter((torneo) => {
-      const coincideTexto = !busqueda || torneo.nombre.toLowerCase().includes(busqueda.toLowerCase());
+      const coincideTexto = !busqueda || torneo.nombre.toLowerCase().includes(busqueda.trim().toLowerCase());
       const coincideJuego = !juegoSeleccionado || torneo.juegoId === juegoSeleccionado;
       const coincideEstado = !estadoSeleccionado || torneo.estado === estadoSeleccionado;
       const coincideDesde = !fechaDesde || torneo.fechaInicio >= fechaDesde;
@@ -35,45 +34,32 @@ function Torneos({ juegos, torneos }) {
     setEstadoSeleccionado('');
     setFechaDesde('');
     setFechaHasta('');
-    setErrorRango('');
   };
 
   const obtenerJuego = (juegoId) => juegos.find((j) => j.id === juegoId) || null;
 
-  const nombreEstado = (estado) => {
-    const mapa = { abierto: "Abierto", "en-curso": "En curso", finalizado: "Finalizado" };
-    return mapa[estado] || estado;
-  };
-
-  const formatearFecha = (fechaISO) => {
-    const fecha = new Date(fechaISO);
-    return fecha.toLocaleDateString("es-CL", { day: "2-digit", month: "short", year: "numeric" });
-  };
-
   return (
-    <div className="container my-4">
-      <h2>Listado de Torneos</h2>
+    <div className="contenedor seccion">
+      <h1>Listado de torneos</h1>
       
       {/* Formulario de filtros */}
-      <div className="card p-3 mb-4 bg-dark text-light">
+      <div className="panel-filtros">
         <form onSubmit={(e) => e.preventDefault()} id="formulario-filtros">
           <div className="row g-3">
-            <div className="col-md-3">
-              <label htmlFor="filtro-busqueda" className="form-label">Buscar</label>
+            <div className="col-12 col-md-3 campo">
+              <label htmlFor="filtro-busqueda">Buscar</label>
               <input
                 type="text"
                 id="filtro-busqueda"
-                className="form-control"
                 placeholder="Nombre de torneo..."
                 value={busqueda}
                 onChange={(e) => setBusqueda(e.target.value)}
               />
             </div>
-            <div className="col-md-3">
-              <label htmlFor="filtro-juego" className="form-label">Juego</label>
+            <div className="col-12 col-md-3 campo">
+              <label htmlFor="filtro-juego">Juego</label>
               <select
                 id="filtro-juego"
-                className="form-select"
                 value={juegoSeleccionado}
                 onChange={(e) => setJuegoSeleccionado(e.target.value)}
               >
@@ -83,11 +69,10 @@ function Torneos({ juegos, torneos }) {
                 ))}
               </select>
             </div>
-            <div className="col-md-2">
-              <label htmlFor="filtro-estado" className="form-label">Estado</label>
+            <div className="col-12 col-md-2 campo">
+              <label htmlFor="filtro-estado">Estado</label>
               <select
                 id="filtro-estado"
-                className="form-select"
                 value={estadoSeleccionado}
                 onChange={(e) => setEstadoSeleccionado(e.target.value)}
               >
@@ -97,32 +82,30 @@ function Torneos({ juegos, torneos }) {
                 <option value="finalizado">Finalizado</option>
               </select>
             </div>
-            <div className="col-md-2">
-              <label htmlFor="filtro-fecha-desde" className="form-label">Desde</label>
+            <div className="col-12 col-md-2 campo">
+              <label htmlFor="filtro-fecha-desde">Desde</label>
               <input
                 type="date"
                 id="filtro-fecha-desde"
-                className="form-control"
                 value={fechaDesde}
                 onChange={(e) => setFechaDesde(e.target.value)}
               />
             </div>
-            <div className="col-md-2">
-              <label htmlFor="filtro-fecha-hasta" className="form-label">Hasta</label>
+            <div className="col-12 col-md-2 campo">
+              <label htmlFor="filtro-fecha-hasta">Hasta</label>
               <input
                 type="date"
                 id="filtro-fecha-hasta"
-                className="form-control"
                 value={fechaHasta}
                 onChange={(e) => setFechaHasta(e.target.value)}
               />
             </div>
           </div>
 
-          {errorRango && <div className="text-danger mt-2" id="error-rango-fechas">{errorRango}</div>}
+          {errorRango && <div className="mensaje-error" role="alert" id="error-rango-fechas">{errorRango}</div>}
 
           <div className="mt-3">
-            <button type="button" id="boton-limpiar-filtros" className="btn btn-secondary btn-sm" onClick={limpiarFiltros}>
+            <button type="button" id="boton-limpiar-filtros" className="boton boton-secundario boton-pequeno" onClick={limpiarFiltros}>
               Limpiar filtros
             </button>
           </div>
@@ -130,44 +113,26 @@ function Torneos({ juegos, torneos }) {
       </div>
 
       {/* Resultados */}
-      <div id="contador-resultados" className="mb-3 text-muted">
+      <div id="contador-resultados" className="mb-3" role="status">
         {torneosFiltrados.length === 1 ? "1 torneo encontrado" : `${torneosFiltrados.length} torneos encontrados`}
       </div>
 
       {torneosFiltrados.length === 0 ? (
-        <p className="estado-vacio alert alert-warning">
+        <p className="estado-vacio">
           Ningún torneo cumple con los filtros seleccionados. Prueba ajustando el juego, el estado o el rango de fechas.
         </p>
       ) : (
-        <div className="row" id="lista-torneos">
-          {torneosFiltrados.map((torneo) => {
-            const juego = obtenerJuego(torneo.juegoId);
-            const cupoOcupado = torneo.participantesInscritos.length;
-            const claseInsignia =
-              torneo.estado === "abierto" ? "bg-success" : torneo.estado === "en-curso" ? "bg-warning text-dark" : "bg-secondary";
-
-            return (
-              <div className="col-md-4 mb-3" key={torneo.id}>
-                <div className="card h-100 p-3 shadow-sm">
-                  <div className="d-flex justify-content-between align-items-start mb-2">
-                    <h5 className="card-title mb-0">{torneo.nombre}</h5>
-                    <span className={`badge ${claseInsignia}`}>{nombreEstado(torneo.estado)}</span>
-                  </div>
-                  <p className="card-text text-muted small">
-                    {juego ? `${juego.nombre} · ${juego.modalidad}` : "Juego no disponible"}
-                  </p>
-                  <p className="card-text mb-1"><strong>Cupos:</strong> {cupoOcupado} / {torneo.cupoMaximo}</p>
-                  <p className="card-text mb-3"><strong>Cierre:</strong> {formatearFecha(torneo.fechaCierreInscripcion)}</p>
-                  <div className="mt-auto d-flex gap-2">
-                    <a href={`/torneo-detalle.html?id=${torneo.id}`} className="btn btn-outline-primary btn-sm">Ver detalle</a>
-                    {torneo.estado === "abierto" && (
-                      <a href={`/inscripcion.html?torneo=${torneo.id}`} className="btn btn-primary btn-sm">Inscribirme</a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+        <div className="row g-4" id="lista-torneos">
+          {torneosFiltrados.map((torneo) => (
+            <div className="col-12 col-md-6 col-xl-4" key={torneo.id}>
+              {/* Reutiliza la misma tarjeta que Inicio. */}
+              <TarjetaTorneo
+                torneo={torneo}
+                juego={obtenerJuego(torneo.juegoId)}
+                mostrarInscripcion
+              />
+            </div>
+          ))}
         </div>
       )}
     </div>
