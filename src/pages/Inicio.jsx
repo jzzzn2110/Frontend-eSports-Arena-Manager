@@ -1,56 +1,31 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
-import TarjetaTorneo from '../components/TarjetaTorneo.jsx';
-import { arenaService } from '../services/arenaService.js';
-import { formatearFecha } from '../utils/logica.js';
+import TarjetaTorneo from "../components/TarjetaTorneo.jsx";
+import { useArena } from "../context/ArenaContext.jsx";
+import { formatearFecha, inscripcionFueraDePlazo } from "../utils/logica.js";
 
 function Inicio() {
-  // Guarda los datos recibidos del servicio.
-  const [torneos, setTorneos] = useState([]);
-  const [juegos, setJuegos] = useState([]);
-  const [cargando, setCargando] = useState(true);
-  const [error, setError] = useState('');
-
+  const { datos } = useArena();
+  const torneos = datos.TORNEOS;
+  const juegos = datos.JUEGOS;
   useEffect(() => {
-    document.title = 'eSports Arena Manager — Inicio';
-    let activo = true;
-
-    // Solicita los torneos y juegos al entrar a Inicio.
-    Promise.all([
-      arenaService.listarTorneos(),
-      arenaService.listarJuegos(),
-    ])
-      .then(([listaTorneos, listaJuegos]) => {
-        if (!activo) return;
-
-        setTorneos(listaTorneos);
-        setJuegos(listaJuegos);
-        setCargando(false);
-      })
-      .catch(() => {
-        if (!activo) return;
-
-        setError('No se pudieron cargar los torneos.');
-        setCargando(false);
-      });
-
-    // Evita actualizar el estado después de salir de la página.
-    return () => {
-      activo = false;
-    };
+    document.title = "eSports Arena Manager — Inicio";
   }, []);
 
   // Selecciona los torneos abiertos y en curso.
-  const destacados = torneos.filter((torneo) =>
-    torneo.estado === 'abierto' || torneo.estado === 'en-curso'
+  const destacados = torneos.filter(
+    (torneo) => torneo.estado === "abierto" || torneo.estado === "en-curso",
   );
 
   // Ordena los torneos abiertos por fecha de cierre.
   const abiertos = torneos
-    .filter((torneo) => torneo.estado === 'abierto')
+    .filter(
+      (torneo) =>
+        torneo.estado === "abierto" && !inscripcionFueraDePlazo(torneo),
+    )
     .sort((a, b) =>
-      a.fechaCierreInscripcion.localeCompare(b.fechaCierreInscripcion)
+      a.fechaCierreInscripcion.localeCompare(b.fechaCierreInscripcion),
     );
 
   function juegoPorId(id) {
@@ -59,9 +34,8 @@ function Inicio() {
 
   // Suma los participantes registrados en los torneos.
   const participantes = torneos.reduce(
-    (total, torneo) =>
-      total + (torneo.participantesInscritos?.length || 0),
-    0
+    (total, torneo) => total + (torneo.participantesInscritos?.length || 0),
+    0,
   );
 
   return (
@@ -72,23 +46,17 @@ function Inicio() {
             <h1>Organiza y sigue tus torneos favoritos</h1>
 
             <p>
-              Gestiona juegos, equipos, inscripciones y resultados.
-              Descubre torneos abiertos, revisa las llaves y consulta
-              la tabla de posiciones. Todo en un solo lugar.
+              Gestiona juegos, equipos, inscripciones y resultados. Descubre
+              torneos abiertos, revisa las llaves y consulta la tabla de
+              posiciones. Todo en un solo lugar.
             </p>
 
             <div className="presentacion__acciones">
-              <Link
-                to="/torneos.html"
-                className="boton boton-primario"
-              >
+              <Link to="/torneos.html" className="boton boton-primario">
                 Ver torneos
               </Link>
 
-              <Link
-                to="/perfil.html"
-                className="boton boton-secundario"
-              >
+              <Link to="/perfil.html" className="boton boton-secundario">
                 Mi perfil
               </Link>
             </div>
@@ -119,28 +87,16 @@ function Inicio() {
             </div>
           </div>
 
-          <aside
-            className="agenda-inicio"
-            aria-labelledby="titulo-agenda"
-          >
+          <aside className="agenda-inicio" aria-labelledby="titulo-agenda">
             <h2 id="titulo-agenda">Próximos cierres</h2>
 
-            {cargando ? (
-              <p role="status">Cargando torneos...</p>
-            ) : error ? (
-              <p role="alert">{error}</p>
-            ) : abiertos.length === 0 ? (
+            {abiertos.length === 0 ? (
               <p>No hay torneos abiertos por ahora.</p>
             ) : (
               <div className="agenda-inicio__lista">
                 {abiertos.slice(0, 3).map((torneo) => (
-                  <article
-                    key={torneo.id}
-                    className="agenda-inicio__item"
-                  >
-                    <Link
-                      to={`/torneo-detalle.html?id=${torneo.id}`}
-                    >
+                  <article key={torneo.id} className="agenda-inicio__item">
+                    <Link to={`/torneo-detalle.html?id=${torneo.id}`}>
                       {torneo.nombre}
                     </Link>
 
@@ -155,35 +111,21 @@ function Inicio() {
         </div>
       </section>
 
-      <section
-        className="seccion"
-        aria-labelledby="titulo-destacados"
-      >
+      <section className="seccion" aria-labelledby="titulo-destacados">
         <div className="contenedor">
           <div className="titulo-seccion">
             <h2 id="titulo-destacados">Torneos destacados</h2>
-            <Link to="/torneos.html">
-              Ver todos los torneos →
-            </Link>
+            <Link to="/torneos.html">Ver todos los torneos →</Link>
           </div>
 
-          {cargando ? (
-            <p role="status">Cargando torneos...</p>
-          ) : error ? (
-            <p className="aviso aviso--error" role="alert">
-              {error}
-            </p>
-          ) : destacados.length === 0 ? (
+          {destacados.length === 0 ? (
             <p className="estado-vacio">
               No hay torneos destacados en este momento.
             </p>
           ) : (
             <div className="row g-4">
               {destacados.map((torneo) => (
-                <div
-                  key={torneo.id}
-                  className="col-12 col-md-6 col-xl-4"
-                >
+                <div key={torneo.id} className="col-12 col-md-6 col-xl-4">
                   <TarjetaTorneo
                     torneo={torneo}
                     juego={juegoPorId(torneo.juegoId)}
@@ -201,16 +143,10 @@ function Inicio() {
       >
         <div className="contenedor">
           <div className="titulo-seccion">
-            <h2 id="titulo-cierres">
-              Próximos cierres de inscripción
-            </h2>
+            <h2 id="titulo-cierres">Próximos cierres de inscripción</h2>
           </div>
 
-          {cargando ? (
-            <p role="status">Cargando inscripciones...</p>
-          ) : error ? (
-            <p role="alert">{error}</p>
-          ) : (
+          {
             <div className="tabla-responsive">
               <table>
                 <caption>
@@ -239,17 +175,13 @@ function Inicio() {
                       <tr key={torneo.id}>
                         <td>{torneo.nombre}</td>
 
-                        <td>
-                          {juegoPorId(torneo.juegoId)?.nombre || '—'}
-                        </td>
+                        <td>{juegoPorId(torneo.juegoId)?.nombre || "—"}</td>
 
-                        <td>
-                          {formatearFecha(torneo.fechaCierreInscripcion)}
-                        </td>
+                        <td>{formatearFecha(torneo.fechaCierreInscripcion)}</td>
 
                         <td>
                           {torneo.participantesInscritos?.length || 0}
-                          {' / '}
+                          {" / "}
                           {torneo.cupoMaximo}
                         </td>
 
@@ -267,14 +199,11 @@ function Inicio() {
                 </tbody>
               </table>
             </div>
-          )}
+          }
         </div>
       </section>
 
-      <section
-        className="seccion"
-        aria-labelledby="titulo-video"
-      >
+      <section className="seccion" aria-labelledby="titulo-video">
         <div className="contenedor">
           <div className="titulo-seccion">
             <h2 id="titulo-video">Revive la última gran final</h2>

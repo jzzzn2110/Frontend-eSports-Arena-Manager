@@ -1,89 +1,103 @@
-import {useEffect, useState} from 'react'
-import {Navigate, Route, Routes} from 'react-router-dom'
-import PiePagina from './components/PiePagina.jsx';
-
-import Cabecera from './components/Cabecera.jsx';
-import Inicio from './pages/Inicio.jsx';
-import Torneos from './pages/Torneos.jsx';
-import TorneoDetalle from './pages/TorneoDetalle.jsx';
-import Inscripcion from './pages/Inscripcion.jsx';
-import Equipo from './pages/Equipo.jsx';
-import Perfil from './pages/Perfil.jsx';
-
-const PERFILES_VALIDOS = [
-  'visitante',
-  'jugador',
-  'organizador',
-  'administrador',
-];
-const CLAVE_PERFIL = 'esports-arena-perfil-prueba';
-
-function App() {
-  //RECUPERA EL PERFIL ELEGIDO
-  const [perfil,setPerfil] = useState(() =>{
-    const guardado = localStorage.getItem(CLAVE_PERFIL);
-
-    if(PERFILES_VALIDOS.includes(guardado)) return guardado;
-
-    //la pagina personal comienza con el perfil jugador
-    const ruta = window.location.pathname;
-    return ruta === '/perfil.html' || ruta === '/equipo.html'
-      ? 'jugador'
-      : 'visitante';
-  });
-
-  // Conserva el perfil al recargar la pagina.
-  useEffect(() => {
-    localStorage.setItem(CLAVE_PERFIL, perfil);
-  }, [perfil]);
-
-  function cambiarPerfil(nuevoPerfil) {
-    if (PERFILES_VALIDOS.includes(nuevoPerfil)) {
-      setPerfil(nuevoPerfil);
+import { useEffect, useState } from "react";
+import { Link, Navigate, Route, Routes } from "react-router-dom";
+import Cabecera from "./components/Cabecera.jsx";
+import PiePagina from "./components/PiePagina.jsx";
+import Inicio from "./pages/Inicio.jsx";
+import Torneos from "./pages/Torneos.jsx";
+import TorneoDetalle from "./pages/TorneoDetalle.jsx";
+import Inscripcion from "./pages/Inscripcion.jsx";
+import Equipo from "./pages/Equipo.jsx";
+import Perfil from "./pages/Perfil.jsx";
+import Administracion from "./pages/Administracion.jsx";
+import { useArena } from "./context/ArenaContext.jsx";
+const ROLES = ["visitante", "jugador", "organizador", "administrador"];
+const CLAVE = "esports-arena-sesion-v2";
+export default function App() {
+  const { datos, aviso } = useArena();
+  const [sesion, setSesion] = useState(() => {
+    try {
+      const guardada = JSON.parse(localStorage.getItem(CLAVE));
+      if (
+        ROLES.includes(guardada?.rol) &&
+        datos.JUGADORES.some((j) => j.id === guardada.jugadorId)
+      )
+        return guardada;
+    } catch {
+      /* Selección inicial sin almacenamiento. */
     }
-  }
-
+    return { rol: "visitante", jugadorId: datos.JUGADORES[0].id };
+  });
+  useEffect(() => {
+    try {
+      localStorage.setItem(CLAVE, JSON.stringify(sesion));
+    } catch {
+      /* Modo temporal. */
+    }
+  }, [sesion]);
   return (
     <>
+      <a
+        className="visually-hidden-focusable salto-contenido"
+        href="#contenido"
+      >
+        Saltar al contenido
+      </a>
       <Cabecera
-        perfil={perfil}
-        onPerfilChange={cambiarPerfil}
+        perfil={sesion.rol}
+        jugadores={datos.JUGADORES}
+        jugadorId={sesion.jugadorId}
+        onPerfilChange={(rol) => {
+          if (ROLES.includes(rol)) setSesion((s) => ({ ...s, rol }));
+        }}
+        onJugadorChange={(jugadorId) => setSesion((s) => ({ ...s, jugadorId }))}
       />
-
-      <Routes>
-        <Route
-          path="/"
-          element={<Navigate to="/index.html" replace />}
-        />
-
-        <Route path="/index.html" element={<Inicio />} />
-        <Route path="/torneos.html" element={<Torneos />} />
-        <Route path="/torneo-detalle.html" element={<TorneoDetalle />} />
-
-        <Route
-          path="/inscripcion.html"
-          element={<Inscripcion perfilSimulado={perfil} />}
-        />
-
-        <Route
-          path="/equipo.html"
-          element={<Equipo perfilSimulado={perfil} />}
-        />
-
-        <Route
-          path="/perfil.html"
-          element={<Perfil perfilSimulado={perfil} />}
-        />
-
-        <Route
-          path="*"
-          element={<Navigate to="/index.html" replace />}
-        />
-      </Routes>
-
+      <div className="contenedor aviso-demo">
+        Demostración académica · perfiles simulados · datos guardados en este
+        navegador
+      </div>
+      {aviso && (
+        <div className="container alert alert-warning" role="status">
+          {aviso}
+        </div>
+      )}
+      <div id="contenido" tabIndex={-1}>
+        <Routes>
+          <Route path="/" element={<Navigate to="/index.html" replace />} />
+          <Route path="/index.html" element={<Inicio />} />
+          <Route path="/torneos.html" element={<Torneos />} />
+          <Route path="/torneo-detalle.html" element={<TorneoDetalle />} />
+          <Route
+            path="/inscripcion.html"
+            element={<Inscripcion actor={sesion} />}
+          />
+          <Route
+            path="/equipo.html"
+            element={
+              <Equipo key={sesion.jugadorId + sesion.rol} actor={sesion} />
+            }
+          />
+          <Route
+            path="/perfil.html"
+            element={
+              <Perfil key={sesion.jugadorId + sesion.rol} actor={sesion} />
+            }
+          />
+          <Route
+            path="/administracion.html"
+            element={<Administracion actor={sesion} />}
+          />
+          <Route
+            path="*"
+            element={
+              <main className="container py-5">
+                <h1>Página no encontrada</h1>
+                <Link to="/index.html">Volver al inicio</Link>
+              </main>
+            }
+          />
+        </Routes>
+      </div>
       <PiePagina />
     </>
   );
 }
-
-export default App;
