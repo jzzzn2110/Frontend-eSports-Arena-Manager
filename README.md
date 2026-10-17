@@ -86,55 +86,139 @@ en esta etapa no se utiliza una base de datos real. Los datos se manejan mediant
 
 
 
-## Avance EP2 - Jhon Olivares
+## EP2 
 
-Se trabajo en la rama 'develo'
-
-1-Reestructuracion del proyecto original para utilizar React y Vite
-2-Adaptacion de los datos y funciones a modulos,creacion del servicio
-3-Creacion de la cabecera y el pue de pagina como componentes,selector de perfil con persistencia y etilos para celular
-4-Implementacion de Inicio y tarjetas de torneos, resumen de datos,agenda de cierresz tabla de inscripciones y videos
-5-Se ajusto los estilos para escritorios y celular
-
-Se conservaron los datos, las imagenes y la identidad visual del proyecto original
-
-## Validacion del avance
-
--Compilacion correctta mediante 'npm run build'
--Tres pruebas de logica aprobadas mediante 'npm test'
--Revision visual de inicio en escritorio y a 360 px de ancho
+Esta sección corresponde a la versión actual del proyecto. La información anterior se conserva como historial de EP1.
 
 
-## Clonar y trabajar en develo
+### Objetivo
 
-Clona el repositorio y entra a la carpeta:
+Migrar eSports Arena Manager a React, manteniendo como base el proyecto de EP1, sus juegos, datos e identidad visual. Se incorporaron componentes reutilizables, formularios con validaciones, navegación y persistencia de datos en el navegador.
 
-    git clone --branch develo https://github.com/jzzzn2110/Frontend-eSports-Arena-Manager.git
-    cd Frontend-eSports-Arena-Manager
+### Tecnologías utilizadas
 
-Verifica la rama:
+- React y React DOM.
+- Vite para desarrollo y compilación.
+- React Router para navegar entre las páginas.
+- Bootstrap y CSS propio para adaptar el diseño a escritorio y celular.
+- Jasmine y Karma para las pruebas.
+- Istanbul para medir cobertura.
 
-    git branch --show-current
+Las pantallas están desarrolladas en archivos `.jsx`. Las rutas como `/torneos.html` se mantienen para conservar los enlaces originales y son gestionadas por React Router.
 
-Debe mostrar `develo`. Si muestra otra:
+### Funciones implementadas
 
-    git switch develo
+- **Inicio:** resumen, torneos destacados, próximos cierres y video.
+- **Torneos:** búsqueda y filtros por juego, estado y fechas.
+- **Detalle:** participantes, partidas por ronda, ranking y premios.
+- **Inscripción:** registro individual o por equipo y cancelación dentro del plazo.
+- **Equipos:** creación, edición, selección de integrantes y capitán.
+- **Perfil:** edición de datos personales, estadísticas e historial.
+- **Administración:** gestión de torneos para organizadores y administradores.
 
-Instala y ejecuta:
+Se validan cupos, fechas, inscripciones duplicadas, sanciones, integrantes y permisos del perfil seleccionado. Los equipos y torneos con historial tienen restricciones de modificación o eliminación.
 
-    npm ci
-    npm run dev
+### Datos de demostración
 
-Antes de guardar, verifica:
+El proyecto incluye League of Legends, Valorant, Ajedrez, Rocket League y Minecraft.
 
-    npm run build
-    npm test
+Los datos compartidos se gestionan mediante `ArenaProvider` y `crearArenaStore`. Se guardan en `localStorage`, por lo que los cambios se conservan al recargar en el mismo navegador y dirección.
 
-Guarda y sube los cambios a la misma rama:
+El selector permite probar distintos roles y jugadores. Es una simulación académica del frontend.
 
-    git add .
-    git commit -m "Descripcion del cambio"
-    git push origin develo
+Los torneos abiertos generan fechas futuras al crear la demostración. Estas fechas se conservan al recargar. Restablecer la demostración reemplaza los datos locales.
 
-No ejecutes `git init`: el clon ya incluye el historial.
+### Cambios recientes
 
+- Actualización de dependencias: las alertas de npm bajaron de 16 a 4.
+- Recuperación del torneo Rocket League en modalidad 2v2.
+- Corrección de sus equipos, participantes, partidas y ranking.
+- Actualización de los datos guardados anteriormente, conservando las demás inscripciones y perfiles.
+
+Las cuatro alertas restantes corresponden a dependencias de desarrollo utilizadas por Karma.
+
+### Estructura actual
+
+```text
+public/img/          Imágenes de los juegos
+src/components/      Componentes reutilizables
+src/pages/           Pantallas de la aplicación
+src/context/         Datos compartidos
+src/data/            Datos originales y semilla
+src/services/        Validaciones y persistencia
+src/utils/           Funciones de lógica
+src/styles/          Estilos del proyecto
+tests/               Pruebas automatizadas
+```
+
+### Requisitos
+
+- Node.js 20.19 o superior y npm.
+- Git.
+- Navegador web.
+- Chrome para ejecutar las pruebas, o Edge configurado mediante `CHROME_BIN`.
+
+### Clonar y ejecutar
+
+```powershell
+git clone --branch develo https://github.com/jzzzn2110/Frontend-eSports-Arena-Manager.git
+cd Frontend-eSports-Arena-Manager
+git branch --show-current
+npm ci
+npm run dev
+```
+
+La rama debe mostrar `develo`. Abre la dirección que indique Vite en la terminal.
+
+Para EP2 se utiliza Vite; las instrucciones de abrir directamente el HTML corresponden a EP1. No ejecutes `git init` después de clonar: el clon ya contiene el historial.
+
+### Compilación y pruebas
+
+```powershell
+npm run build
+npm test
+```
+
+Si utilizas Edge y Karma no encuentra Chrome:
+
+```powershell
+$env:CHROME_BIN = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+npm test
+```
+
+Para generar el reporte de cobertura:
+
+```powershell
+npm run test:coverage
+```
+
+El reporte se encuentra en `coverage/html/index.html`.
+
+### Estado de las pruebas
+
+Actualmente existen tres pruebas de lógica aprobadas:
+
+1. Los cupos disponibles no pueden ser negativos.
+2. El ranking se ordena por puntos y diferencia sin modificar el arreglo original.
+3. Se distinguen las sanciones vigentes de las terminadas.
+
+La compilación fue comprobada correctamente. Todavía falta ampliar las pruebas de componentes, interacción con el DOM y mocks.
+
+### Trabajo con ramas
+
+- `develo`: integración del desarrollo.
+- `fix/ep2-flujos-y-pruebas`: correcciones de flujos, datos y dependencias.
+- `qa`: validación de la versión integrada.
+- `main`: versión final validada.
+
+Antes de guardar cambios, verifica la rama con `git branch --show-current` y los archivos con `git status`. Sube el commit a la misma rama de trabajo y utiliza un Pull Request para integrarlo.
+
+Las correcciones recientes se integraron desde `fix/ep2-flujos-y-pruebas` hacia `develo`.
+
+### Pendientes de EP2
+
+- Completar las pruebas de componentes y DOM con Jasmine y Karma.
+- Incorporar mocks y analizar la cobertura.
+- Actualizar el documento ERS con las funciones y reglas implementadas.
+- Preparar el documento de testing con casos, resultados y cobertura.
+- Completar la revisión de los flujos en escritorio y celular.
