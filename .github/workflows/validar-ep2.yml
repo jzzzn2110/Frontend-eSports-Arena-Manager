@@ -1,0 +1,29 @@
+name: Validar EP2
+on:
+  push:
+    branches: [main, develo, qa, 'fix/**']
+  pull_request:
+    branches: [main, develo, qa]
+permissions:
+  contents: read
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Jasmine y Karma en Chrome
+        run: |
+          export CHROME_BIN="$(command -v google-chrome)"
+          npm test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cobertura-ep2
+          path: coverage/
