@@ -1,9 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import {
   claseInsigniaTorneo,
   formatearFecha,
   nombreEstado,
-} from '../utils/logica.js';
+  cuposDisponibles,
+  inscripcionFueraDePlazo,
+} from "../utils/logica.js";
 
 // Recibe el torneo y su juego mediante props.
 function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
@@ -11,9 +13,10 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
 
   // Calcula la ocupación a partir de los participantes inscritos.
   const cuposOcupados = torneo.participantesInscritos?.length || 0;
-  const porcentajeCupos = torneo.cupoMaximo > 0
-    ? Math.min(100, Math.round((cuposOcupados / torneo.cupoMaximo) * 100))
-    : 0;
+  const porcentajeCupos =
+    torneo.cupoMaximo > 0
+      ? Math.min(100, Math.round((cuposOcupados / torneo.cupoMaximo) * 100))
+      : 0;
 
   return (
     <article className="tarjeta tarjeta-torneo">
@@ -34,7 +37,7 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
             <p className="tarjeta__meta">
               {juego
                 ? `${juego.nombre} · ${juego.modalidad}`
-                : 'Juego no disponible'}
+                : "Juego no disponible"}
             </p>
           </div>
         </div>
@@ -52,7 +55,9 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
 
         <div className="tarjeta-torneo__dato">
           <span>Cupos ocupados</span>
-          <strong>{cuposOcupados} / {torneo.cupoMaximo}</strong>
+          <strong>
+            {cuposOcupados} / {torneo.cupoMaximo}
+          </strong>
         </div>
       </div>
 
@@ -68,9 +73,7 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
           <span style={{ width: `${porcentajeCupos}%` }} />
         </div>
 
-        <p className="tarjeta__meta">
-          {porcentajeCupos}% de cupos ocupados
-        </p>
+        <p className="tarjeta__meta">{porcentajeCupos}% de cupos ocupados</p>
       </div>
 
       <div className="tarjeta__pie">
@@ -81,14 +84,17 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
           Ver detalle
         </Link>
 
-        {mostrarInscripcion && torneo.estado === 'abierto' && (
-          <Link
-            to={`/inscripcion.html?torneo=${torneo.id}`}
-            className="boton boton-primario boton-pequeno"
-          >
-            Inscribirme
-          </Link>
-        )}
+        {mostrarInscripcion &&
+          torneo.estado === "abierto" &&
+          !inscripcionFueraDePlazo(torneo) &&
+          cuposDisponibles(torneo) > 0 && (
+            <Link
+              to={`/inscripcion.html?torneo=${torneo.id}`}
+              className="boton boton-primario boton-pequeno"
+            >
+              Inscribirme
+            </Link>
+          )}
       </div>
     </article>
   );
