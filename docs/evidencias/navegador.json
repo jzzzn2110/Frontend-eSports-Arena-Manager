@@ -1,0 +1,153 @@
+{
+  "errors": [],
+  "results": [
+    {
+      "name": "inicio",
+      "width": 360,
+      "client": 360,
+      "scroll": 360,
+      "overflow": false
+    },
+    {
+      "name": "torneos",
+      "width": 360,
+      "client": 360,
+      "scroll": 360,
+      "overflow": false
+    },
+    {
+      "name": "detalle",
+      "width": 360,
+      "client": 360,
+      "scroll": 360,
+      "overflow": false
+    },
+    {
+      "name": "inscripcion",
+      "width": 360,
+      "client": 360,
+      "scroll": 360,
+      "overflow": false
+    },
+    {
+      "name": "equipo",
+      "width": 360,
+      "client": 360,
+      "scroll": 360,
+      "overflow": false
+    },
+    {
+      "name": "perfil",
+      "width": 360,
+      "client": 360,
+      "scroll": 360,
+      "overflow": false
+    },
+    {
+      "name": "admin",
+      "width": 360,
+      "client": 360,
+      "scroll": 360,
+      "overflow": false
+    },
+    {
+      "name": "inicio",
+      "width": 768,
+      "client": 768,
+      "scroll": 768,
+      "overflow": false
+    },
+    {
+      "name": "torneos",
+      "width": 768,
+      "client": 768,
+      "scroll": 768,
+      "overflow": false
+    },
+    {
+      "name": "detalle",
+      "width": 768,
+      "client": 768,
+      "scroll": 768,
+      "overflow": false
+    },
+    {
+      "name": "inscripcion",
+      "width": 768,
+      "client": 768,
+      "scroll": 768,
+      "overflow": false
+    },
+    {
+      "name": "equipo",
+      "width": 768,
+      "client": 768,
+      "scroll": 768,
+      "overflow": false
+    },
+    {
+      "name": "perfil",
+      "width": 768,
+      "client": 768,
+      "scroll": 768,
+      "overflow": false
+    },
+    {
+      "name": "admin",
+      "width": 768,
+      "client": 768,
+      "scroll": 768,
+      "overflow": false
+    },
+    {
+      "name": "inicio",
+      "width": 1366,
+      "client": 1366,
+      "scroll": 1366,
+      "overflow": false
+    },
+    {
+      "name": "torneos",
+      "width": 1366,
+      "client": 1366,
+      "scroll": 1366,
+      "overflow": false
+    },
+    {
+      "name": "detalle",
+      "width": 1366,
+      "client": 1366,
+      "scroll": 1366,
+      "overflow": false
+    },
+    {
+      "name": "inscripcion",
+      "width": 1366,
+      "client": 1366,
+      "scroll": 1366,
+      "overflow": false
+    },
+    {
+      "name": "equipo",
+      "width": 1366,
+      "client": 1366,
+      "scroll": 1366,
+      "overflow": false
+    },
+    {
+      "name": "perfil",
+      "width": 1366,
+      "client": 1366,
+      "scroll": 1366,
+      "overflow": false
+    },
+    {
+      "name": "admin",
+      "width": 1366,
+      "client": 1366,
+      "scroll": 1366,
+      "overflow": false
+    }
+  ],
+  "flujos": "inscripción/cancelación, perfil, CRUD equipos y torneos, persistencia tras recarga"
+}

@@ -1054,7 +1054,7 @@ body { --bs-body-bg: var(--color-fondo); --bs-body-color: var(--color-texto); }
 .selector-perfil--panel select { width: 100%; max-width: 100%; }
 .container, .row > *, .card, .tarjeta { min-width: 0; }
 .card h1, .card h2, .card h5, td, .list-group-item { overflow-wrap: anywhere; }
-.table-responsive { max-width: 100%; }
+.table-responsive { max-width: 100%; position: relative; }
 .resumen-inscripcion { border-left: 3px solid var(--color-acento); padding-left: 1rem; }
 .salto-contenido:focus { display: block; padding: 1rem; background: #171020; }
 @media (max-width: 575px) {
