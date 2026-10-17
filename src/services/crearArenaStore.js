@@ -71,6 +71,63 @@ export function crearArenaStore({
         "Datos locales incompatibles",
       );
       datos = contenido.datos;
+
+// Corrige el torneo histórico guardado anteriormente como Ajedrez.
+const historico = datos.TORNEOS.find((t) => t.id === "t4");
+
+if (
+  historico?.juegoId === "g3" &&
+  historico.nombre === "Copa de Ajedrez finalizada"
+) {
+  const base = semilla(ahora());
+  const rocket = base.TORNEOS.find((t) => t.id === "t4");
+
+  if (rocket?.juegoId === "g4") {
+    const equivalencias = {};
+    const inscritos = [];
+
+    base.EQUIPOS
+      .filter((equipo) =>
+        rocket.participantesInscritos.includes(equipo.id)
+      )
+      .forEach((equipo) => {
+        // Usa un ID libre para conservar tus equipos existentes.
+        const numero =
+          Math.max(
+            0,
+            ...datos.EQUIPOS.map((e) => Number(e.id.slice(1)) || 0)
+          ) + 1;
+
+        const id = `e${numero}`;
+
+        datos.EQUIPOS.push({ ...equipo, id });
+        equivalencias[equipo.capitanId] = id;
+        inscritos.push(id);
+      });
+
+    historico.juegoId = "g4";
+    historico.nombre = rocket.nombre;
+    historico.participantesInscritos = inscritos;
+
+    // Conserva las partidas asociándolas a los equipos.
+    datos.PARTIDAS
+      .filter((partida) => partida.torneoId === "t4")
+      .forEach((partida) => {
+        partida.participanteA =
+          equivalencias[partida.participanteA] || partida.participanteA;
+
+        partida.participanteB =
+          equivalencias[partida.participanteB] || partida.participanteB;
+      });
+
+    // Conserva también los puntos del ranking.
+    datos.RANKINGS.t4 = (datos.RANKINGS.t4 || []).map((fila) => ({
+      ...fila,
+      participanteId:
+        equivalencias[fila.participanteId] || fila.participanteId,
+    }));
+  }
+}
     }
   } catch {
     aviso =
