@@ -1,131 +1,21 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>eSports Arena Manager — Inicio</title>
-  <meta name="description" content="Plataforma para organizar y seguir torneos de videojuegos competitivos." />
-  <link rel="stylesheet" href="css/estilos.css" />
-</head>
-<body>
+<!doctype html>
+<html lang="es" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
 
-  <header class="encabezado">
-    <div class="contenedor">
-      <a href="index.html" class="marca">
-        <span class="marca__icono" aria-hidden="true">EA</span>
-        eSports Arena Manager
-      </a>
-      <nav class="nav-principal" aria-label="Navegación principal">
-        <ul>
-          <li><a href="index.html" aria-current="page">Inicio</a></li>
-          <li><a href="torneos.html">Torneos</a></li>
-          <li><a href="inscripcion.html">Inscripción</a></li>
-          <li><a href="equipo.html">Mi equipo</a></li>
-          <li><a href="perfil.html">Perfil</a></li>
-        </ul>
-      </nav>
-      <div class="selector-perfil">
-        <label for="perfil-simulado">Perfil de prueba</label>
-        <select id="perfil-simulado" name="perfil-simulado" autocomplete="off">
-          <option value="visitante">Visitante</option>
-          <option value="jugador">Jugador</option>
-          <option value="organizador">Organizador</option>
-          <option value="administrador">Administrador</option>
-        </select>
-      </div>
-    </div>
-  </header>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <main id="contenido-principal">
+    <meta
+      name="description"
+      content="plataforma para organizar y seguir torneos de juegos competitivos"
+    />
 
-    <section class="heroe">
-      <div class="contenedor">
-        <h1>Organiza y sigue torneos de eSports en un solo lugar</h1>
-        <p>
-          Gestiona juegos habilitados, equipos, inscripciones y resultados con trazabilidad
-          completa. Descubre torneos abiertos, revisa llaves en curso y consulta la tabla
-          de posiciones al instante.
-        </p>
-        <a href="torneos.html" class="boton boton-primario">Explorar torneos</a>
-      </div>
-    </section>
+    <title>eSports Arena Manager</title>
+    <link rel="icon" type="image/png" href="/img/logo_mine.png" />
+  </head>
+  <body>
+    <div id="root"></div>
 
-    <section class="seccion" aria-labelledby="titulo-destacados">
-      <div class="contenedor">
-        <div class="titulo-seccion">
-          <h2 id="titulo-destacados">Torneos destacados</h2>
-          <a href="torneos.html">Ver todos los torneos →</a>
-        </div>
-        <div id="lista-torneos-destacados" class="grilla grilla-tarjetas">
-        </div>
-      </div>
-    </section>
-
-    <section class="seccion" aria-labelledby="titulo-cierres" style="background: var(--color-superficie);">
-      <div class="contenedor">
-        <div class="titulo-seccion">
-          <h2 id="titulo-cierres">Próximos cierres de inscripción</h2>
-        </div>
-        <table id="tabla-cierres">
-          <caption class="oculto">Torneos con inscripción abierta ordenados por fecha de cierre</caption>
-          <thead>
-            <tr>
-              <th scope="col">Torneo</th>
-              <th scope="col">Juego</th>
-              <th scope="col">Cierre de inscripción</th>
-              <th scope="col">Cupos</th>
-              <th scope="col"><span class="oculto">Acción</span></th>
-            </tr>
-          </thead>
-          <tbody id="cuerpo-tabla-cierres">
-            <!-- Filas generadas dinámicamente -->
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="seccion" aria-labelledby="titulo-video">
-      <div class="contenedor" style="text-align:center;">
-        <div class="titulo-seccion" style="justify-content:center;">
-          <h2 id="titulo-video">Revive la última gran final</h2>
-        </div>
-        <div class="video-envoltorio">
-        <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube-nocookie.com/embed/MUkFzpJM1Wo"
-            title="Video de YouTube"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen>
-        </iframe>
-
-        </div>
-        <p style="margin-top: var(--espacio-sm); color: rgba(241,236,255,0.7); font-size:0.9rem;">
-           VIDEO DE YOUTUBE: Final del Torneo de Minecraft
-        </p>
-      </div>
-    </section>
-
-  </main>
-
-  <footer class="pie-pagina">
-    <div class="contenedor">
-      <div>
-        <p><strong>eSports Arena Manager</strong></p>
-        <p>Proyecto académico — Desarrollo FullStack II, DSY1104.</p>
-      </div>
-      <nav aria-label="Enlaces del pie de página">
-        <ul>
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="torneos.html">Torneos</a></li>
-          <li><a href="perfil.html">Perfil</a></li>
-        </ul>
-      </nav>
-    </div>
-  </footer>
-
-  <script src="js/datos.js"></script>
-  <script src="js/inicio.js"></script>
-</body>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

@@ -1,0 +1,726 @@
+{
+  "fechaUTC": "2026-10-17T21:15:20.257Z",
+  "casos": [
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "muestra resultado vacío",
+      "estado": "aprobado",
+      "duracionMs": 16,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "filtra torneos y limpia la búsqueda sin ciclos de renderizado",
+      "estado": "aprobado",
+      "duracionMs": 8,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza la ruta /index.html sin errores",
+      "estado": "aprobado",
+      "duracionMs": 17,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "muestra ranking y premios en el torneo finalizado",
+      "estado": "aprobado",
+      "duracionMs": 8,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "exige confirmación incluso al enviar programáticamente",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "muestra participantes por definir y calendario",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "muestra torneo inexistente",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "inscribe el equipo elegido y actualiza cupos",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "restringe el panel administrativo",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza la ruta /inscripcion.html?torneo=t3 sin errores",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "lee el filtro de estado desde la URL",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "completa inscripción individual y cancelación con cambio real de datos",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "edita el perfil y actualiza su encabezado",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "no inventa historial para un jugador sin inscripciones",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza la ruta /equipo.html sin errores",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza datos recibidos por props en una tarjeta",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "muestra error del servicio simulado sin falso éxito",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "crea torneos desde el panel",
+      "estado": "aprobado",
+      "duracionMs": 4,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "restablece datos tras confirmación del administrador",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "informa la validación de torneo en el panel",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza la ruta /torneo-detalle.html?id=t1 sin errores",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "editar y eliminar un torneo actualiza la tabla",
+      "estado": "aprobado",
+      "duracionMs": 5,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "crea un equipo y agrega integrantes mediante eventos",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza la ruta /torneos.html sin errores",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "bloquea al visitante y a los torneos cerrados",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "edita un equipo y permite cancelar la edición",
+      "estado": "aprobado",
+      "duracionMs": 4,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "confirma la eliminación de un equipo y actualiza el DOM",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "muestra errores de equipo",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "rechaza correo inválido desde el formulario",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "cambia el perfil simulado y permite navegar a administración",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza la ruta /administracion.html sin errores",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza la ruta /perfil.html sin errores",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "valida el rango y elimina el error al corregirlo",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Componentes y rutas de Arena",
+      "caso": "renderiza la ruta /no-existe sin errores",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 3",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "migra Rocket League sin perder perfiles ni equipos existentes y no repite la migración",
+      "estado": "aprobado",
+      "duracionMs": 2,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inválido 5",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza estructuras incompatibles",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inexistente o cerrado",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 1",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 4",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "impide retroceder estados de torneos",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inválido 4",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "actualiza el perfil y lo recupera tras recarga",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza inscripción vencida con reloj controlado",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "persiste la semilla y conserva sus fechas al recargar",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "impide editar el perfil ajeno",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 9",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "protege torneos con participantes",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "inscribe al jugador, actualiza cupos y permite cancelar",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "recupera JSON corrupto con un aviso",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inválido 8",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "restringe la administración y el reinicio",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "crea, lee, actualiza y elimina un equipo",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "protege la instantánea contra mutación externa",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza inscripción ajena",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza perfil inválido 3",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 7",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 8",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipos de otro juego",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza perfil inválido 4",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inactivo",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "publica una instantánea nueva y permite cancelar la suscripción",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza jugador sancionado",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 6",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza visitante y jugador inexistente",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "informa almacenamiento no disponible",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "inscribe un equipo completo",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "no aplica cambios si falla la escritura",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inválido 3",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inválido 2",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza duplicados",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "impide gestionar equipos ajenos",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inválido 1",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "impide modificar o eliminar equipos con historial",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo lleno",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "no cancela inscripciones ajenas ni inexistentes",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inválido 7",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 2",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "crea, actualiza y elimina un torneo vacío",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo incompleto",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza perfil inválido 1",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza torneo inválido 6",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza perfil inválido 2",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo con sancionados",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Servicio de Arena con almacenamiento y reloj aislados",
+      "caso": "rechaza equipo inválido 5",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Lógica de eSports Arena Manager",
+      "caso": "no devuelve cupos negativos",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Lógica de eSports Arena Manager",
+      "caso": "distingue las sanciones vigentes de las terminadas",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Lógica de eSports Arena Manager",
+      "caso": "ordena por puntos y diferencia sin modificar el original",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Fechas, límites y resultados",
+      "caso": "presenta estados conocidos y valores de respaldo",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Fechas, límites y resultados",
+      "caso": "maneja listas vacías y datos ausentes",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Fechas, límites y resultados",
+      "caso": "solo calcula puntos de partidas con resultado del participante",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Fechas, límites y resultados",
+      "caso": "mantiene abierto el último milisegundo del día de cierre local",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Fechas, límites y resultados",
+      "caso": "respeta un cierre con hora explícita",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Fechas, límites y resultados",
+      "caso": "formatea fechas sin desplazar el día",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Fechas, límites y resultados",
+      "caso": "no permite fechas de cierre ausentes o inválidas",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Flujos de eSports Arena Manager",
+      "caso": "filtra los torneos al escribir en el buscador",
+      "estado": "aprobado",
+      "duracionMs": 3,
+      "errores": []
+    },
+    {
+      "suite": "Flujos de eSports Arena Manager",
+      "caso": "oculta el formulario de administración al rol jugador",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Flujos de eSports Arena Manager",
+      "caso": "rechaza una inscripción duplicada sin cambiar los datos",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Flujos de eSports Arena Manager",
+      "caso": "guarda una inscripción y la recupera al crear otro servicio",
+      "estado": "aprobado",
+      "duracionMs": 1,
+      "errores": []
+    },
+    {
+      "suite": "Flujos de eSports Arena Manager",
+      "caso": "impide inscribir un equipo si el jugador no es su capitán",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    },
+    {
+      "suite": "Flujos de eSports Arena Manager",
+      "caso": "exige confirmar, registra la inscripción y permite cancelarla",
+      "estado": "aprobado",
+      "duracionMs": 16,
+      "errores": []
+    },
+    {
+      "suite": "Flujos de eSports Arena Manager",
+      "caso": "conserva los datos si falla el almacenamiento",
+      "estado": "aprobado",
+      "duracionMs": 0,
+      "errores": []
+    }
+  ]
+}

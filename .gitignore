@@ -1,0 +1,7 @@
+# Dependencias instaladas.
+node_modules/
+
+# Archivos generados.
+dist/
+coverage/
+*.log

@@ -1,0 +1,104 @@
+﻿ID,Suite,Caso,Resultado,Duracion_ms
+CP-001,Componentes y rutas de Arena,bloquea al visitante y a los torneos cerrados,aprobado,1
+CP-002,Componentes y rutas de Arena,cambia el perfil simulado y permite navegar a administración,aprobado,2
+CP-003,Componentes y rutas de Arena,completa inscripción individual y cancelación con cambio real de datos,aprobado,3
+CP-004,Componentes y rutas de Arena,confirma la eliminación de un equipo y actualiza el DOM,aprobado,2
+CP-005,Componentes y rutas de Arena,crea torneos desde el panel,aprobado,4
+CP-006,Componentes y rutas de Arena,crea un equipo y agrega integrantes mediante eventos,aprobado,3
+CP-007,Componentes y rutas de Arena,edita el perfil y actualiza su encabezado,aprobado,3
+CP-008,Componentes y rutas de Arena,edita un equipo y permite cancelar la edición,aprobado,4
+CP-009,Componentes y rutas de Arena,editar y eliminar un torneo actualiza la tabla,aprobado,5
+CP-010,Componentes y rutas de Arena,exige confirmación incluso al enviar programáticamente,aprobado,3
+CP-011,Componentes y rutas de Arena,filtra torneos y limpia la búsqueda sin ciclos de renderizado,aprobado,8
+CP-012,Componentes y rutas de Arena,informa la validación de torneo en el panel,aprobado,2
+CP-013,Componentes y rutas de Arena,inscribe el equipo elegido y actualiza cupos,aprobado,3
+CP-014,Componentes y rutas de Arena,lee el filtro de estado desde la URL,aprobado,3
+CP-015,Componentes y rutas de Arena,muestra error del servicio simulado sin falso éxito,aprobado,2
+CP-016,Componentes y rutas de Arena,muestra errores de equipo,aprobado,2
+CP-017,Componentes y rutas de Arena,muestra participantes por definir y calendario,aprobado,2
+CP-018,Componentes y rutas de Arena,muestra ranking y premios en el torneo finalizado,aprobado,8
+CP-019,Componentes y rutas de Arena,muestra resultado vacío,aprobado,16
+CP-020,Componentes y rutas de Arena,muestra torneo inexistente,aprobado,1
+CP-021,Componentes y rutas de Arena,no inventa historial para un jugador sin inscripciones,aprobado,2
+CP-022,Componentes y rutas de Arena,rechaza correo inválido desde el formulario,aprobado,1
+CP-023,Componentes y rutas de Arena,renderiza datos recibidos por props en una tarjeta,aprobado,1
+CP-024,Componentes y rutas de Arena,renderiza la ruta /administracion.html sin errores,aprobado,1
+CP-025,Componentes y rutas de Arena,renderiza la ruta /equipo.html sin errores,aprobado,2
+CP-026,Componentes y rutas de Arena,renderiza la ruta /index.html sin errores,aprobado,17
+CP-027,Componentes y rutas de Arena,renderiza la ruta /inscripcion.html?torneo=t3 sin errores,aprobado,2
+CP-028,Componentes y rutas de Arena,renderiza la ruta /no-existe sin errores,aprobado,1
+CP-029,Componentes y rutas de Arena,renderiza la ruta /perfil.html sin errores,aprobado,1
+CP-030,Componentes y rutas de Arena,renderiza la ruta /torneo-detalle.html?id=t1 sin errores,aprobado,2
+CP-031,Componentes y rutas de Arena,renderiza la ruta /torneos.html sin errores,aprobado,2
+CP-032,Componentes y rutas de Arena,restablece datos tras confirmación del administrador,aprobado,3
+CP-033,Componentes y rutas de Arena,restringe el panel administrativo,aprobado,1
+CP-034,Componentes y rutas de Arena,valida el rango y elimina el error al corregirlo,aprobado,3
+CP-035,"Fechas, límites y resultados",formatea fechas sin desplazar el día,aprobado,0
+CP-036,"Fechas, límites y resultados",maneja listas vacías y datos ausentes,aprobado,0
+CP-037,"Fechas, límites y resultados",mantiene abierto el último milisegundo del día de cierre local,aprobado,0
+CP-038,"Fechas, límites y resultados",no permite fechas de cierre ausentes o inválidas,aprobado,0
+CP-039,"Fechas, límites y resultados",presenta estados conocidos y valores de respaldo,aprobado,0
+CP-040,"Fechas, límites y resultados",respeta un cierre con hora explícita,aprobado,0
+CP-041,"Fechas, límites y resultados",solo calcula puntos de partidas con resultado del participante,aprobado,0
+CP-042,Flujos de eSports Arena Manager,conserva los datos si falla el almacenamiento,aprobado,0
+CP-043,Flujos de eSports Arena Manager,"exige confirmar, registra la inscripción y permite cancelarla",aprobado,16
+CP-044,Flujos de eSports Arena Manager,filtra los torneos al escribir en el buscador,aprobado,3
+CP-045,Flujos de eSports Arena Manager,guarda una inscripción y la recupera al crear otro servicio,aprobado,1
+CP-046,Flujos de eSports Arena Manager,impide inscribir un equipo si el jugador no es su capitán,aprobado,0
+CP-047,Flujos de eSports Arena Manager,oculta el formulario de administración al rol jugador,aprobado,1
+CP-048,Flujos de eSports Arena Manager,rechaza una inscripción duplicada sin cambiar los datos,aprobado,0
+CP-049,Lógica de eSports Arena Manager,distingue las sanciones vigentes de las terminadas,aprobado,0
+CP-050,Lógica de eSports Arena Manager,no devuelve cupos negativos,aprobado,0
+CP-051,Lógica de eSports Arena Manager,ordena por puntos y diferencia sin modificar el original,aprobado,1
+CP-052,Servicio de Arena con almacenamiento y reloj aislados,actualiza el perfil y lo recupera tras recarga,aprobado,0
+CP-053,Servicio de Arena con almacenamiento y reloj aislados,"crea, actualiza y elimina un torneo vacío",aprobado,0
+CP-054,Servicio de Arena con almacenamiento y reloj aislados,"crea, lee, actualiza y elimina un equipo",aprobado,1
+CP-055,Servicio de Arena con almacenamiento y reloj aislados,impide editar el perfil ajeno,aprobado,1
+CP-056,Servicio de Arena con almacenamiento y reloj aislados,impide gestionar equipos ajenos,aprobado,0
+CP-057,Servicio de Arena con almacenamiento y reloj aislados,impide modificar o eliminar equipos con historial,aprobado,0
+CP-058,Servicio de Arena con almacenamiento y reloj aislados,impide retroceder estados de torneos,aprobado,0
+CP-059,Servicio de Arena con almacenamiento y reloj aislados,informa almacenamiento no disponible,aprobado,0
+CP-060,Servicio de Arena con almacenamiento y reloj aislados,"inscribe al jugador, actualiza cupos y permite cancelar",aprobado,0
+CP-061,Servicio de Arena con almacenamiento y reloj aislados,inscribe un equipo completo,aprobado,0
+CP-062,Servicio de Arena con almacenamiento y reloj aislados,migra Rocket League sin perder perfiles ni equipos existentes y no repite la migración,aprobado,2
+CP-063,Servicio de Arena con almacenamiento y reloj aislados,no aplica cambios si falla la escritura,aprobado,1
+CP-064,Servicio de Arena con almacenamiento y reloj aislados,no cancela inscripciones ajenas ni inexistentes,aprobado,1
+CP-065,Servicio de Arena con almacenamiento y reloj aislados,persiste la semilla y conserva sus fechas al recargar,aprobado,0
+CP-066,Servicio de Arena con almacenamiento y reloj aislados,protege la instantánea contra mutación externa,aprobado,0
+CP-067,Servicio de Arena con almacenamiento y reloj aislados,protege torneos con participantes,aprobado,0
+CP-068,Servicio de Arena con almacenamiento y reloj aislados,publica una instantánea nueva y permite cancelar la suscripción,aprobado,0
+CP-069,Servicio de Arena con almacenamiento y reloj aislados,rechaza duplicados,aprobado,0
+CP-070,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo con sancionados,aprobado,0
+CP-071,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inactivo,aprobado,0
+CP-072,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo incompleto,aprobado,1
+CP-073,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 1,aprobado,0
+CP-074,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 2,aprobado,0
+CP-075,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 3,aprobado,0
+CP-076,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 4,aprobado,1
+CP-077,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 5,aprobado,0
+CP-078,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 6,aprobado,0
+CP-079,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 7,aprobado,0
+CP-080,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 8,aprobado,0
+CP-081,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipo inválido 9,aprobado,0
+CP-082,Servicio de Arena con almacenamiento y reloj aislados,rechaza equipos de otro juego,aprobado,0
+CP-083,Servicio de Arena con almacenamiento y reloj aislados,rechaza estructuras incompatibles,aprobado,1
+CP-084,Servicio de Arena con almacenamiento y reloj aislados,rechaza inscripción ajena,aprobado,0
+CP-085,Servicio de Arena con almacenamiento y reloj aislados,rechaza inscripción vencida con reloj controlado,aprobado,1
+CP-086,Servicio de Arena con almacenamiento y reloj aislados,rechaza jugador sancionado,aprobado,0
+CP-087,Servicio de Arena con almacenamiento y reloj aislados,rechaza perfil inválido 1,aprobado,0
+CP-088,Servicio de Arena con almacenamiento y reloj aislados,rechaza perfil inválido 2,aprobado,0
+CP-089,Servicio de Arena con almacenamiento y reloj aislados,rechaza perfil inválido 3,aprobado,1
+CP-090,Servicio de Arena con almacenamiento y reloj aislados,rechaza perfil inválido 4,aprobado,1
+CP-091,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inexistente o cerrado,aprobado,0
+CP-092,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inválido 1,aprobado,0
+CP-093,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inválido 2,aprobado,0
+CP-094,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inválido 3,aprobado,0
+CP-095,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inválido 4,aprobado,0
+CP-096,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inválido 5,aprobado,1
+CP-097,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inválido 6,aprobado,0
+CP-098,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inválido 7,aprobado,0
+CP-099,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo inválido 8,aprobado,1
+CP-100,Servicio de Arena con almacenamiento y reloj aislados,rechaza torneo lleno,aprobado,0
+CP-101,Servicio de Arena con almacenamiento y reloj aislados,rechaza visitante y jugador inexistente,aprobado,1
+CP-102,Servicio de Arena con almacenamiento y reloj aislados,recupera JSON corrupto con un aviso,aprobado,0
+CP-103,Servicio de Arena con almacenamiento y reloj aislados,restringe la administración y el reinicio,aprobado,0
