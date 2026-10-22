@@ -62,7 +62,7 @@ function Cabecera({
       </span>
 
       <span className="rankforge-brand__subtitulo">
-        Bracket Â· rankings Â· inscripciones Â· equipos
+        Bracket &middot; rankings &middot; inscripciones &middot; equipos
       </span>
     </div>
   </Link>
@@ -70,7 +70,7 @@ function Cabecera({
 
 
 
-        <nav className="nav-principal" aria-label="NavegaciÃ³n principal">
+        <nav className="nav-principal" aria-label="Navegación principal">
           <ul>
             {[
               ...enlaces,
@@ -78,7 +78,7 @@ function Cabecera({
                 ? [
                     {
                       ruta: "/administracion.html",
-                      texto: "AdministraciÃ³n",
+                      texto: "Administración",
                       claves: ["/administracion.html"],
                     },
                   ]
@@ -105,7 +105,9 @@ function Cabecera({
             aria-label={tema === "oscuro" ? "Activar modo claro" : "Activar modo oscuro"}
             aria-pressed={tema === "oscuro"}
             title={tema === "oscuro" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}>
-            <span className="boton-tema__icono" aria-hidden="true">{tema === "oscuro" ? "â˜€" : "â˜¾"}</span>
+            <span className="boton-tema__icono" aria-hidden="true">
+              {tema === "oscuro" ? "\u2600" : "\u263E"}
+            </span>
             <span>{tema === "oscuro" ? "Modo claro" : "Modo oscuro"}</span>
           </button>
         </div>
