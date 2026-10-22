@@ -12,8 +12,23 @@ import Administracion from "./pages/Administracion.jsx";
 import { useArena } from "./context/ArenaContext.jsx";
 const ROLES = ["visitante", "jugador", "organizador", "administrador"];
 const CLAVE = "esports-arena-sesion-v2";
+const CLAVE_TEMA = "esports-arena-tema";
+function temaInicial() {
+  try {
+    const temaGuardado = localStorage.getItem(CLAVE_TEMA);
+    if (temaGuardado === "oscuro" || temaGuardado === "claro") return temaGuardado;
+  } catch { /* Navegación privada: usar tema claro. */ }
+  return "claro";
+}
 export default function App() {
   const { datos, aviso } = useArena();
+  const [tema, setTema] = useState(temaInicial);
+  useEffect(() => {
+    document.documentElement.dataset.tema = tema;
+    document.documentElement.setAttribute("data-bs-theme", tema === "oscuro" ? "dark" : "light");
+    document.documentElement.style.colorScheme = tema === "oscuro" ? "dark" : "light";
+    try { localStorage.setItem(CLAVE_TEMA, tema); } catch { /* Persistencia no disponible. */ }
+  }, [tema]);
   const [sesion, setSesion] = useState(() => {
     try {
       const guardada = JSON.parse(localStorage.getItem(CLAVE));
@@ -43,6 +58,8 @@ export default function App() {
         Saltar al contenido
       </a>
       <Cabecera
+        tema={tema}
+        onTemaChange={() => setTema((anterior) => anterior === "oscuro" ? "claro" : "oscuro")}
         perfil={sesion.rol}
         jugadores={datos.JUGADORES}
         jugadorId={sesion.jugadorId}

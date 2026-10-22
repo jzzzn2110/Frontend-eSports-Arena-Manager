@@ -10,7 +10,7 @@ function Inicio() {
   const torneos = datos.TORNEOS;
   const juegos = datos.JUEGOS;
   useEffect(() => {
-    document.title = "eSports Arena Manager — Inicio";
+    document.title = "RankForge — Inicio";
   }, []);
 
   // Selecciona los torneos abiertos y en curso.

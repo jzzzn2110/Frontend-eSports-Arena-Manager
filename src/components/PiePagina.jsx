@@ -6,7 +6,7 @@ function PiePagina() {
       <div className="contenedor">
         <div>
           <p>
-            <strong>eSports Arena Manager</strong>
+            <strong>RankForge</strong>
           </p>
           <p>Proyecto académico - Desarrollo fullstack</p>
         </div>

@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+﻿import { Link, useLocation } from "react-router-dom";
 const enlaces = [
   {
     ruta: "/index.html",
@@ -30,6 +30,8 @@ const enlaces = [
 // Recibe el perfil y la funcion para cambiarlo mediante props.
 function Cabecera({
   perfil = "visitante",
+  tema = "claro",
+  onTemaChange = () => {},
   onPerfilChange = () => {},
   jugadores = [],
   jugadorId,
@@ -40,20 +42,35 @@ function Cabecera({
   return (
     <header className="encabezado">
       <div className="contenedor encabezado__contenedor">
-        <div className="encabezado__principal">
-          <Link to="/index.html" className="marca">
-            <span className="marca__icono" aria-hidden="true">
-              EA
-            </span>
-            <span>eSports Arena Manager</span>
-          </Link>
 
-          <p className="encabezado__subtitulo">
-            Bracket · rankings · inscripciones · equipos
-          </p>
-        </div>
 
-        <nav className="nav-principal" aria-label="Navegación principal">
+<div className="encabezado__principal">
+  <Link
+    to="/index.html"
+    className="rankforge-brand"
+    aria-label="Ir al inicio de RankForge"
+  >
+    <img
+      src="/img/logo_pagina.png"
+      alt="Logo de RankForge"
+      className="rankforge-brand__logo"
+    />
+
+    <div className="rankforge-brand__contenido">
+      <span className="rankforge-brand__nombre">
+        RankForge
+      </span>
+
+      <span className="rankforge-brand__subtitulo">
+        Bracket Â· rankings Â· inscripciones Â· equipos
+      </span>
+    </div>
+  </Link>
+</div>
+
+
+
+        <nav className="nav-principal" aria-label="NavegaciÃ³n principal">
           <ul>
             {[
               ...enlaces,
@@ -61,7 +78,7 @@ function Cabecera({
                 ? [
                     {
                       ruta: "/administracion.html",
-                      texto: "Administración",
+                      texto: "AdministraciÃ³n",
                       claves: ["/administracion.html"],
                     },
                   ]
@@ -82,6 +99,16 @@ function Cabecera({
             })}
           </ul>
         </nav>
+
+        <div className="acciones-cabecera">
+          <button className="boton-tema" type="button" onClick={onTemaChange}
+            aria-label={tema === "oscuro" ? "Activar modo claro" : "Activar modo oscuro"}
+            aria-pressed={tema === "oscuro"}
+            title={tema === "oscuro" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}>
+            <span className="boton-tema__icono" aria-hidden="true">{tema === "oscuro" ? "â˜€" : "â˜¾"}</span>
+            <span>{tema === "oscuro" ? "Modo claro" : "Modo oscuro"}</span>
+          </button>
+        </div>
 
         <div className="selector-perfil selector-perfil--panel">
           <label
