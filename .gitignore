@@ -5,3 +5,8 @@ node_modules/
 dist/
 coverage/
 *.log
+
+# Configuración local de la API.
+.env
+.env.*
+!.env.example
