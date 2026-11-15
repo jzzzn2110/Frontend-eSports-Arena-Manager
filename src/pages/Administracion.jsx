@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useArena } from "../context/ArenaContext.jsx";
 import { formatearFecha, nombreEstado } from "../utils/logica.js";
 import Confirmacion from "../components/Confirmacion.jsx";
+import { apiConfigurada } from "../services/api.js";
+import AdministracionApi from "./AdministracionApi.jsx";
 
 const vacio = {
   nombre: "",
@@ -12,6 +14,12 @@ const vacio = {
   fechaInicio: "",
 };
 export default function Administracion({ actor }) {
+  return apiConfigurada
+    ? <AdministracionApi key={actor.rol} actor={actor} />
+    : <AdministracionDemo actor={actor} />;
+}
+
+function AdministracionDemo({ actor }) {
   const { datos, store } = useArena();
   const [form, setForm] = useState(vacio);
   const [id, setId] = useState(null);
