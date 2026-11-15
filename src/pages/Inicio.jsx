@@ -2,16 +2,25 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 import TarjetaTorneo from "../components/TarjetaTorneo.jsx";
-import { useArena } from "../context/ArenaContext.jsx";
+import EstadoCatalogo from "../components/EstadoCatalogo.jsx";
+import { useCatalogo } from "../context/useCatalogo.js";
 import { formatearFecha, inscripcionFueraDePlazo } from "../utils/logica.js";
 
 function Inicio() {
-  const { datos } = useArena();
-  const torneos = datos.TORNEOS;
-  const juegos = datos.JUEGOS;
+  const catalogo = useCatalogo();
   useEffect(() => {
     document.title = "RankForge — Inicio";
   }, []);
+
+  if (catalogo.estado !== "listo") {
+    return (
+      <main className="contenedor py-4">
+        <h1>Inicio</h1>
+        <EstadoCatalogo {...catalogo} />
+      </main>
+    );
+  }
+  const { juegos, torneos, desdeApi } = catalogo;
 
   // Selecciona los torneos abiertos y en curso.
   const destacados = torneos.filter(
@@ -80,10 +89,12 @@ function Inicio() {
                 <span>Juegos habilitados</span>
               </div>
 
-              <div className="resumen-inicio__dato">
-                <strong>{participantes}</strong>
-                <span>Participantes registrados</span>
-              </div>
+              {!desdeApi && (
+                <div className="resumen-inicio__dato">
+                  <strong>{participantes}</strong>
+                  <span>Participantes registrados</span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -158,15 +169,15 @@ function Inicio() {
                     <th scope="col">Torneo</th>
                     <th scope="col">Juego</th>
                     <th scope="col">Cierre</th>
-                    <th scope="col">Cupos</th>
-                    <th scope="col">Inscripción</th>
+                    <th scope="col">{desdeApi ? "Cupo máximo" : "Cupos"}</th>
+                    {!desdeApi && <th scope="col">Inscripción</th>}
                   </tr>
                 </thead>
 
                 <tbody>
                   {abiertos.length === 0 ? (
                     <tr>
-                      <td colSpan={5}>
+                      <td colSpan={desdeApi ? 4 : 5}>
                         No hay cierres de inscripción próximos.
                       </td>
                     </tr>
@@ -180,19 +191,21 @@ function Inicio() {
                         <td>{formatearFecha(torneo.fechaCierreInscripcion)}</td>
 
                         <td>
-                          {torneo.participantesInscritos?.length || 0}
-                          {" / "}
+                          {!desdeApi &&
+                            `${torneo.participantesInscritos?.length || 0} / `}
                           {torneo.cupoMaximo}
                         </td>
 
-                        <td>
-                          <Link
-                            to={`/inscripcion.html?torneo=${torneo.id}`}
-                            className="boton boton-primario boton-pequeno"
-                          >
-                            Inscribirme
-                          </Link>
-                        </td>
+                        {!desdeApi && (
+                          <td>
+                            <Link
+                              to={`/inscripcion.html?torneo=${torneo.id}`}
+                              className="boton boton-primario boton-pequeno"
+                            >
+                              Inscribirme
+                            </Link>
+                          </td>
+                        )}
                       </tr>
                     ))
                   )}

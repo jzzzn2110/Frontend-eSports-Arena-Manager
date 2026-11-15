@@ -11,8 +11,8 @@ import {
 function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
   if (!torneo) return null;
 
-  // Calcula la ocupación a partir de los participantes inscritos.
-  const cuposOcupados = torneo.participantesInscritos?.length || 0;
+  const ocupacionConocida = Array.isArray(torneo.participantesInscritos);
+  const cuposOcupados = torneo.participantesInscritos?.length ?? 0;
   const porcentajeCupos =
     torneo.cupoMaximo > 0
       ? Math.min(100, Math.round((cuposOcupados / torneo.cupoMaximo) * 100))
@@ -22,15 +22,15 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
     <article className="tarjeta tarjeta-torneo">
       <div className="tarjeta-torneo__header">
         <div className="tarjeta-torneo__identidad">
-          <div className="tarjeta-torneo__icono">
-            {juego?.icono && (
+          {juego?.icono && (
+            <div className="tarjeta-torneo__icono">
               <img
                 src={juego.icono}
                 alt={juego.nombre}
                 className="icono-juego"
               />
-            )}
-          </div>
+            </div>
+          )}
 
           <div className="tarjeta-torneo__texto">
             <h3>{torneo.nombre}</h3>
@@ -54,27 +54,29 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
         </div>
 
         <div className="tarjeta-torneo__dato">
-          <span>Cupos ocupados</span>
+          <span>{ocupacionConocida ? "Cupos ocupados" : "Cupo máximo"}</span>
           <strong>
-            {cuposOcupados} / {torneo.cupoMaximo}
+            {ocupacionConocida && `${cuposOcupados} / `}
+            {torneo.cupoMaximo}
           </strong>
         </div>
       </div>
 
-      <div className="tarjeta-torneo__ocupacion">
-        <div
-          className="tarjeta-torneo__ocupacion-barra"
-          role="progressbar"
-          aria-label="Ocupación del torneo"
-          aria-valuemin={0}
-          aria-valuemax={100}
-          aria-valuenow={porcentajeCupos}
-        >
-          <span style={{ width: `${porcentajeCupos}%` }} />
+      {ocupacionConocida && (
+        <div className="tarjeta-torneo__ocupacion">
+          <div
+            className="tarjeta-torneo__ocupacion-barra"
+            role="progressbar"
+            aria-label="Ocupación del torneo"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={porcentajeCupos}
+          >
+            <span style={{ width: `${porcentajeCupos}%` }} />
+          </div>
+          <p className="tarjeta__meta">{porcentajeCupos}% de cupos ocupados</p>
         </div>
-
-        <p className="tarjeta__meta">{porcentajeCupos}% de cupos ocupados</p>
-      </div>
+      )}
 
       <div className="tarjeta__pie">
         <Link
@@ -85,6 +87,7 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
         </Link>
 
         {mostrarInscripcion &&
+          ocupacionConocida &&
           torneo.estado === "abierto" &&
           !inscripcionFueraDePlazo(torneo) &&
           cuposDisponibles(torneo) > 0 && (

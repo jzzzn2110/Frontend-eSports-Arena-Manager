@@ -142,6 +142,23 @@ describe("Componentes y rutas de Arena", () => {
         .getAttribute("aria-valuenow"),
     ).toBe("13");
   });
+  it("muestra solo el cupo máximo si el catálogo no informa la ocupación", () => {
+    montar(
+      <TarjetaTorneo
+        torneo={{
+          id: "1",
+          nombre: "Copa RankForge",
+          estado: "abierto",
+          fechaCierreInscripcion: "2030-02-01",
+          cupoMaximo: 16,
+        }}
+        mostrarInscripcion
+      />,
+    );
+    expect(texto()).toMatch(/Cupo máximo\s*16/);
+    expect(contenedor.querySelector('[role="progressbar"]')).toBeNull();
+    expect(contenedor.querySelector('a[href*="inscripcion"]')).toBeNull();
+  });
   it("completa inscripción individual y cancelación con cambio real de datos", () => {
     montar(<Inscripcion actor={actor} />, "/inscripcion.html?torneo=t3");
     expect(texto()).toContain("Participante individual");

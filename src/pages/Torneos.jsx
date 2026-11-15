@@ -1,36 +1,58 @@
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useArena } from "../context/ArenaContext.jsx";
+import { useCatalogo } from "../context/useCatalogo.js";
+import { normalizarEstadoTorneo } from "../services/adapters.js";
+import EstadoCatalogo from "../components/EstadoCatalogo.jsx";
 import TarjetaTorneo from "../components/TarjetaTorneo.jsx";
+import { nombreEstado } from "../utils/logica.js";
+
+const filtrosIniciales = { texto: "", juego: "", desde: "", hasta: "" };
+const estadosDemo = ["abierto", "en-curso", "finalizado"];
+const estadosApi = ["borrador", "abierto", "cerrado", "en-curso", "finalizado", "cancelado"];
+
 export default function Torneos() {
-  const { datos } = useArena();
-  const [params] = useSearchParams();
-  const [filtros, setFiltros] = useState({
-    texto: "",
-    juego: "",
-    estado: params.get("estado") || "",
-    desde: "",
-    hasta: "",
-  });
+  const catalogo = useCatalogo();
+  const [params, setParams] = useSearchParams();
+  const [filtros, setFiltros] = useState(filtrosIniciales);
   const cambiar = (e) =>
     setFiltros((f) => ({ ...f, [e.target.name]: e.target.value }));
+  if (catalogo.estado !== "listo") {
+    return (
+      <main className="container py-4">
+        <h1>Torneos</h1>
+        <EstadoCatalogo {...catalogo} />
+      </main>
+    );
+  }
+  const { juegos, desdeApi } = catalogo;
+  const estados = desdeApi ? estadosApi : estadosDemo;
+  const estadoUrl = normalizarEstadoTorneo(params.get("estado") ?? "");
+  const estado = estados.includes(estadoUrl) ? estadoUrl : "";
+  const cambiarEstado = (valor) => {
+    const siguiente = new URLSearchParams(params);
+    if (valor) siguiente.set("estado", valor);
+    else siguiente.delete("estado");
+    setParams(siguiente, { replace: true });
+  };
+
+  const nombreBuscado = filtros.texto.trim().toLocaleLowerCase();
   const error = filtros.desde && filtros.hasta && filtros.desde > filtros.hasta;
   const torneos = error
     ? []
-    : datos.TORNEOS.filter(
-        (t) =>
-          t.nombre
-            .toLocaleLowerCase()
-            .includes(filtros.texto.trim().toLocaleLowerCase()) &&
+    : catalogo.torneos.filter((t) => {
+        const fechaInicio = t.fechaInicio?.slice(0, 10);
+        return (
+          t.nombre.toLocaleLowerCase().includes(nombreBuscado) &&
           (!filtros.juego || t.juegoId === filtros.juego) &&
-          (!filtros.estado || t.estado === filtros.estado) &&
-          (!filtros.desde || t.fechaInicio >= filtros.desde) &&
-          (!filtros.hasta || t.fechaInicio <= filtros.hasta),
-      );
+          (!estado || t.estado === estado) &&
+          (!filtros.desde || (fechaInicio && fechaInicio >= filtros.desde)) &&
+          (!filtros.hasta || (fechaInicio && fechaInicio <= filtros.hasta))
+        );
+      });
   return (
     <main className="container py-4">
       <h1>Torneos</h1>
-      <p>Encuentra tu próxima competencia y revisa los cupos disponibles.</p>
+      <p>Encuentra tu próxima competencia y revisa sus fechas y cupos.</p>
       <form
         className="card p-3 mb-4"
         onSubmit={(e) => e.preventDefault()}
@@ -61,7 +83,7 @@ export default function Torneos() {
               onChange={cambiar}
             >
               <option value="">Todos</option>
-              {datos.JUEGOS.map((j) => (
+              {juegos.map((j) => (
                 <option key={j.id} value={j.id}>
                   {j.nombre}
                 </option>
@@ -76,13 +98,13 @@ export default function Torneos() {
               id="estado"
               className="form-select"
               name="estado"
-              value={filtros.estado}
-              onChange={cambiar}
+              value={estado}
+              onChange={(e) => cambiarEstado(e.target.value)}
             >
               <option value="">Todos</option>
-              <option value="abierto">Abierto</option>
-              <option value="en-curso">En curso</option>
-              <option value="finalizado">Finalizado</option>
+              {estados.map((valor) => (
+                <option key={valor} value={valor}>{nombreEstado(valor)}</option>
+              ))}
             </select>
           </div>
           <div className="col-md-4">
@@ -115,15 +137,10 @@ export default function Torneos() {
             <button
               className="btn btn-outline-light"
               type="button"
-              onClick={() =>
-                setFiltros({
-                  texto: "",
-                  juego: "",
-                  estado: "",
-                  desde: "",
-                  hasta: "",
-                })
-              }
+              onClick={() => {
+                setFiltros(filtrosIniciales);
+                cambiarEstado("");
+              }}
             >
               Limpiar filtros
             </button>
@@ -141,7 +158,9 @@ export default function Torneos() {
       </p>
       {!error && !torneos.length && (
         <p className="alert alert-info">
-          No hay torneos que coincidan con los filtros.
+          {catalogo.torneos.length === 0
+            ? "No hay torneos publicados."
+            : "No hay torneos que coincidan con los filtros."}
         </p>
       )}
       <div className="row g-4">
@@ -149,8 +168,8 @@ export default function Torneos() {
           <div className="col-md-6 col-xl-4" key={t.id}>
             <TarjetaTorneo
               torneo={t}
-              juego={datos.JUEGOS.find((j) => j.id === t.juegoId)}
-              mostrarInscripcion
+              juego={juegos.find((j) => j.id === t.juegoId)}
+              mostrarInscripcion={!desdeApi}
             />
           </div>
         ))}

@@ -1,7 +1,14 @@
 // Funciones puras compartidas. Los datos vivos pertenecen a ArenaProvider.
 export function nombreEstado(estado) {
   return (
-    { abierto: "Abierto", "en-curso": "En curso", finalizado: "Finalizado" }[
+    {
+      borrador: "Borrador",
+      abierto: "Abierto",
+      cerrado: "Cerrado",
+      "en-curso": "En curso",
+      finalizado: "Finalizado",
+      cancelado: "Cancelado",
+    }[
       estado
     ] || estado
   );

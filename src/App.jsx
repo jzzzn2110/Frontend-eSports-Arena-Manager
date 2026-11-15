@@ -10,6 +10,7 @@ import Equipo from "./pages/Equipo.jsx";
 import Perfil from "./pages/Perfil.jsx";
 import Administracion from "./pages/Administracion.jsx";
 import { useArena } from "./context/ArenaContext.jsx";
+import { apiConfigurada } from "./services/api.js";
 const ROLES = ["visitante", "jugador", "organizador", "administrador"];
 const CLAVE = "esports-arena-sesion-v2";
 const CLAVE_TEMA = "esports-arena-tema";
@@ -69,8 +70,9 @@ export default function App() {
         onJugadorChange={(jugadorId) => setSesion((s) => ({ ...s, jugadorId }))}
       />
       <div className="contenedor aviso-demo">
-        Demostración académica · perfiles simulados · datos guardados en este
-        navegador
+        {apiConfigurada
+          ? "Demostración académica · perfiles, equipos e inscripciones simulados"
+          : "Demostración académica · perfiles simulados · datos guardados en este navegador"}
       </div>
       {aviso && (
         <div className="container alert alert-warning" role="status">

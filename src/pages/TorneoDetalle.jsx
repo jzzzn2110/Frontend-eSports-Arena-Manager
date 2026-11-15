@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import EstadoCatalogo from "../components/EstadoCatalogo.jsx";
 import { useArena } from "../context/ArenaContext.jsx";
+import { useCatalogo } from "../context/useCatalogo.js";
+import { apiConfigurada } from "../services/api.js";
 import {
   nombreEstado,
   formatearFecha,
@@ -9,22 +12,19 @@ import {
   ordenarRanking,
 } from "../utils/logica.js";
 function TorneoDetalle() {
-  const { datos } = useArena();
   const [params] = useSearchParams();
-  const { TORNEOS, PARTIDAS, RANKINGS, PREMIOS, JUEGOS, JUGADORES, EQUIPOS } =
-    datos;
-  const torneoActual = TORNEOS.find((t) => t.id === params.get("id"));
-  const obtenerJuegoPorId = (id) => JUEGOS.find((j) => j.id === id);
-  const obtenerNombreParticipante = (torneo, id) => {
-    if (!id) return "Por definir";
-    const individual =
-      obtenerJuegoPorId(torneo.juegoId).integrantesPorEquipo === 1;
-    return individual
-      ? JUGADORES.find((j) => j.id === id)?.apodo ||
-          "Participante no disponible"
-      : EQUIPOS.find((e) => e.id === id)?.nombre || "Equipo no disponible";
-  };
-  const [rondaSeleccionada, setRondaSeleccionada] = useState(1);
+  const catalogo = useCatalogo(params.get("id"));
+  if (catalogo.estado !== "listo") {
+    return (
+      <main className="container my-4">
+        <h1>Detalle del torneo</h1>
+        <EstadoCatalogo {...catalogo} />
+        <Link to="/torneos.html">Volver a torneos</Link>
+      </main>
+    );
+  }
+
+  const { torneo: torneoActual, juego, desdeApi } = catalogo;
   if (!torneoActual) {
     return (
       <main className="container my-5" id="torneo-no-encontrado">
@@ -37,7 +37,69 @@ function TorneoDetalle() {
     );
   }
 
-  const juego = obtenerJuegoPorId(torneoActual.juegoId);
+  let claseEstado = "bg-secondary";
+  if (torneoActual.estado === "abierto") claseEstado = "bg-success";
+  if (torneoActual.estado === "en-curso") claseEstado = "bg-warning text-dark";
+
+  return (
+    <main className="container my-4" id="torneo-contenido">
+      <div className="card mb-4 p-3 shadow-sm">
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <h1 id="torneo-nombre" className="h2 mb-0">
+            {torneoActual.nombre}
+          </h1>
+          <span id="torneo-insignia" className={`badge ${claseEstado} fs-6`}>
+            {nombreEstado(torneoActual.estado)}
+          </span>
+        </div>
+        <p id="torneo-juego-modalidad" className="text-muted mb-3">
+          {juego
+            ? `${juego.nombre} · ${juego.modalidad}`
+            : "Juego no disponible"}
+        </p>
+        {apiConfigurada && !desdeApi && <p className="text-muted">Torneo de demostración</p>}
+        <div className="row g-2 text-center border-top pt-3">
+          <div className="col-md-4">
+            <strong>Cierre de inscripción:</strong>
+            <div id="torneo-cierre">
+              {formatearFecha(torneoActual.fechaCierreInscripcion)}
+            </div>
+          </div>
+          <div className="col-md-4">
+            <strong>Inicio:</strong>
+            <div id="torneo-inicio">
+              {formatearFecha(torneoActual.fechaInicio)}
+            </div>
+          </div>
+          <div className="col-md-4">
+            <strong>{desdeApi ? "Cupo máximo" : "Cupos"}:</strong>
+            <div id="torneo-cupos">
+              {desdeApi
+                ? torneoActual.cupoMaximo
+                : `${torneoActual.participantesInscritos.length} / ${torneoActual.cupoMaximo} (${cuposDisponibles(torneoActual)} disponibles)`}
+            </div>
+          </div>
+        </div>
+      </div>
+      {desdeApi
+        ? <Link to="/torneos.html">Volver a torneos</Link>
+        : <DetalleDemostracion torneoActual={torneoActual} juego={juego} />}
+    </main>
+  );
+}
+
+function DetalleDemostracion({ torneoActual, juego }) {
+  const { datos } = useArena();
+  const { PARTIDAS, RANKINGS, PREMIOS, JUGADORES, EQUIPOS } = datos;
+  const [rondaSeleccionada, setRondaSeleccionada] = useState(1);
+
+  const obtenerNombreParticipante = (id) => {
+    if (!id) return "Por definir";
+    return juego?.integrantesPorEquipo === 1
+      ? JUGADORES.find((j) => j.id === id)?.apodo || "Participante no disponible"
+      : EQUIPOS.find((e) => e.id === id)?.nombre || "Equipo no disponible";
+  };
+
   const ranking = RANKINGS[torneoActual.id] || [];
   const rankingOrdenado = ordenarRanking(ranking);
   const premios = PREMIOS[torneoActual.id] || [];
@@ -59,12 +121,6 @@ function TorneoDetalle() {
           : rondasDisponibles[0]),
   );
 
-  const claseInsigniaTorneo = (estado) => {
-    if (estado === "abierto") return "bg-success";
-    if (estado === "en-curso") return "bg-warning text-dark";
-    return "bg-secondary";
-  };
-
   const nombrePartidaEstado = (estado) => {
     const mapa = {
       programada: "Programada",
@@ -76,47 +132,7 @@ function TorneoDetalle() {
   };
 
   return (
-    <main className="container my-4" id="torneo-contenido">
-      {/* Datos Generales */}
-      <div className="card mb-4 p-3 shadow-sm">
-        <div className="d-flex justify-content-between align-items-center mb-2">
-          <h1 id="torneo-nombre" className="h2 mb-0">
-            {torneoActual.nombre}
-          </h1>
-          <span
-            id="torneo-insignia"
-            className={`badge ${claseInsigniaTorneo(torneoActual.estado)} fs-6`}
-          >
-            {nombreEstado(torneoActual.estado)}
-          </span>
-        </div>
-        <p id="torneo-juego-modalidad" className="text-muted mb-3">
-          {juego
-            ? `${juego.nombre} · ${juego.modalidad}`
-            : "Juego no disponible"}
-        </p>
-        <div className="row g-2 text-center border-top pt-3">
-          <div className="col-md-4">
-            <strong>Cierre de inscripción:</strong>
-            <div id="torneo-cierre">
-              {formatearFecha(torneoActual.fechaCierreInscripcion)}
-            </div>
-          </div>
-          <div className="col-md-4">
-            <strong>Inicio:</strong>
-            <div id="torneo-inicio">
-              {formatearFecha(torneoActual.fechaInicio)}
-            </div>
-          </div>
-          <div className="col-md-4">
-            <strong>Cupos:</strong>
-            <div id="torneo-cupos">
-              {`${torneoActual.participantesInscritos.length} / ${torneoActual.cupoMaximo} (${cuposDisponibles(torneoActual)} disponibles)`}
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <>
       {/* Participantes */}
       <div className="card mb-4 p-3 shadow-sm">
         <h4>Participantes</h4>
@@ -128,7 +144,7 @@ function TorneoDetalle() {
           ) : (
             torneoActual.participantesInscritos.map((id) => (
               <span key={id} className="badge bg-secondary fs-6">
-                {obtenerNombreParticipante(torneoActual, id)}
+                {obtenerNombreParticipante(id)}
               </span>
             ))
           )}
@@ -158,14 +174,8 @@ function TorneoDetalle() {
             </p>
           ) : (
             partidasRonda.map((partida) => {
-              const nombreA = obtenerNombreParticipante(
-                torneoActual,
-                partida.participanteA,
-              );
-              const nombreB = obtenerNombreParticipante(
-                torneoActual,
-                partida.participanteB,
-              );
+              const nombreA = obtenerNombreParticipante(partida.participanteA);
+              const nombreB = obtenerNombreParticipante(partida.participanteB);
               return (
                 <div
                   key={partida.id}
@@ -214,10 +224,7 @@ function TorneoDetalle() {
                   <tr key={fila.participanteId || indice}>
                     <td>{indice + 1}</td>
                     <td>
-                      {obtenerNombreParticipante(
-                        torneoActual,
-                        fila.participanteId,
-                      )}
+                      {obtenerNombreParticipante(fila.participanteId)}
                     </td>
                     <td>{fila.puntos}</td>
                     <td>
@@ -260,7 +267,7 @@ function TorneoDetalle() {
           Gestionar inscripción
         </Link>
       )}
-    </main>
+    </>
   );
 }
 
