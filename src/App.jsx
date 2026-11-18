@@ -189,15 +189,7 @@ export default function App() {
             path="/perfil.html"
             element={
               <RutaProtegida>
-                {sesion.jugadorId ? (
-                  <Perfil actor={sesion} />
-                ) : (
-                  <main className="container py-5">
-                    <h1>Mi perfil</h1>
-                    <p>Correo: {sesion.email}</p>
-                    <p>Rol: {sesion.rol}</p>
-                  </main>
-                )}
+                <Perfil />
               </RutaProtegida>
             }
           />

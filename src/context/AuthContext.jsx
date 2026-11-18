@@ -59,6 +59,30 @@ function sesionInicial() {
 export function AuthProvider({ children }) {
   const [sesion, setSesion] = useState(sesionInicial);
 
+  // Detectar sesiones rechazadas por el backend
+  useEffect(() => {
+    function manejarSesionInvalida(evento) {
+      if (
+        sesion.token &&
+        evento.detail?.token === sesion.token
+      ) {
+        logout();
+      }
+    }
+
+    window.addEventListener(
+      "rankforge:sesion-invalida",
+      manejarSesionInvalida
+    );
+
+    return () => {
+      window.removeEventListener(
+        "rankforge:sesion-invalida",
+        manejarSesionInvalida
+      );
+    };
+  }, [sesion.token]);
+
   // Guardar o eliminar la sesion
   useEffect(() => {
     try {
@@ -104,6 +128,11 @@ export function AuthProvider({ children }) {
 
   // Cerrar sesion
   function logout() {
+    try {
+      localStorage.removeItem(CLAVE);
+    } catch {
+      // Almacenamiento no disponible
+    }
     setSesion(sesionVisitante());
   }
 

@@ -42,7 +42,7 @@ function Cabecera({
 
   function cerrarSesion() {
     onLogout();
-    navigate("/index.html");
+    navigate("/login.html", { replace: true });
   }
 
   const enlacesVisibles = autenticado

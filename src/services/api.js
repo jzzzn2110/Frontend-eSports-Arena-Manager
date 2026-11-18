@@ -90,6 +90,19 @@ export async function request(path, { token, json, headers, ...options } = {}) {
         if (options.signal?.aborted) throw error;
       }
     }
+    // Gestionar una sesion rechazada por el backend
+    if (
+      respuesta.status === 401 &&
+      !rutaPublica &&
+      tokenActual
+    ) {
+      window.dispatchEvent(
+        new CustomEvent("rankforge:sesion-invalida", {
+          detail: { token: tokenActual },
+        })
+      );
+    }
+
     throw new ApiError(respuesta.status, detalle);
   }
   if (respuesta.status === 204 || respuesta.status === 205 || options.method?.toUpperCase() === "HEAD") {
