@@ -2,6 +2,35 @@ const urlApi = import.meta.env?.VITE_API_URL?.trim().replace(/\/+$/, "");
 
 export const apiConfigurada = Boolean(urlApi);
 
+const CLAVE_SESION = "rankforge-sesion-jwt";
+
+// Recuperar el token de la sesion actual
+function obtenerToken() {
+  try {
+    const sesion = JSON.parse(
+      localStorage.getItem(CLAVE_SESION)
+    );
+
+    const token = sesion?.token;
+
+    if (!token) return null;
+
+    const payload = token.split(".")[1];
+
+    const contenido = JSON.parse(
+      atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+    );
+
+    if (contenido.exp * 1000 <= Date.now()) {
+      return null;
+    }
+
+    return token;
+  } catch {
+    return null;
+  }
+}
+
 const mensajesHttp = {
   400: "La API rechazó los datos de la solicitud.",
   401: "Inicia sesión para continuar.",
@@ -24,7 +53,18 @@ export async function request(path, { token, json, headers, ...options } = {}) {
 
   const encabezados = new Headers(headers);
   if (!encabezados.has("Accept")) encabezados.set("Accept", "application/json");
-  if (token) encabezados.set("Authorization", `Bearer ${token}`);
+  // No enviar el token en solicitudes de login o registro
+  const rutaPublica =
+    path === "/api/auth/login" ||
+    path === "/api/auth/registro";
+
+  const tokenActual = rutaPublica
+    ? null
+    : token ?? obtenerToken();
+
+  if (tokenActual) {
+    encabezados.set("Authorization", `Bearer ${tokenActual}`);
+  }
 
   // La opción json prepara el cuerpo. El navegador puede gestionar FormData por su cuenta.
   if (json !== undefined) {

@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, Route, Routes } from "react-router-dom";
+
 import Cabecera from "./components/Cabecera.jsx";
 import PiePagina from "./components/PiePagina.jsx";
+import RutaProtegida from "./components/RutaProtegida.jsx";
+
 import Inicio from "./pages/Inicio.jsx";
 import Torneos from "./pages/Torneos.jsx";
 import TorneoDetalle from "./pages/TorneoDetalle.jsx";
@@ -11,11 +14,11 @@ import Perfil from "./pages/Perfil.jsx";
 import Administracion from "./pages/Administracion.jsx";
 import Login from "./pages/Login.jsx";
 import Registro from "./pages/Registro.jsx";
+
 import { useArena } from "./context/ArenaContext.jsx";
+import { useAuth } from "./context/AuthContext.jsx";
 import { apiConfigurada } from "./services/api.js";
 
-const ROLES = ["jugador", "organizador", "administrador"];
-const CLAVE = "rankforge-sesion-jwt";
 const CLAVE_TEMA = "esports-arena-tema";
 
 // Recuperar el tema guardado
@@ -33,67 +36,12 @@ function temaInicial() {
   return "claro";
 }
 
-// Comprobar la fecha de expiracion del token
-function tokenVigente(token) {
-  try {
-    const payload = token.split(".")[1];
-    const contenido = JSON.parse(
-      atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
-    );
-
-    return contenido.exp * 1000 > Date.now();
-  } catch {
-    return false;
-  }
-}
-
-// Crear una sesion de visitante
-function sesionVisitante() {
-  return {
-    token: null,
-    email: null,
-    rol: "visitante",
-    jugadorId: null,
-  };
-}
-
-// Recuperar una sesion guardada
-function sesionInicial() {
-  try {
-    const guardada = JSON.parse(localStorage.getItem(CLAVE));
-
-    if (
-      guardada?.token &&
-      ROLES.includes(guardada.rol) &&
-      tokenVigente(guardada.token)
-    ) {
-      return guardada;
-    }
-  } catch {
-    // No existe una sesion valida
-  }
-
-  return sesionVisitante();
-}
-
-// Proteger rutas privadas
-function RutaProtegida({ sesion, roles, children }) {
-  if (!sesion.token || !tokenVigente(sesion.token)) {
-    return <Navigate to="/login.html" replace />;
-  }
-
-  if (roles && !roles.includes(sesion.rol)) {
-    return <Navigate to="/index.html" replace />;
-  }
-
-  return children;
-}
-
 export default function App() {
   const { datos, aviso } = useArena();
 
+  const { sesion, autenticado, login, logout } = useAuth();
+
   const [tema, setTema] = useState(temaInicial);
-  const [sesion, setSesion] = useState(sesionInicial);
 
   // Configuracion del tema
   useEffect(() => {
@@ -114,47 +62,6 @@ export default function App() {
     }
   }, [tema]);
 
-  // Guardar la sesion
-  useEffect(() => {
-    try {
-      if (sesion.token) {
-        localStorage.setItem(CLAVE, JSON.stringify(sesion));
-      } else {
-        localStorage.removeItem(CLAVE);
-      }
-    } catch {
-      // Persistencia no disponible
-    }
-  }, [sesion]);
-
-  // Comprobar periodicamente si el token ha expirado
-  useEffect(() => {
-    if (!sesion.token) return;
-
-    const intervalo = setInterval(() => {
-      if (!tokenVigente(sesion.token)) {
-        setSesion(sesionVisitante());
-      }
-    }, 1000);
-
-    return () => clearInterval(intervalo);
-  }, [sesion.token]);
-
-  // Iniciar sesion
-  function handleLogin(usuario) {
-    setSesion({
-      token: usuario.token,
-      email: usuario.email,
-      rol: usuario.rol,
-      jugadorId: null,
-    });
-  }
-
-  // Cerrar sesion
-  function handleLogout() {
-    setSesion(sesionVisitante());
-  }
-
   return (
     <>
       <a
@@ -173,7 +80,7 @@ export default function App() {
         }
         perfil={sesion.rol}
         sesion={sesion}
-        onLogout={handleLogout}
+        onLogout={logout}
         jugadores={datos.JUGADORES}
         jugadorId={sesion.jugadorId}
       />
@@ -192,27 +99,37 @@ export default function App() {
 
       <div id="contenido" tabIndex={-1}>
         <Routes>
+          {/* Rutas publicas */}
+
           <Route
             path="/"
             element={<Navigate to="/index.html" replace />}
           />
 
-          <Route path="/index.html" element={<Inicio />} />
+          <Route
+            path="/index.html"
+            element={<Inicio />}
+          />
 
-          <Route path="/torneos.html" element={<Torneos />} />
+          <Route
+            path="/torneos.html"
+            element={<Torneos />}
+          />
 
           <Route
             path="/torneo-detalle.html"
             element={<TorneoDetalle />}
           />
 
+          {/* Autenticacion */}
+
           <Route
             path="/login.html"
             element={
-              sesion.token ? (
+              autenticado ? (
                 <Navigate to="/index.html" replace />
               ) : (
-                <Login onLogin={handleLogin} />
+                <Login onLogin={login} />
               )
             }
           />
@@ -220,7 +137,7 @@ export default function App() {
           <Route
             path="/registro.html"
             element={
-              sesion.token ? (
+              autenticado ? (
                 <Navigate to="/index.html" replace />
               ) : (
                 <Registro />
@@ -228,16 +145,21 @@ export default function App() {
             }
           />
 
+          {/* Rutas protegidas */}
+
           <Route
             path="/inscripcion.html"
             element={
-              <RutaProtegida sesion={sesion}>
+              <RutaProtegida>
                 {sesion.jugadorId ? (
                   <Inscripcion actor={sesion} />
                 ) : (
                   <main className="container py-5">
                     <h1>Inscripciones</h1>
-                    <p>Funcionalidad pendiente de vinculación con tu cuenta.</p>
+                    <p>
+                      Funcionalidad pendiente de vinculación
+                      con tu cuenta.
+                    </p>
                   </main>
                 )}
               </RutaProtegida>
@@ -247,13 +169,16 @@ export default function App() {
           <Route
             path="/equipo.html"
             element={
-              <RutaProtegida sesion={sesion}>
+              <RutaProtegida>
                 {sesion.jugadorId ? (
                   <Equipo actor={sesion} />
                 ) : (
                   <main className="container py-5">
                     <h1>Mi equipo</h1>
-                    <p>Funcionalidad pendiente de vinculación con tu cuenta.</p>
+                    <p>
+                      Funcionalidad pendiente de vinculación
+                      con tu cuenta.
+                    </p>
                   </main>
                 )}
               </RutaProtegida>
@@ -263,7 +188,7 @@ export default function App() {
           <Route
             path="/perfil.html"
             element={
-              <RutaProtegida sesion={sesion}>
+              <RutaProtegida>
                 {sesion.jugadorId ? (
                   <Perfil actor={sesion} />
                 ) : (
@@ -277,11 +202,12 @@ export default function App() {
             }
           />
 
+          {/* Ruta administrativa */}
+
           <Route
             path="/administracion.html"
             element={
               <RutaProtegida
-                sesion={sesion}
                 roles={["administrador", "organizador"]}
               >
                 <Administracion actor={sesion} />
@@ -289,12 +215,16 @@ export default function App() {
             }
           />
 
+          {/* Pagina no encontrada */}
+
           <Route
             path="*"
             element={
               <main className="container py-5">
                 <h1>Página no encontrada</h1>
-                <Link to="/index.html">Volver al inicio</Link>
+                <Link to="/index.html">
+                  Volver al inicio
+                </Link>
               </main>
             }
           />
