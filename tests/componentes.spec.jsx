@@ -2,6 +2,7 @@ import React, { act } from "react";
 import { createRoot } from "react-dom/client";
 import { MemoryRouter } from "react-router-dom";
 import { ArenaProvider } from "../src/context/ArenaContext.jsx";
+import { AuthProvider } from "../src/context/AuthContext.jsx";
 import { crearArenaStore } from "../src/services/crearArenaStore.js";
 import App from "../src/App.jsx";
 import Torneos from "../src/pages/Torneos.jsx";
@@ -17,6 +18,7 @@ describe("Componentes y rutas de Arena", () => {
   let contenedor, raiz, store;
   const actor = { rol: "jugador", jugadorId: "j1" };
   beforeEach(() => {
+    localStorage.removeItem("rankforge-sesion-jwt");
     localStorage.removeItem("esports-arena-sesion-v2");
     store = crearArenaStore({
       ahora: () => new Date("2030-01-01T12:00:00"),
@@ -29,6 +31,7 @@ describe("Componentes y rutas de Arena", () => {
   afterEach(() => {
     act(() => raiz.unmount());
     contenedor.remove();
+    localStorage.removeItem("rankforge-sesion-jwt");
     localStorage.removeItem("esports-arena-sesion-v2");
   });
   const montar = (componente, ruta = "/") =>
@@ -38,7 +41,7 @@ describe("Componentes y rutas de Arena", () => {
           initialEntries={[ruta]}
           future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
         >
-          <ArenaProvider store={store}>{componente}</ArenaProvider>
+          <AuthProvider><ArenaProvider store={store}>{componente}</ArenaProvider></AuthProvider>
         </MemoryRouter>,
       ),
     );
