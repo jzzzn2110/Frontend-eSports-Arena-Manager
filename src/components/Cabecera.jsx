@@ -1,4 +1,5 @@
-﻿import { Link, useLocation } from "react-router-dom";
+﻿import { Link, useLocation, useNavigate } from "react-router-dom";
+
 const enlaces = [
   {
     ruta: "/index.html",
@@ -12,7 +13,7 @@ const enlaces = [
   },
   {
     ruta: "/inscripcion.html",
-    texto: "Inscripcion",
+    texto: "Inscripción",
     claves: ["/inscripcion.html"],
   },
   {
@@ -27,54 +28,66 @@ const enlaces = [
   },
 ];
 
-// Recibe el perfil y la funcion para cambiarlo mediante props.
 function Cabecera({
   perfil = "visitante",
   tema = "claro",
   onTemaChange = () => {},
-  onPerfilChange = () => {},
-  jugadores = [],
-  jugadorId,
-  onJugadorChange,
+  sesion = null,
+  onLogout = () => {},
 }) {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const autenticado = Boolean(sesion?.token);
+
+  function cerrarSesion() {
+    onLogout();
+    navigate("/index.html");
+  }
+
+  const enlacesVisibles = autenticado
+    ? enlaces
+    : enlaces.filter((enlace) =>
+        ["/index.html", "/torneos.html"].includes(enlace.ruta)
+      );
 
   return (
     <header className="encabezado">
       <div className="contenedor encabezado__contenedor">
+        <div className="encabezado__principal">
+          <Link
+            to="/index.html"
+            className="rankforge-brand"
+            aria-label="Ir al inicio de RankForge"
+          >
+            <img
+              src="/img/logo_pagina.png"
+              alt="Logo de RankForge"
+              className="rankforge-brand__logo"
+            />
 
+            <div className="rankforge-brand__contenido">
+              <span className="rankforge-brand__nombre">
+                RankForge
+              </span>
 
-<div className="encabezado__principal">
-  <Link
-    to="/index.html"
-    className="rankforge-brand"
-    aria-label="Ir al inicio de RankForge"
-  >
-    <img
-      src="/img/logo_pagina.png"
-      alt="Logo de RankForge"
-      className="rankforge-brand__logo"
-    />
+              <span className="rankforge-brand__subtitulo">
+                Bracket &middot; rankings &middot;
+                inscripciones &middot; equipos
+              </span>
+            </div>
+          </Link>
+        </div>
 
-    <div className="rankforge-brand__contenido">
-      <span className="rankforge-brand__nombre">
-        RankForge
-      </span>
-
-      <span className="rankforge-brand__subtitulo">
-        Bracket &middot; rankings &middot; inscripciones &middot; equipos
-      </span>
-    </div>
-  </Link>
-</div>
-
-
-
-        <nav className="nav-principal" aria-label="Navegación principal">
+        <nav
+          className="nav-principal"
+          aria-label="Navegación principal"
+        >
           <ul>
             {[
-              ...enlaces,
-              ...(["organizador", "administrador"].includes(perfil)
+              ...enlacesVisibles,
+              ...(autenticado &&
+              ["organizador", "administrador"].includes(perfil)
                 ? [
                     {
                       ruta: "/administracion.html",
@@ -84,7 +97,9 @@ function Cabecera({
                   ]
                 : []),
             ].map((enlace) => {
-              const actual = enlace.claves.includes(location.pathname);
+              const actual = enlace.claves.includes(
+                location.pathname
+              );
 
               return (
                 <li key={enlace.ruta}>
@@ -101,47 +116,71 @@ function Cabecera({
         </nav>
 
         <div className="acciones-cabecera">
-          <button className="boton-tema" type="button" onClick={onTemaChange}
-            aria-label={tema === "oscuro" ? "Activar modo claro" : "Activar modo oscuro"}
+          <button
+            className="boton-tema"
+            type="button"
+            onClick={onTemaChange}
+            aria-label={
+              tema === "oscuro"
+                ? "Activar modo claro"
+                : "Activar modo oscuro"
+            }
             aria-pressed={tema === "oscuro"}
-            title={tema === "oscuro" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}>
-            <span className="boton-tema__icono" aria-hidden="true">
-              {tema === "oscuro" ? "\u2600" : "\u263E"}
+          >
+            <span
+              className="boton-tema__icono"
+              aria-hidden="true"
+            >
+              {tema === "oscuro" ? "☀" : "☾"}
             </span>
-            <span>{tema === "oscuro" ? "Modo claro" : "Modo oscuro"}</span>
+
+            <span>
+              {tema === "oscuro"
+                ? "Modo claro"
+                : "Modo oscuro"}
+            </span>
           </button>
         </div>
 
-        <div className="selector-perfil selector-perfil--panel">
-          <label
-            htmlFor="perfil-simulado"
-            className="selector-perfil__etiqueta"
-          >
-            Perfil de prueba
-          </label>
-          <select
-            id="perfil-simulado"
-            name="perfil-simulado"
-            value={perfil}
-            onChange={(event) => onPerfilChange(event.target.value)}
-          >
-            <option value="visitante">Visitante</option>
-            <option value="jugador">Jugador</option>
-            <option value="organizador">Organizador</option>
-            <option value="administrador">Administrador</option>
-          </select>
-          <label htmlFor="jugador-simulado">Jugador de prueba</label>
-          <select
-            id="jugador-simulado"
-            value={jugadorId}
-            onChange={(e) => onJugadorChange(e.target.value)}
-          >
-            {jugadores.map((j) => (
-              <option key={j.id} value={j.id}>
-                {j.apodo}
-              </option>
-            ))}
-          </select>
+        <div className="auth-cabecera">
+          {autenticado ? (
+            <>
+              <div className="auth-usuario">
+                <span className="auth-email">
+                  {sesion.email}
+                </span>
+
+                <span className="auth-rol">
+                  {perfil.charAt(0).toUpperCase() +
+                    perfil.slice(1)}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={cerrarSesion}
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login.html"
+                className="btn btn-outline-primary"
+              >
+                Iniciar sesión
+              </Link>
+
+              <Link
+                to="/registro.html"
+                className="btn btn-primary"
+              >
+                Registrarse
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
