@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import EstadoCatalogo from "../components/EstadoCatalogo.jsx";
+import CompeticionRemota from "../components/CompeticionRemota.jsx";
 import { useArena } from "../context/ArenaContext.jsx";
 import { useCatalogo } from "../context/useCatalogo.js";
 import { apiConfigurada } from "../services/api.js";
@@ -82,7 +83,12 @@ function TorneoDetalle() {
         </div>
       </div>
       {desdeApi
-        ? <Link to="/torneos.html">Volver a torneos</Link>
+        ? (
+          <>
+            <CompeticionRemota torneoId={torneoActual.id} />
+            <Link to="/torneos.html">Volver a torneos</Link>
+          </>
+        )
         : <DetalleDemostracion torneoActual={torneoActual} juego={juego} />}
     </main>
   );

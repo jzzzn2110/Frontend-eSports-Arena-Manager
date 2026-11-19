@@ -17,6 +17,12 @@ Backend en lucborquez/game, rama feature/lucas-ep3, commit cf905dc: regla de ser
 
 ## Pendientes
 
+### Avance de clasificación y calendario
+
+El detalle de torneos procedentes de la API consulta ahora `/api/rankings/torneo/{id}` y `/api/partidas/torneo/{id}`. Presenta clasificación, participantes identificados por ID, ronda y horario, con carga, vacío, error, reintento y cancelación al cambiar de vista. La capa `operacionesService` también define los contratos de equipos, inscripciones, resultados y sanciones, todavía pendientes de conectar a sus pantallas.
+
+Validación posterior: build correcto (71 módulos), 114 pruebas ejecutadas, 110 aprobadas y los mismos 4 fallos previos. Las diez pruebas nuevas de contratos HTTP y competición pasan con transporte simulado. Esto no demuestra conectividad con el backend real ni actualización automática del ranking. Karma informó además una demora al cerrar el navegador headless.
+
 Resolver las cuatro pruebas restantes, que todavía esperan edición e historial del perfil anterior y selección de roles simulados. Completar el vínculo seguro entre cuenta y jugador, autorización del resto de operaciones, equipos e inscripciones reales, panel organizador, ranking automático, premios y documentación final de los hitos 11–15.
 
 El arranque agrupado de Eureka, autenticación y Gateway fue rechazado por la herramienta de ejecución. No se considera una prueba de fallo del código de esos servicios ni una validación satisfactoria de su funcionamiento.
