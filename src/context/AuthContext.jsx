@@ -4,6 +4,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import { perfilService } from "../services/perfilService.js";
+import { apiConfigurada } from "../services/api.js";
 
 const AuthContext = createContext(null);
 
@@ -56,8 +58,29 @@ function sesionInicial() {
 }
 
 // Proveedor de autenticacion
-export function AuthProvider({ children }) {
+export function AuthProvider({ children, servicioPerfil = perfilService }) {
   const [sesion, setSesion] = useState(sesionInicial);
+  const [perfil, setPerfil] = useState(null);
+  const [errorPerfil, setErrorPerfil] = useState("");
+  const [cargandoPerfil, setCargandoPerfil] = useState(false);
+  const [intentoPerfil, setIntentoPerfil] = useState(0);
+
+  useEffect(() => {
+    setPerfil(null);
+    setErrorPerfil("");
+    if (!sesion.token) { setCargandoPerfil(false); return; }
+    if (!apiConfigurada && servicioPerfil === perfilService) {
+      setErrorPerfil("Falta configurar la conexión con la API.");
+      setCargandoPerfil(false); return;
+    }
+    const controller = new AbortController();
+    setCargandoPerfil(true);
+    servicioPerfil.asegurar({ token: sesion.token, signal: controller.signal })
+      .then((datos) => { if (!controller.signal.aborted) setPerfil(datos); })
+      .catch((error) => { if (!controller.signal.aborted) setErrorPerfil(error.message); })
+      .finally(() => { if (!controller.signal.aborted) setCargandoPerfil(false); });
+    return () => controller.abort();
+  }, [sesion.token, servicioPerfil, intentoPerfil]);
 
   // Detectar sesiones rechazadas por el backend
   useEffect(() => {
@@ -153,6 +176,15 @@ export function AuthProvider({ children }) {
         login,
         logout,
         tieneRol,
+        perfil,
+        cargandoPerfil,
+        errorPerfil,
+        recargarPerfil: () => setIntentoPerfil((n) => n + 1),
+        guardarPerfil: async (datos) => {
+          const actualizado = await servicioPerfil.guardar(datos, { token: sesion.token });
+          setPerfil(actualizado);
+          return actualizado;
+        },
       }}
     >
       {children}

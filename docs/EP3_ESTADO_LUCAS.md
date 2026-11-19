@@ -1,30 +1,27 @@
 # Estado de la rama de Lucas
 
-Revisión del 18 de noviembre de 2026. Esta rama es un avance parcial, no la entrega terminada de EP3.
+Revisión del 19 de noviembre de 2026. Avance parcial: no constituye la entrega terminada de EP3.
 
-## Base y cambios
+## Implementado
 
-Frontend basado en feature/nico-ep3, commit a2e1bf5. Las pruebas de componentes ahora montan AuthProvider y limpian la sesión JWT antes y después de cada caso. No se eliminaron pruebas ni se cambiaron sus expectativas para ocultar fallos.
-
-Backend en lucborquez/game, rama feature/lucas-ep3, commit cf905dc: regla de servicio para quitar integrantes, comprobando actor, estado del equipo, pertenencia del miembro y preservación del capitán. Todavía no está conectada a un endpoint con identidad autenticada.
+- Catálogo real heredado de las ramas del equipo; detalle con clasificación y calendario obtenidos de la API, incluyendo carga, vacío, error y reintento.
+- AuthProvider obtiene el perfil autenticado mediante `POST /api/usuarios/me`. La identidad de las pantallas nuevas usa el ID devuelto por ese servicio, no IDs de demostración.
+- Perfil: edición de nombre y apodo, correo de identidad de solo lectura, historial individual real y cierre de sesión. No envía rol ni correo en la edición.
+- Equipos: pantalla conectada a la API para creación, edición, integrantes y desactivación; confirmación de eliminación y errores sin falso éxito. La edición de integrantes se ofrece al capitán o administrador.
+- Backend complementario `lucborquez/game`, rama `feature/lucas-ep3`, commit `aa168bb`: validación JWT en usuarios, perfil propio y permisos de equipos; endpoint DELETE de integrante que preserva al capitán.
 
 ## Validación ejecutada
 
-- Frontend: instalación limpia y build correctos en la revisión inicial de esta rama.
-- Suite frontend repetida el 18/11: 104 pruebas, 100 aprobadas y 4 fallidas. Antes de este ajuste fallaban 12.
-- Backend: TeamMembersTest, 5 pruebas aprobadas mediante Maven y JDK 26.
-- No se ejecutó un flujo completo contra la API ni se confirmó login real.
+- Frontend: 118 pruebas aprobadas, ninguna fallida. Build correcto, 72 módulos.
+- Las cuatro pruebas que dependían del antiguo perfil simulado se actualizaron para comprobar edición persistida mediante el servicio, identidad inmutable, historial vacío real y bloqueo de acceso usando el selector simulado antiguo. No se desactivaron casos.
+- Backend de identidad y equipos: 8 pruebas de perfil y seguridad más 9 de permisos e integrantes, aprobadas con Maven/JDK 26.
+- Los clientes HTTP y repositorios se simulan en estas pruebas. No se ejecutó todavía el flujo completo con servicios activos y MySQL, ni se confirmó login real en navegador.
+- Karma informó una demora al cerrar Edge después de completar las pruebas.
 
-## Pendientes
+## Pendientes para entrega
 
-### Avance de clasificación y calendario
+Inscripción real en pantalla, permisos y reglas completas de inscripción por equipo, concurrencia de cupos, panel organizador, ranking automático idempotente, premios y notificaciones, seguridad de los restantes microservicios, evidencias E2E, documentación final y PRs. `sesion.jugadorId` aún no se usa como identidad verificada: las pantallas conectadas consultan `perfil.id`.
 
-El detalle de torneos procedentes de la API consulta ahora `/api/rankings/torneo/{id}` y `/api/partidas/torneo/{id}`. Presenta clasificación, participantes identificados por ID, ronda y horario, con carga, vacío, error, reintento y cancelación al cambiar de vista. La capa `operacionesService` también define los contratos de equipos, inscripciones, resultados y sanciones, todavía pendientes de conectar a sus pantallas.
-
-Validación posterior: build correcto (71 módulos), 114 pruebas ejecutadas, 110 aprobadas y los mismos 4 fallos previos. Las diez pruebas nuevas de contratos HTTP y competición pasan con transporte simulado. Esto no demuestra conectividad con el backend real ni actualización automática del ranking. Karma informó además una demora al cerrar el navegador headless.
-
-Resolver las cuatro pruebas restantes, que todavía esperan edición e historial del perfil anterior y selección de roles simulados. Completar el vínculo seguro entre cuenta y jugador, autorización del resto de operaciones, equipos e inscripciones reales, panel organizador, ranking automático, premios y documentación final de los hitos 11–15.
-
-El arranque agrupado de Eureka, autenticación y Gateway fue rechazado por la herramienta de ejecución. No se considera una prueba de fallo del código de esos servicios ni una validación satisfactoria de su funcionamiento.
+El arranque agrupado de Eureka, autenticación y Gateway fue rechazado por la herramienta de ejecución. Ese bloqueo no es evidencia de un fallo del código ni una validación satisfactoria.
 
 No integrar esta rama a main como entrega completa hasta implementar y comprobar los flujos pendientes.

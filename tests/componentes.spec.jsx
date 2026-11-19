@@ -15,9 +15,15 @@ import TarjetaTorneo from "../src/components/TarjetaTorneo.jsx";
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 describe("Componentes y rutas de Arena", () => {
-  let contenedor, raiz, store;
+  let contenedor, raiz, store, servicioPerfil, servicioHistorial;
   const actor = { rol: "jugador", jugadorId: "j1" };
   beforeEach(() => {
+    const perfil = { id: 12, nombre: "Lucas", apodo: "Lucas", email: "lucas@example.test", rol: "JUGADOR" };
+    servicioPerfil = {
+      asegurar: jasmine.createSpy("asegurar").and.resolveTo(perfil),
+      guardar: jasmine.createSpy("guardar").and.callFake(async (datos) => ({ ...perfil, ...datos })),
+    };
+    servicioHistorial = { inscripciones: { porJugador: jasmine.createSpy("historial").and.resolveTo([]) } };
     localStorage.removeItem("rankforge-sesion-jwt");
     localStorage.removeItem("esports-arena-sesion-v2");
     store = crearArenaStore({
@@ -41,7 +47,7 @@ describe("Componentes y rutas de Arena", () => {
           initialEntries={[ruta]}
           future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
         >
-          <AuthProvider><ArenaProvider store={store}>{componente}</ArenaProvider></AuthProvider>
+          <AuthProvider servicioPerfil={servicioPerfil}><ArenaProvider store={store}>{componente}</ArenaProvider></AuthProvider>
         </MemoryRouter>,
       ),
     );
@@ -70,6 +76,14 @@ describe("Componentes y rutas de Arena", () => {
         ),
     );
   const texto = () => contenedor.textContent;
+  const autenticar = () => localStorage.setItem("rankforge-sesion-jwt", JSON.stringify({
+    token: `test.${btoa(JSON.stringify({ sub: "lucas@example.test", exp: Math.floor(Date.now() / 1000) + 3600 }))}.test`,
+    email: "lucas@example.test", rol: "jugador", jugadorId: null,
+  }));
+  const montarPerfil = async () => {
+    autenticar();
+    await act(async () => { montar(<Perfil servicio={servicioHistorial} />); });
+  };
 
   [
     "/index.html",
@@ -223,28 +237,26 @@ describe("Componentes y rutas de Arena", () => {
     enviar();
     expect(texto()).toContain("entre 3 y 60");
   });
-  it("edita el perfil y actualiza su encabezado", () => {
-    montar(<Perfil actor={actor} />);
+  it("edita el perfil y actualiza su encabezado después de guardar en la API", async () => {
+    await montarPerfil();
     cambiar("#perfil-apodo", "NuevoApodo");
-    enviar();
+    await act(async () => { enviar(); });
     expect(contenedor.querySelector("h1").textContent).toContain("NuevoApodo");
     expect(texto()).toContain("Perfil actualizado");
+    expect(servicioPerfil.guardar.calls.mostRecent().args[0]).toEqual({ nombre: "Lucas", apodo: "NuevoApodo" });
   });
-  it("rechaza correo inválido desde el formulario", () => {
-    montar(<Perfil actor={actor} />);
-    cambiar("#perfil-email", "correo");
-    enviar();
-    expect(texto()).toContain("correo válido");
+  it("mantiene el correo de identidad inmutable y no lo envía al guardar", async () => {
+    await montarPerfil();
+    expect(contenedor.querySelector("#perfil-email").readOnly).toBeTrue();
+    await act(async () => { enviar(); });
+    expect(servicioPerfil.guardar.calls.mostRecent().args[0].email).toBeUndefined();
+    expect(contenedor.querySelector("#perfil-email").value).toBe("lucas@example.test");
   });
-  it("no inventa historial para un jugador sin inscripciones", () => {
-    const vacios = JSON.parse(JSON.stringify(store.getSnapshot()));
-    vacios.TORNEOS.forEach((t) => {
-      t.participantesInscritos = [];
-    });
-    store = crearArenaStore({ semilla: () => vacios });
-    montar(<Perfil actor={actor} />);
+  it("no inventa historial cuando la API devuelve cero inscripciones", async () => {
+    await montarPerfil();
     expect(texto()).toContain("No tienes inscripciones registradas");
     expect(texto()).not.toContain("Torneo Táctico Elite");
+    expect(servicioHistorial.inscripciones.porJugador.calls.mostRecent().args[0]).toBe(12);
   });
   it("restringe el panel administrativo", () => {
     montar(<Administracion actor={actor} />);
@@ -260,13 +272,12 @@ describe("Componentes y rutas de Arena", () => {
     expect(texto()).toContain("Torneo guardado");
     expect(store.getSnapshot().TORNEOS.length).toBe(6);
   });
-  it("cambia el perfil simulado y permite navegar a administración", () => {
+  it("impide acceder a administración cambiando el antiguo perfil simulado", () => {
+    localStorage.setItem("esports-arena-sesion-v2", JSON.stringify({ rol: "administrador" }));
     montar(<App />, "/administracion.html");
-    cambiar("#perfil-simulado", "administrador");
-    expect(texto()).toContain("Restablecer demostración");
-    expect(
-      JSON.parse(localStorage.getItem("esports-arena-sesion-v2")).rol,
-    ).toBe("administrador");
+    expect(contenedor.querySelector("#perfil-simulado")).toBeNull();
+    expect(texto()).toContain("Iniciar sesión");
+    expect(texto()).not.toContain("Restablecer demostración");
   });
   it("confirma la eliminación de un equipo y actualiza el DOM", () => {
     const id = store.guardarEquipo(

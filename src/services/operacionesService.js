@@ -20,6 +20,7 @@ export function crearOperaciones(solicitar = request) {
       actualizar: (id, datos) => solicitar(base("equipos", id), { method: "PUT", json: datos }),
       desactivar: (id) => solicitar(base("equipos", id), { method: "DELETE" }),
       agregarMiembro: (id, datos) => solicitar(`${base("equipos", id)}/miembros`, { method: "POST", json: datos }),
+      quitarMiembro: (id, miembroId) => solicitar(`${base("equipos", id)}/miembros/${idApi(miembroId)}`, { method: "DELETE" }),
     },
     inscripciones: {
       porTorneo: (id, options) => solicitar(`/api/inscripciones/torneo/${idApi(id)}`, options),

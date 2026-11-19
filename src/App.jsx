@@ -9,7 +9,7 @@ import Inicio from "./pages/Inicio.jsx";
 import Torneos from "./pages/Torneos.jsx";
 import TorneoDetalle from "./pages/TorneoDetalle.jsx";
 import Inscripcion from "./pages/Inscripcion.jsx";
-import Equipo from "./pages/Equipo.jsx";
+import EquiposRemotos from "./pages/EquiposRemotos.jsx";
 import Perfil from "./pages/Perfil.jsx";
 import Administracion from "./pages/Administracion.jsx";
 import Login from "./pages/Login.jsx";
@@ -87,7 +87,7 @@ export default function App() {
 
       <div className="contenedor aviso-demo">
         {apiConfigurada
-          ? "RankForge · Autenticación real · Equipos e inscripciones simulados"
+          ? "RankForge · Conectado a la API"
           : "RankForge · API no configurada"}
       </div>
 
@@ -170,17 +170,7 @@ export default function App() {
             path="/equipo.html"
             element={
               <RutaProtegida>
-                {sesion.jugadorId ? (
-                  <Equipo actor={sesion} />
-                ) : (
-                  <main className="container py-5">
-                    <h1>Mi equipo</h1>
-                    <p>
-                      Funcionalidad pendiente de vinculación
-                      con tu cuenta.
-                    </p>
-                  </main>
-                )}
+                <EquiposRemotos />
               </RutaProtegida>
             }
           />

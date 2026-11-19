@@ -1,138 +1,66 @@
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
+import { operaciones } from "../services/operacionesService.js";
 
-export default function Perfil() {
-  const { sesion, autenticado, logout } = useAuth();
+export default function Perfil({ servicio = operaciones }) {
+  const { sesion, autenticado, logout, perfil, cargandoPerfil, errorPerfil,
+    guardarPerfil, recargarPerfil } = useAuth();
   const navigate = useNavigate();
-
+  const [nombre, setNombre] = useState("");
+  const [apodo, setApodo] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [error, setError] = useState("");
+  const [guardando, setGuardando] = useState(false);
+  const [historial, setHistorial] = useState(null);
+  const [errorHistorial, setErrorHistorial] = useState("");
+  useEffect(() => {
+    setNombre(perfil?.nombre ?? ""); setApodo(perfil?.apodo ?? "");
+  }, [perfil]);
+  useEffect(() => {
+    setHistorial(null); setErrorHistorial("");
+    if (!perfil?.id) return;
+    const controller = new AbortController();
+    servicio.inscripciones.porJugador(perfil.id, { signal: controller.signal })
+      .then((datos) => { if (!controller.signal.aborted) setHistorial(datos); })
+      .catch((err) => { if (!controller.signal.aborted) setErrorHistorial(err.message); });
+    return () => controller.abort();
+  }, [perfil?.id, servicio]);
   if (!autenticado) return null;
-
-  const email = sesion.email ?? "";
-  const nombre = email.split("@")[0];
-  const inicial = nombre.charAt(0).toUpperCase();
-
-  const roles = {
-    administrador: "Administrador",
-    organizador: "Organizador",
-    jugador: "Jugador",
-  };
-
-  const rol = roles[sesion.rol] ?? "Usuario";
-
-  function cerrarSesion() {
-    logout();
-    navigate("/login.html", { replace: true });
+  async function guardar(event) {
+    event.preventDefault(); setMensaje(""); setError("");
+    if (!nombre.trim() || apodo.trim().length < 3) {
+      setError("Indica tu nombre y un apodo de al menos 3 caracteres."); return;
+    }
+    setGuardando(true);
+    try { await guardarPerfil({ nombre: nombre.trim(), apodo: apodo.trim() }); setMensaje("Perfil actualizado"); }
+    catch (err) { setError(err.status === 409 ? "Ese apodo ya está en uso." : err.message); }
+    finally { setGuardando(false); }
   }
-
-  return (
-    <main className="container py-5">
-      <h1>Mi perfil</h1>
-
-      <p className="text-body-secondary mb-4">
-        Consulta la información de tu cuenta RankForge.
-      </p>
-
-      <section className="card p-4 mb-4">
-        <div className="d-flex align-items-center gap-3 mb-4">
-          <div
-            className="rounded-circle d-flex align-items-center
-                       justify-content-center text-white fs-2 fw-bold"
-            style={{
-              width: "80px",
-              height: "80px",
-              backgroundColor: "#4430a0",
-              flexShrink: 0,
-            }}
-            aria-hidden="true"
-          >
-            {inicial}
-          </div>
-
-          <div className="text-break">
-            <h2 className="h4 mb-1">{nombre}</h2>
-
-            <p className="mb-2">{email}</p>
-
-            <span className="auth-rol">
-              {rol}
-            </span>
-          </div>
-        </div>
-
-        <hr />
-
-        <h2 className="h4 mb-4">
-          Información de la cuenta
-        </h2>
-
-        <div className="mb-3">
-          <label
-            className="form-label"
-            htmlFor="perfil-email"
-          >
-            Correo electrónico
-          </label>
-
-          <input
-            id="perfil-email"
-            className="form-control"
-            type="email"
-            value={email}
-            readOnly
-          />
-        </div>
-
-        <div className="mb-3">
-          <label
-            className="form-label"
-            htmlFor="perfil-rol"
-          >
-            Rol de usuario
-          </label>
-
-          <input
-            id="perfil-rol"
-            className="form-control"
-            type="text"
-            value={rol}
-            readOnly
-          />
-        </div>
-
-        <div>
-          <p className="mb-1">Estado de la sesión</p>
-
-          <span className="text-success fw-bold">
-            Sesión activa
-          </span>
-        </div>
-      </section>
-
-      <section className="card p-4 mb-4">
-        <h2 className="h4">
-          Seguridad de la cuenta
-        </h2>
-
-        <p>
-          Tu sesión está protegida mediante
-          autenticación JWT.
-        </p>
-
-        <button
-          type="button"
-          className="btn btn-outline-danger align-self-start"
-          onClick={cerrarSesion}
-        >
-          Cerrar sesión
-        </button>
-      </section>
-
-      <Link
-        to="/index.html"
-        className="btn btn-outline-secondary"
-      >
-        Volver al inicio
-      </Link>
-    </main>
-  );
+  return <main className="container py-5">
+    <h1>Mi perfil{perfil ? ` · ${perfil.apodo}` : ""}</h1>
+    {cargandoPerfil && <p role="status">Cargando perfil…</p>}
+    {errorPerfil && <div role="alert">{errorPerfil} <button onClick={recargarPerfil}>Reintentar</button></div>}
+    {perfil && <form className="card p-4 mb-4" onSubmit={guardar}>
+      <label htmlFor="perfil-nombre">Nombre</label>
+      <input className="form-control mb-3" id="perfil-nombre" value={nombre} maxLength={100} required onChange={(e) => setNombre(e.target.value)} />
+      <label htmlFor="perfil-apodo">Apodo</label>
+      <input className="form-control mb-3" id="perfil-apodo" value={apodo} minLength={3} maxLength={40} required onChange={(e) => setApodo(e.target.value)} />
+      <label htmlFor="perfil-email">Correo electrónico</label>
+      <input className="form-control mb-3" id="perfil-email" type="email" value={sesion.email ?? ""} readOnly />
+      <p>El correo identifica tu cuenta y no se cambia desde este formulario.</p>
+      <p>Rol: {sesion.rol}</p>
+      {error && <p role="alert">{error}</p>}
+      {mensaje && <p role="status">{mensaje}</p>}
+      <button className="btn btn-primary" disabled={guardando}>{guardando ? "Guardando…" : "Guardar perfil"}</button>
+    </form>}
+    {perfil && <section className="card p-4 mb-4">
+      <h2>Mis inscripciones individuales</h2>
+      {errorHistorial ? <p role="alert">{errorHistorial}</p> : historial === null ? <p role="status">Cargando inscripciones…</p>
+        : historial.length === 0 ? <p>No tienes inscripciones registradas</p>
+        : <ul>{historial.map((i) => <li key={i.id}><Link to={`/torneo-detalle.html?id=${encodeURIComponent(i.torneoId)}`}>Torneo #{i.torneoId}</Link> · {i.estado}</li>)}</ul>}
+    </section>}
+    <button className="btn btn-outline-danger" onClick={() => { logout(); navigate("/login.html", { replace: true }); }}>Cerrar sesión</button>
+    <Link className="btn btn-link" to="/index.html">Volver al inicio</Link>
+  </main>;
 }
