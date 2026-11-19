@@ -3,6 +3,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { listarTorneos } from "../services/torneosService.js";
 import { operaciones } from "../services/operacionesService.js";
 import ResultadosPartida from "../components/ResultadosPartida.jsx";
+import GestionSanciones from "../components/GestionSanciones.jsx";
 
 export default function Organizacion({ servicio = operaciones, cargarTorneos = listarTorneos }) {
   const { tieneRol } = useAuth();
@@ -85,5 +86,6 @@ export default function Organizacion({ servicio = operaciones, cargarTorneos = l
       </li>)}</ul>}</section>
       {partidaResultados && <ResultadosPartida key={partidaResultados.id} partida={partidaResultados} servicio={servicio} />}
     </>}
+    <GestionSanciones servicio={servicio} />
   </main>;
 }
