@@ -89,6 +89,7 @@ function Cabecera({
               ...(autenticado &&
               ["organizador", "administrador"].includes(perfil)
                 ? [
+                      { ruta: "/organizacion.html", texto: "Organización", claves: ["/organizacion.html"] },
                     {
                       ruta: "/administracion.html",
                       texto: "Administración",

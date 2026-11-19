@@ -12,6 +12,7 @@ import InscripcionRemota from "./pages/InscripcionRemota.jsx";
 import EquiposRemotos from "./pages/EquiposRemotos.jsx";
 import Perfil from "./pages/Perfil.jsx";
 import Administracion from "./pages/Administracion.jsx";
+import Organizacion from "./pages/Organizacion.jsx";
 import Login from "./pages/Login.jsx";
 import Registro from "./pages/Registro.jsx";
 
@@ -175,6 +176,7 @@ export default function App() {
           />
 
           {/* Ruta administrativa */}
+          <Route path="/organizacion.html" element={<RutaProtegida roles={["administrador", "organizador"]}><Organizacion /></RutaProtegida>} />
 
           <Route
             path="/administracion.html"
