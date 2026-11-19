@@ -169,7 +169,7 @@ export default function Torneos() {
             <TarjetaTorneo
               torneo={t}
               juego={juegos.find((j) => j.id === t.juegoId)}
-              mostrarInscripcion={!desdeApi}
+              mostrarInscripcion
             />
           </div>
         ))}

@@ -174,7 +174,7 @@ describe("Componentes y rutas de Arena", () => {
     );
     expect(texto()).toMatch(/Cupo máximo\s*16/);
     expect(contenedor.querySelector('[role="progressbar"]')).toBeNull();
-    expect(contenedor.querySelector('a[href*="inscripcion"]')).toBeNull();
+    expect(contenedor.querySelector('a[href*="inscripcion"]').getAttribute("href")).toContain("torneo=1");
   });
   it("completa inscripción individual y cancelación con cambio real de datos", () => {
     montar(<Inscripcion actor={actor} />, "/inscripcion.html?torneo=t3");

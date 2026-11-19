@@ -87,10 +87,9 @@ function TarjetaTorneo({ torneo, juego, mostrarInscripcion = false }) {
         </Link>
 
         {mostrarInscripcion &&
-          ocupacionConocida &&
           torneo.estado === "abierto" &&
           !inscripcionFueraDePlazo(torneo) &&
-          cuposDisponibles(torneo) > 0 && (
+          (!ocupacionConocida || cuposDisponibles(torneo) > 0) && (
             <Link
               to={`/inscripcion.html?torneo=${torneo.id}`}
               className="boton boton-primario boton-pequeno"

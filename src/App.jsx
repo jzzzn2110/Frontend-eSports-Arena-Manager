@@ -8,7 +8,7 @@ import RutaProtegida from "./components/RutaProtegida.jsx";
 import Inicio from "./pages/Inicio.jsx";
 import Torneos from "./pages/Torneos.jsx";
 import TorneoDetalle from "./pages/TorneoDetalle.jsx";
-import Inscripcion from "./pages/Inscripcion.jsx";
+import InscripcionRemota from "./pages/InscripcionRemota.jsx";
 import EquiposRemotos from "./pages/EquiposRemotos.jsx";
 import Perfil from "./pages/Perfil.jsx";
 import Administracion from "./pages/Administracion.jsx";
@@ -151,17 +151,7 @@ export default function App() {
             path="/inscripcion.html"
             element={
               <RutaProtegida>
-                {sesion.jugadorId ? (
-                  <Inscripcion actor={sesion} />
-                ) : (
-                  <main className="container py-5">
-                    <h1>Inscripciones</h1>
-                    <p>
-                      Funcionalidad pendiente de vinculación
-                      con tu cuenta.
-                    </p>
-                  </main>
-                )}
+                <InscripcionRemota />
               </RutaProtegida>
             }
           />
