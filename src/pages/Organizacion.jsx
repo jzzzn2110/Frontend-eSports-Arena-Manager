@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
 import { listarTorneos } from "../services/torneosService.js";
 import { operaciones } from "../services/operacionesService.js";
+import ResultadosPartida from "../components/ResultadosPartida.jsx";
 
 export default function Organizacion({ servicio = operaciones, cargarTorneos = listarTorneos }) {
   const { tieneRol } = useAuth();
@@ -16,6 +17,7 @@ export default function Organizacion({ servicio = operaciones, cargarTorneos = l
   const vacio = { participanteAId: "", participanteBId: "", ronda: "", fechaHora: "" };
   const [form, setForm] = useState(vacio);
   const [editando, setEditando] = useState(null);
+  const [partidaResultados, setPartidaResultados] = useState(null);
   useEffect(() => {
     if (!permitido) return;
     const c = new AbortController();
@@ -25,6 +27,7 @@ export default function Organizacion({ servicio = operaciones, cargarTorneos = l
   }, [permitido, cargarTorneos, intento]);
   useEffect(() => {
     setDatos(null); setError(""); setMensaje(""); setEditando(null); setForm(vacio);
+    setPartidaResultados(null);
     if (!permitido || !torneoId) return;
     const c = new AbortController();
     Promise.all([servicio.inscripciones.porTorneo(torneoId, { signal: c.signal }), servicio.partidas.porTorneo(torneoId, { signal: c.signal })])
@@ -77,8 +80,10 @@ export default function Organizacion({ servicio = operaciones, cargarTorneos = l
         <button disabled={ocupado || participantes.length < 2}>Guardar partida</button>
       </form>
       <section><h2>Calendario</h2>{actual.partidas.length === 0 ? <p>No hay partidas programadas.</p> : <ul>{actual.partidas.map((p) => <li key={p.id}>#{p.id} · {p.ronda} · {p.fechaHora} · {p.estado}
+        <button disabled={ocupado} onClick={() => setPartidaResultados(p)}>Resultados #{p.id}</button>
         {p.estado === "PROGRAMADA" && <button disabled={ocupado} onClick={() => { setEditando(p.id); setForm({ participanteAId: String(p.participanteAId), participanteBId: String(p.participanteBId), ronda: p.ronda, fechaHora: p.fechaHora }); }}>Reprogramar #{p.id}</button>}
       </li>)}</ul>}</section>
+      {partidaResultados && <ResultadosPartida key={partidaResultados.id} partida={partidaResultados} servicio={servicio} />}
     </>}
   </main>;
 }

@@ -9,12 +9,12 @@ Revisión del 19 de noviembre de 2026. Avance parcial: no constituye la entrega 
 - Perfil: edición de nombre y apodo, correo de identidad de solo lectura, historial individual real y cierre de sesión. No envía rol ni correo en la edición.
 - Equipos: pantalla conectada a la API para creación, edición, integrantes y desactivación; confirmación de eliminación y errores sin falso éxito. La edición de integrantes se ofrece al capitán o administrador.
 - Inscripciones: ruta conectada a la API, participación individual o por equipo compatible del capitán, confirmación previa, listado propio y cancelación confirmada. Los enlaces del catálogo real ya permiten acceder al formulario. La ocupación se calcula con inscripciones vigentes devueltas por la API, sin inventar cupos ocupados.
-- Organización: nueva ruta `/organizacion.html`, visible y protegida para organizador/administrador. Selecciona torneo, lista inscripciones, aprueba pendientes, programa partidas con participantes aprobados y ofrece reprogramación de partidas PROGRAMADA. Resultados y sanciones todavía no están integrados en esta pantalla.
+- Organización: ruta `/organizacion.html`, visible y protegida para organizador/administrador. Selecciona torneo, lista inscripciones, aprueba pendientes, programa y reprograma partidas PROGRAMADA. Desde el calendario permite consultar, crear y editar resultados pendientes, y validarlos con confirmación. Los resultados validados no ofrecen edición. Falta integrar sanciones y anulación justificada de resultados en esta pantalla.
 - Backend complementario `lucborquez/game`, rama `feature/lucas-ep3`, commit `aa168bb`: validación JWT en usuarios, perfil propio y permisos de equipos; endpoint DELETE de integrante que preserva al capitán.
 
 ## Validación ejecutada
 
-- Frontend: 127 pruebas aprobadas, ninguna fallida. Build correcto, 73 módulos. Cuatro pruebas de organización cubren permisos de jugador, aprobación, rechazo del servidor y programación; se conservan las cinco de inscripción remota.
+- Frontend: 131 pruebas aprobadas, ninguna fallida. Build correcto. Cuatro pruebas de resultados cubren ganador derivado del marcador, confirmación de validación, bloqueo de edición y rechazo del servidor; se conservan las pruebas de organización e inscripción.
 - Las cuatro pruebas que dependían del antiguo perfil simulado se actualizaron para comprobar edición persistida mediante el servicio, identidad inmutable, historial vacío real y bloqueo de acceso usando el selector simulado antiguo. No se desactivaron casos.
 - Backend de identidad y equipos: 8 pruebas de perfil y seguridad más 9 de permisos e integrantes, aprobadas con Maven/JDK 26.
 - Los clientes HTTP y repositorios se simulan en estas pruebas. No se ejecutó todavía el flujo completo con servicios activos y MySQL, ni se confirmó login real en navegador.
