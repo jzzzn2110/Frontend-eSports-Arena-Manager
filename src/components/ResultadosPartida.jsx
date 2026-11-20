@@ -9,10 +9,13 @@ export default function ResultadosPartida({ partida, servicio = operaciones }) {
   const [form, setForm] = useState({ puntajeA: "", puntajeB: "", evidenciaUrl: "" });
   const [editando, setEditando] = useState(null);
   const [validando, setValidando] = useState(null);
+  const [anulando, setAnulando] = useState(null);
+  const [justificacion, setJustificacion] = useState("");
   const [intento, setIntento] = useState(0);
   useEffect(() => {
     const c = new AbortController(); setResultados(null); setError(""); setMensaje(""); setEditando(null); setValidando(null);
     setForm({ puntajeA: "", puntajeB: "", evidenciaUrl: "" });
+    setAnulando(null); setJustificacion("");
     servicio.resultados.porPartida(partida.id, { signal: c.signal })
       .then((lista) => { if (!c.signal.aborted) setResultados(lista); })
       .catch((e) => { if (!c.signal.aborted) setError(e.message); });
@@ -25,6 +28,7 @@ export default function ResultadosPartida({ partida, servicio = operaciones }) {
       await accion();
       setResultados(await servicio.resultados.porPartida(partida.id));
       setMensaje(texto); setEditando(null); setValidando(null);
+      setAnulando(null); setJustificacion("");
     } catch (e) { setError(e.message); }
     finally { setOcupado(false); }
   }
@@ -52,6 +56,7 @@ export default function ResultadosPartida({ partida, servicio = operaciones }) {
           <button disabled={ocupado} onClick={() => setValidando(r.id)}>Validar resultado #{r.id}</button>
         </>}
         {r.estadoValidacion === "VALIDADO" && <p>Resultado validado: edición bloqueada.</p>}
+        {r.estadoValidacion !== "ANULADO" && <button disabled={ocupado} onClick={() => { setAnulando(r.id); setJustificacion(""); setValidando(null); }}>Anular resultado #{r.id}</button>}
       </div>)}
       {(resultados.length === 0 || editando) && <form onSubmit={guardar}>
         {["puntajeA", "puntajeB"].map((campo) => <label key={campo}>Puntaje {campo === "puntajeA" ? "A" : "B"}
@@ -63,6 +68,14 @@ export default function ResultadosPartida({ partida, servicio = operaciones }) {
       {validando && <div className="alert alert-warning mt-3" role="alert"><p>La validación bloqueará la edición del resultado #{validando}.</p>
         <button disabled={ocupado} onClick={() => ejecutar(() => servicio.resultados.validar(validando), "Resultado validado.")}>Confirmar validación</button>
         <button disabled={ocupado} onClick={() => setValidando(null)}>Volver</button></div>}
+      {anulando && <form className="alert alert-warning mt-3" onSubmit={(e) => {
+        e.preventDefault();
+        if (!justificacion.trim()) { setError("Debes justificar la anulación."); return; }
+        ejecutar(() => servicio.resultados.anular(anulando, justificacion.trim()), "Resultado anulado.");
+      }}><h3 className="h5">Anular resultado #{anulando}</h3>
+        <label htmlFor="justificacion-anulacion">Justificación</label><textarea id="justificacion-anulacion" className="form-control mb-3" required value={justificacion} onChange={(e) => setJustificacion(e.target.value)} />
+        <button disabled={ocupado}>Confirmar anulación</button><button type="button" disabled={ocupado} onClick={() => setAnulando(null)}>Conservar resultado</button>
+      </form>}
     </>}
   </section>;
 }

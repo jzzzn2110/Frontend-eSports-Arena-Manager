@@ -40,4 +40,22 @@ describe("Resultados de partida remotos", () => {
     await montar(); await clic("Validar resultado #4"); await clic("Confirmar validación");
     expect(host.textContent).toContain("Permiso denegado"); expect(host.textContent).not.toContain("Resultado validado.");
   });
+  it("no anula sin justificación", async () => {
+    servicio.resultados.porPartida.and.resolveTo([{ id: 4, puntajeA: 2, puntajeB: 1, estadoValidacion: "VALIDADO" }]);
+    servicio.resultados.anular = jasmine.createSpy().and.resolveTo({});
+    await montar(); await clic("Anular resultado #4");
+    await act(async () => host.querySelector("form").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })));
+    expect(servicio.resultados.anular).not.toHaveBeenCalled(); expect(host.textContent).toContain("Debes justificar");
+  });
+  it("envía la justificación confirmada y el ID del resultado", async () => {
+    servicio.resultados.porPartida.and.resolveTo([{ id: 4, puntajeA: 2, puntajeB: 1, estadoValidacion: "VALIDADO" }]);
+    servicio.resultados.anular = jasmine.createSpy().and.resolveTo({});
+    await montar(); await clic("Anular resultado #4");
+    act(() => {
+      const el = host.querySelector("textarea"); Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value").set.call(el, " Evidencia incorrecta ");
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    });
+    await act(async () => host.querySelector("form").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })));
+    expect(servicio.resultados.anular).toHaveBeenCalledWith(4, "Evidencia incorrecta"); expect(host.textContent).toContain("Resultado anulado.");
+  });
 });
