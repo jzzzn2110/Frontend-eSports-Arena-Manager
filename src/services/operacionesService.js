@@ -49,6 +49,7 @@ export function crearOperaciones(solicitar = request) {
       cerrar: (id) => solicitar(`${base("sanciones", id)}/cerrar`, { method: "PATCH" }),
     },
     rankings: {
+      recalcular: (id) => solicitar(`/api/rankings/torneo/${idApi(id)}/recalcular`, { method: "POST" }),
       porTorneo: (id, options) => solicitar(`/api/rankings/torneo/${idApi(id)}`, options),
       porParticipante: (id, options) => solicitar(`/api/rankings/participante/${idApi(id)}`, options),
     },

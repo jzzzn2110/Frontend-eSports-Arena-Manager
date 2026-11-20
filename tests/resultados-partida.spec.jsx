@@ -4,7 +4,7 @@ import ResultadosPartida from "../src/components/ResultadosPartida.jsx";
 
 describe("Resultados de partida remotos", () => {
   let host, root, servicio;
-  const partida = { id: 3, participanteAId: 7, participanteBId: 8 };
+  const partida = { id: 3, torneoId: 2, participanteAId: 7, participanteBId: 8 };
   beforeEach(() => {
     host = document.createElement("div"); document.body.appendChild(host); root = createRoot(host);
     servicio = { resultados: { porPartida: jasmine.createSpy().and.resolveTo([]), crear: jasmine.createSpy().and.resolveTo({ id: 4 }), validar: jasmine.createSpy().and.resolveTo({}) } };
@@ -57,5 +57,19 @@ describe("Resultados de partida remotos", () => {
     });
     await act(async () => host.querySelector("form").dispatchEvent(new Event("submit", { bubbles: true, cancelable: true })));
     expect(servicio.resultados.anular).toHaveBeenCalledWith(4, "Evidencia incorrecta"); expect(host.textContent).toContain("Resultado anulado.");
+  });
+  it("permite recuperar la sincronización después de recargar un validado", async () => {
+    servicio.resultados.porPartida.and.resolveTo([{ id: 4, estadoValidacion: "VALIDADO", puntajeA: 2, puntajeB: 1 }]);
+    servicio.rankings = { recalcular: jasmine.createSpy().and.resolveTo([]) };
+    await montar(); await clic("Sincronizar ranking del torneo");
+    expect(servicio.rankings.recalcular).toHaveBeenCalledWith(2); expect(host.textContent).toContain("Ranking sincronizado.");
+    expect(servicio.resultados.validar).not.toHaveBeenCalled();
+  });
+  it("distingue resultado guardado de ranking pendiente ante HTTP 503", async () => {
+    servicio.resultados.porPartida.and.resolveTo([{ id: 4, estadoValidacion: "PENDIENTE", puntajeA: 2, puntajeB: 1 }]);
+    servicio.resultados.validar.and.rejectWith({ status: 503, message: "HTTP 503", detalle: { error: "Resultado guardado; ranking pendiente." } });
+    await montar(); await clic("Validar resultado #4"); await clic("Confirmar validación");
+    expect(host.textContent).toContain("Resultado guardado; ranking pendiente.");
+    expect(host.textContent).not.toContain("Resultado validado.");
   });
 });

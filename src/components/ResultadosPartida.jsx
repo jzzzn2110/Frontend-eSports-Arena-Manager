@@ -29,7 +29,9 @@ export default function ResultadosPartida({ partida, servicio = operaciones }) {
       setResultados(await servicio.resultados.porPartida(partida.id));
       setMensaje(texto); setEditando(null); setValidando(null);
       setAnulando(null); setJustificacion("");
-    } catch (e) { setError(e.message); }
+    } catch (e) {
+      setError(e.status === 503 && typeof e.detalle?.error === "string" ? e.detalle.error : e.message);
+    }
     finally { setOcupado(false); }
   }
   function guardar(event) {
@@ -49,6 +51,8 @@ export default function ResultadosPartida({ partida, servicio = operaciones }) {
     {mensaje && <p role="status">{mensaje}</p>}
     {resultados === null && !error && <p role="status">Cargando resultados…</p>}
     {resultados && <>
+      {partida.torneoId && resultados.some((r) => ["VALIDADO", "ANULADO"].includes(r.estadoValidacion)) &&
+        <button disabled={ocupado} onClick={() => ejecutar(() => servicio.rankings.recalcular(partida.torneoId), "Ranking sincronizado.")}>Sincronizar ranking del torneo</button>}
       {resultados.length === 0 && <p>No hay resultados registrados.</p>}
       {resultados.map((r) => <div key={r.id} className="mb-3"><p>#{r.id}: {r.puntajeA} – {r.puntajeB} · {r.estadoValidacion}</p>
         {r.estadoValidacion === "PENDIENTE" && <>
