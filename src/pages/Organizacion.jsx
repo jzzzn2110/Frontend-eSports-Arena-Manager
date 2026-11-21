@@ -4,6 +4,7 @@ import { listarTorneos } from "../services/torneosService.js";
 import { operaciones } from "../services/operacionesService.js";
 import ResultadosPartida from "../components/ResultadosPartida.jsx";
 import GestionSanciones from "../components/GestionSanciones.jsx";
+import PremiosRemotos from "../components/PremiosRemotos.jsx";
 
 export default function Organizacion({ servicio = operaciones, cargarTorneos = listarTorneos }) {
   const { tieneRol } = useAuth();
@@ -85,6 +86,7 @@ export default function Organizacion({ servicio = operaciones, cargarTorneos = l
         {p.estado === "PROGRAMADA" && <button disabled={ocupado} onClick={() => { setEditando(p.id); setForm({ participanteAId: String(p.participanteAId), participanteBId: String(p.participanteBId), ronda: p.ronda, fechaHora: p.fechaHora }); }}>Reprogramar #{p.id}</button>}
       </li>)}</ul>}</section>
       {partidaResultados && <ResultadosPartida key={partidaResultados.id} partida={partidaResultados} servicio={servicio} />}
+      <PremiosRemotos key={torneoId} torneoId={torneoId} estado={torneos.find(t => String(t.id) === torneoId)?.estado} puedeAsignar={tieneRol("administrador")} servicios={servicio} />
     </>}
     <GestionSanciones servicio={servicio} />
   </main>;

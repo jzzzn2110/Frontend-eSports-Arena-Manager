@@ -14,6 +14,10 @@ Revisión del 19 de noviembre de 2026. Avance parcial: no constituye la entrega 
 
 ## Validación ejecutada
 
+Actualización del 21 de noviembre: instalación limpia correcta, 149 pruebas aprobadas y build correcto (77 módulos). Cobertura de líneas 71,34 %, sentencias 70,86 %. Se añadieron avisos públicos persistidos de cambios de estado y asignación de premios, consultados desde el detalle del torneo. Cuatro casos de interfaz verifican vacío, representación segura de texto, reintento y cancelación. La API complementaria está documentada en `EP3_NOTIFICACIONES.md` del backend. La prueba integrada con servicios activos sigue pendiente. Este resultado reemplaza los totales históricos indicados abajo.
+
+Actualización del 20 de noviembre: 145 pruebas del frontend aprobadas y build correcto (76 módulos). Cobertura de líneas: 71,06 %; sentencias: 70,56 %. Se incorporó la modalidad determinada por jugadores por equipo del catálogo y seis casos de premios: ocultamiento antes del cierre, consulta, permisos de interfaz, asignación, rechazo y reintento/cancelación. Los premios se consultan en el detalle finalizado y se asignan desde Organización por administradores. La autorización definitiva corresponde al backend. Esta evidencia reemplaza el total histórico de 138 indicado abajo.
+
 - Frontend: 138 pruebas aprobadas, ninguna fallida. Build correcto. Tres pruebas de sanciones cubren consulta, creación y rechazo de cierre confirmado. Cuatro pruebas de resultados cubren ganador derivado del marcador, confirmación de validación, bloqueo de edición y rechazo del servidor; se conservan las pruebas de organización e inscripción.
 - Las cuatro pruebas que dependían del antiguo perfil simulado se actualizaron para comprobar edición persistida mediante el servicio, identidad inmutable, historial vacío real y bloqueo de acceso usando el selector simulado antiguo. No se desactivaron casos.
 - Backend de identidad y equipos: 8 pruebas de perfil y seguridad más 9 de permisos e integrantes, aprobadas con Maven/JDK 26.

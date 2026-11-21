@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import EstadoCatalogo from "../components/EstadoCatalogo.jsx";
 import CompeticionRemota from "../components/CompeticionRemota.jsx";
+import PremiosRemotos from "../components/PremiosRemotos.jsx";
+import NotificacionesTorneo from "../components/NotificacionesTorneo.jsx";
 import { useArena } from "../context/ArenaContext.jsx";
 import { useCatalogo } from "../context/useCatalogo.js";
 import { apiConfigurada } from "../services/api.js";
@@ -86,6 +88,8 @@ function TorneoDetalle() {
         ? (
           <>
             <CompeticionRemota torneoId={torneoActual.id} />
+            <PremiosRemotos torneoId={torneoActual.id} estado={torneoActual.estado} />
+            <NotificacionesTorneo torneoId={torneoActual.id} />
             <Link to="/torneos.html">Volver a torneos</Link>
           </>
         )

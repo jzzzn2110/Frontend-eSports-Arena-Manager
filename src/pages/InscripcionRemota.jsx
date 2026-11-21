@@ -3,8 +3,9 @@ import { Link, useSearchParams } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 import { operaciones, idApi } from "../services/operacionesService.js";
 import { obtenerTorneo } from "../services/torneosService.js";
+import { obtenerJuego } from "../services/juegosService.js";
 
-export default function InscripcionRemota({ servicio = operaciones, cargarTorneo = obtenerTorneo }) {
+export default function InscripcionRemota({ servicio = operaciones, cargarTorneo = obtenerTorneo, cargarJuego = obtenerJuego }) {
   const [params] = useSearchParams();
   const torneoId = params.get("torneo");
   const { perfil, errorPerfil, cargandoPerfil, recargarPerfil } = useAuth();
@@ -22,16 +23,20 @@ export default function InscripcionRemota({ servicio = operaciones, cargarTorneo
     if (!perfil?.id) return;
     try { idApi(torneoId); } catch { setError("Selecciona un torneo válido desde el catálogo."); return; }
     const c = new AbortController();
-    Promise.all([cargarTorneo(torneoId, c.signal), servicio.equipos.listar({ signal: c.signal }),
+    Promise.all([cargarTorneo(torneoId, c.signal).then(async (torneo) => ({ torneo, juego: torneo ? await cargarJuego(torneo.juegoId, c.signal) : null })), servicio.equipos.listar({ signal: c.signal }),
       servicio.inscripciones.porTorneo(torneoId, { signal: c.signal })])
-      .then(([torneo, equipos, inscripciones]) => {
+      .then(([{ torneo, juego }, equipos, inscripciones]) => {
         if (!c.signal.aborted) {
           if (!torneo) { setError("El torneo no existe."); return; }
-          setDatos({ torneoId, torneo, equipos, inscripciones });
+          const cantidad = juego?.integrantesPorEquipo ?? juego?.jugadoresPorEquipo;
+          if (!Number.isInteger(cantidad) || cantidad < 1) { setError("El juego no tiene una configuración de participantes válida."); return; }
+          const tipoEsperado = cantidad === 1 ? "JUGADOR" : "EQUIPO";
+          setTipo(tipoEsperado);
+          setDatos({ torneoId, torneo, equipos, inscripciones, tipoEsperado });
         }
       }).catch((err) => { if (!c.signal.aborted) setError(err.message); });
     return () => c.abort();
-  }, [torneoId, perfil?.id, servicio, cargarTorneo, intento]);
+  }, [torneoId, perfil?.id, servicio, cargarTorneo, cargarJuego, intento]);
   const actual = datos?.torneoId === torneoId ? datos : null;
   const equipos = actual?.equipos.filter((e) => e.estado && String(e.capitanId) === String(perfil?.id) && String(e.juegoPrincipalId) === String(actual.torneo.juegoId)) ?? [];
   const propias = actual?.inscripciones.filter((i) => String(i.jugadorId) === String(perfil?.id) || equipos.some((e) => String(e.id) === String(i.equipoId))) ?? [];
@@ -64,7 +69,7 @@ export default function InscripcionRemota({ servicio = operaciones, cargarTorneo
       <form onSubmit={inscribir} className="card p-4 mb-4">
         <label htmlFor="tipo-participante">Participación</label>
         <select id="tipo-participante" value={tipo} onChange={(e) => { setTipo(e.target.value); setConfirmado(false); }} className="form-select mb-3">
-          <option value="JUGADOR">Individual</option><option value="EQUIPO">Equipo</option>
+          <option value={actual.tipoEsperado}>{actual.tipoEsperado === "JUGADOR" ? "Individual" : "Equipo"}</option>
         </select>
         {tipo === "EQUIPO" && <><label htmlFor="equipo-inscripcion">Equipo del que eres capitán</label>
           <select id="equipo-inscripcion" value={equipoId} onChange={(e) => setEquipoId(e.target.value)} required className="form-select mb-3">

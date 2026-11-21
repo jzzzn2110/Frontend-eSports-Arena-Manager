@@ -13,6 +13,13 @@ export function idApi(value) {
 export function crearOperaciones(solicitar = request) {
   const base = (recurso, id) => `/api/${recurso}/${idApi(id)}`;
   return {
+    notificaciones: {
+      porTorneo: (id, options) => solicitar(`/api/torneos/${idApi(id)}/notificaciones`, options),
+    },
+    premios: {
+      porTorneo: (id, options) => solicitar(`/api/torneos/${idApi(id)}/premios`, options),
+      asignar: (id, datos) => solicitar(`/api/torneos/${idApi(id)}/premios`, { method: "POST", json: datos }),
+    },
     equipos: {
       listar: (options) => solicitar("/api/equipos", options),
       obtener: (id, options) => solicitar(base("equipos", id), options),
