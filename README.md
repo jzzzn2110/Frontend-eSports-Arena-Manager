@@ -1,4 +1,20 @@
-# eSports Arena Manager - EP2
+# RankForge eSports Arena Manager
+
+## Integración EP3 en revisión
+
+La rama `feature/lucas-ep3` conecta React con las APIs de perfiles, equipos, inscripciones, organización, resultados, sanciones, clasificación, premios y avisos del torneo. Configura `VITE_API_URL` con el Gateway para usar los datos del servidor. No utilizar el selector simulado de EP2 como identidad autenticada.
+
+Validación del 21 de noviembre de 2026: instalación limpia, 149 pruebas aprobadas y build correcto. Cobertura de líneas 71,34 %. La prueba completa con MySQL y servicios activos sigue pendiente; esta rama aún no está verificada para entrega final.
+
+- [Requisitos EP3 y arquitectura](docs/ERS-V3-EP3.md)
+- [Manual EP3 en revisión](docs/EP3_Manual/Manual_RankForge_EP3_Revision.docx) — uso por roles y preparación local; faltan capturas de la ejecución integrada.
+- [Estado y limitaciones](docs/EP3_ESTADO_LUCAS.md)
+- [Dependencias y auditoría](docs/EP3_DEPENDENCIAS.md)
+- [Arranque del backend](https://github.com/lucborquez/game/blob/feature/lucas-ep3/docs/EP3_ARRANQUE_LOCAL.md)
+
+## Documentación histórica de EP2
+
+Las secciones siguientes conservan el estado de octubre. Sus cifras, datos simulados y limitaciones corresponden a EP2 y no sustituyen los documentos EP3 enlazados arriba.
 
 Aplicación React para consultar torneos, inscribirse, gestionar equipos y editar perfiles. Incluye administración de torneos, persistencia local y pruebas con Jasmine/Karma para DSY1104, Desarrollo FullStack II.
 
